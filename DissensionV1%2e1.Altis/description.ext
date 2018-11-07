@@ -1,0 +1,2672 @@
+#define ST_MULTI          0x10
+#define ST_TITLE_BAR      0x20
+#define ST_PICTURE        0x30
+#define ST_KEEP_ASPECT_RATIO  0x800
+#define CT_STATIC           0
+
+
+#include "defines.hpp"
+#include "DialogDefines.hpp"
+#include "dialogs.hpp"
+#include "scripts\GOM\dialogs\GOM_dialog_parents.hpp"
+#include "scripts\GOM\dialogs\GOM_dialog_controls.hpp"
+#include "compositions\compositions.cfg"
+
+
+overviewPicture = "";
+overviewText = "Dissension - It feels good to be the king.";
+OnLoadName = "Dissension";
+author = "Genesis";
+respawnOnStart =  1;
+
+
+
+//FOR VCOM
+
+
+class Extended_PreInit_EventHandlers 
+{
+	VCM_CBASettings = call compile preprocessFileLineNumbers "Vcom\Functions\VCM_CBASettings.sqf";
+};
+
+class CfgRemoteExec
+{
+	// List of script functions allowed to be sent from client via remoteExec
+	class Functions
+	{
+		mode = 2;
+		jip = 1;		
+		
+		class vcm_serverask { allowedTargets = 0;jip = 1; };
+		class VCM_PublicScript { allowedTargets = 0;jip = 1; };
+		class BIS_fnc_debugConsoleExec { allowedTargets = 0;jip = 1; };
+		class SpawnScript { allowedTargets = 0;jip = 1; };
+		class enableSimulationGlobal { allowedTargets = 0;jip = 1; };
+		//Dissension Specific
+		class Haz_fnc_createNotification { allowedTargets = 0;jip = 1; };		
+		class BIS_fnc_call { allowedTargets = 0;jip = 1; };
+		class BIS_fnc_spawn { allowedTargets = 0;jip = 1; };
+		class MessageFramework { allowedTargets = 0;jip = 1; };		
+		
+	};
+	
+	
+};
+//END FOR VCOM
+
+
+
+class CfgUnitInsignia
+{
+	class SigTest
+	{
+		scope=2;
+		scopeArsenal=2;
+		displayName = "Test Patch"; // Name displayed in Arsenal
+		author = "Matt's Face"; // Author displayed in Arsenal
+		material = "\A3\Ui_f\data\GUI\Cfg\UnitInsignia\default_insignia.rvmat";
+		texture = "Pictures\USMCS1.paa"; // Image path
+		textureVehicle = ""; // Does nothing currently, reserved for future use
+	};
+};
+//[PLAYER,"SigTest"] call BIS_fnc_setUnitInsignia;
+
+class CfgHints
+{
+   class Dissension 
+   {
+       displayName = "CameraControls"; // Irrelevant as hints get saved under <Mission>
+       class CameraControls // Will display under "<Mission>" Category in Field Manual
+       {
+						image = "\a3\ui_f\data\gui\cfg\hints\Thirdperson_ca.paa";
+						displayName = "Camera Controls";
+						description = "Welcome to the Dissension Construction System (DCS)!<br/><br/>CONTROLS:<br/><t color='#D90C01'>R</t>: Rotate left<br/><t color='#D90C01'>T</t>: Rotate right<br/><t color='#D90C01'>F</t>: Lower Object<br/><t color='#D90C01'>G</t>: Raise Object<br/><t color='#D90C01'>X</t>: Toggle Terrain Snapping<br/><t color='#D90C01'>Space</t>: Place Object<br/><t color='#D90C01'>Left Click</t>: Cycle to last object<br/><t color='#D90C01'>Right Click</t>: Cycle to next object<br/><t color='#D90C01'>ESC</t>: Exit Build Mode.";
+						tip = "";
+						logicalOrder = 1;
+       };
+       class DissensionIntro // Will display under "<Mission>" Category in Field Manual [["Dissension","DissensionIntro"],15,"",35,"",true,true,false,true] call BIS_fnc_advHint;
+       {
+						image = "\a3\ui_f\data\gui\cfg\hints\Miss_icon_ca.paa";
+						displayName = "WELCOME TO DISSENSION";
+						description = "Dissension is a Team vs Team Capture the Island <t color='#00D506'>(CTI)</t> where the goal is to eliminate the opposing sides commander.<br/>To do this, you must first build your war machine by capturing <t color='#00D506'>grids</t> and <t color='#00D506'>towns</t>; these funnel resources (<t color='#00D506'>oil</t>/<t color='#00D506'>power</t>/<t color='#00D506'>cash</t>/<t color='#00D506'>materials</t>/<t color='#00D506'>tickets</t>) directly into your commander's wallet, and indirectly into your wallet.<br/>You only have to worry about cold hard <t color='#00D506'>cash</t>. <t color='#00D506'>Cash</t> is how you will be able to purchase your own <t color='#00D506'>gear</t>, <t color='#00D506'>vehicles</t>, <t color='#00D506'>units</t>, call in <t color='#00D506'>abilities</t>, and even construct <t color='#00D506'>bases</t>.";
+						tip = "Press ESCAPE to access the COMMANDER INTERFACE";
+						logicalOrder = 1;
+       };
+   };	
+};
+
+
+class CfgFunctions 
+{
+	#include "vcom\cfgFunctions.hpp"
+	#include "LARs\LARs_spawnComp.cpp"
+	#include "functions\cfgDisFunctions.hpp"
+	#include "GRAD_fireworks\cfgFunctions.hpp"
+	#include "scripts\GOM\functions\GOM_fnc_functions.hpp"
+
+	class Haz
+	{
+		tag = "Haz";
+		class notificationSystem
+		{
+			file = "notificationSystem\functions";
+			class createNotification {};
+		};
+	};	
+	
+};
+
+class CfgCommunicationMenu
+{
+	#include "scripts\GOM\functions\GOM_fnc_aircraftLoadoutMenu.hpp"
+};
+
+class CfgNotifications
+{
+	class Default
+	{
+		title = ""; // Title displayed as text on black background. Filled by arguments.
+		iconPicture = ""; // Small icon displayed in left part. Colored by "color", filled by arguments.
+		iconText = ""; // Short text displayed over the icon. Colored by "color", filled by arguments.
+		description = ""; // Brief description displayed as structured text. Colored by "color", filled by arguments.
+		color[] = {1,1,1,1}; // Icon and text color
+		duration = 5; // How many seconds will the notification be displayed
+		priority = 0; // Priority; higher number = more important; tasks in queue are selected by priority
+		difficulty[] = {}; // Required difficulty settings. All listed difficulties has to be enabled
+	};
+
+	//["DISTASK",["CAPTURE",(MISSION_ROOT + "Pictures\types\attack_ca.paa"),"TEST123",""]] call BIS_fnc_showNotification;
+	class DISTASK
+	{
+		title = "%1";
+		colorIconPicture[] = {1,1,1,1};
+		colorIconText[] = {"(profilenamespace getvariable ['IGUI_TEXT_RGB_R',0])","(profilenamespace getvariable ['IGUI_TEXT_RGB_G',1])","(profilenamespace getvariable ['IGUI_TEXT_RGB_B',1])","(profilenamespace getvariable ['IGUI_TEXT_RGB_A',0.8])"};
+		iconPicture = "%2";
+		description = "%3";
+		iconText = "%4";
+		color[] = {1,1,1,1};
+		priority = 7;	
+		sound = "defaultNotification";
+		soundClose = "defaultNotificationClose";
+		duration = 10;
+	};
+};
+ 
+class RscMapControl {
+
+    access = 0;
+
+    alphaFadeEndScale = 2;
+
+    alphaFadeStartScale = 2;
+
+    colorBackground[] = {0.929412,0.929412,0.929412,1};
+
+    colorCountlines[] = {0.647059,0.533333,0.286275,1};
+
+    colorCountlinesWater[] = {0.491,0.577,0.702,0.3};
+
+    colorForest[] = {0.6,0.8,0.2,0.25};
+
+    colorForestBorder[] = {0,0,0,0};
+
+    colorGrid[] = {0.05,0.1,0,0.6};
+
+    colorGridMap[] = {0.05,0.1,0,0.4};
+
+    colorInactive[] = {1,1,1,0.5};
+
+    colorLevels[] = {0,0,0,0};
+
+    colorMainCountlines[] = {0.858824,0,0,1};
+
+    colorMainCountlinesWater[] = {0.491,0.577,0.702,0.6};
+
+    colorMainRoads[] = {0,0,0,1};
+
+    colorMainRoadsFill[] = {0.94,0.69,0.2,1};
+
+    colorNames[] = {0.1,0.1,0.1,0.9};
+
+    colorOutside[] = {0.929412,0.929412,0.929412,1};
+
+    colorPowerLines[] = {0.1,0.1,0.1,1};
+
+    colorRailWay[] = {0.8,0.2,0,1};
+
+    colorRoads[] = {0.2,0.13,0,1};
+
+    colorRoadsFill[] = {1,0.88,0.65,1};
+
+    colorRocks[] = {0.5,0.5,0.5,0.5};
+
+    colorRocksBorder[] = {0,0,0,0};
+
+    colorSea[] = {0.467,0.631,0.851,0.5};
+
+    colorText[] = {0,0,0,1};
+
+    colorTracks[] = {0.2,0.13,0,1};
+
+    colorTracksFill[] = {1,0.88,0.65,0.3};
+
+    deletable = 0;
+
+    fade = 0;
+
+    font = "TahomaB";
+
+    fontGrid = "TahomaB";
+
+    fontInfo = "PuristaMedium";
+
+    fontLabel = "PuristaMedium";
+
+    fontLevel = "TahomaB";
+
+    fontNames = "EtelkaNarrowMediumPro";
+
+    fontUnits = "TahomaB";
+
+    h = "SafeZoneH - 1.5 *((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+
+    idc = 51;
+
+		idcMarkerIcon = -1;
+		
+		idcMarkerColor = -1;
+		
+    maxSatelliteAlpha = 0.85;
+
+    moveOnEdges = 1;
+
+    ptsPerSquareCLn = 10;
+
+    ptsPerSquareCost = 10;
+
+    ptsPerSquareExp = 10;
+
+    ptsPerSquareFor = 9;
+
+    ptsPerSquareForEdge = 9;
+
+    ptsPerSquareObj = 9;
+
+    ptsPerSquareRoad = 6;
+
+    ptsPerSquareSea = 5;
+
+    ptsPerSquareTxt = 20;
+
+    scaleDefault = 0.16;
+
+    scaleMax = 1;
+
+    scaleMin = 0.001;
+
+    shadow = 0;
+
+    showCountourInterval = 0;
+
+    sizeEx = 0.04;
+
+    sizeExGrid = 0.02;
+
+		sizeExInfo = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+
+    sizeExLabel = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+
+    sizeExLevel = 0.02;
+
+    sizeExNames = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8) * 2";
+
+    sizeExUnits = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+
+    stickX[] = {0.2,["Gamma",1,1.5]};
+
+    stickY[] = {0.2,["Gamma",1,1.5]};
+
+    style = ST_PICTURE + ST_KEEP_ASPECT_RATIO;
+
+    text = "#(argb,8,8,3)color(1,1,1,1)";
+
+		textureComboBoxColor = "#(argb,8,8,3)color(1,1,1,1)";
+		
+    type = 101;
+
+    w = "SafeZoneWAbs";
+
+    x = "SafeZoneXAbs";
+
+		y = "SafeZoneY + 1.5 * 					(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+
+
+    class ActiveMarker {
+
+        color[] = {0.3,0.1,0.9,1};
+
+        size = 50;
+
+    };
+
+
+    class Bunker {
+
+        coefMax = 4;
+
+        coefMin = 0.25;
+
+        color[] = {0,0,0,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\bunker_ca.paa";
+
+        importance = "1.5 * 14 * 0.05";
+
+        size = 14;
+
+    };
+
+
+    class Bush {
+
+        coefMax = 4;
+
+        coefMin = 0.25;
+
+        color[] = {0.45,0.64,0.33,0.4};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\bush_ca.paa";
+
+        importance = "0.2 * 14 * 0.05 * 0.05";
+
+        size = "14/2";
+
+    };
+
+
+    class BusStop {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {1,1,1,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\busstop_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class Chapel {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {0,0,0,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\Chapel_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class Church {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {1,1,1,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\church_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class Command {
+
+        coefMax = 1;
+
+        coefMin = 1;
+
+        color[] = {1,1,1,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\waypoint_ca.paa";
+
+        importance = 1;
+
+        size = 18;
+
+    };
+
+
+    class Cross {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {0,0,0,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\Cross_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class CustomMark {
+
+        coefMax = 1;
+
+        coefMin = 1;
+
+        color[] = {0,0,0,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\custommark_ca.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class Fortress {
+
+        coefMax = 4;
+
+        coefMin = 0.25;
+
+        color[] = {0,0,0,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\bunker_ca.paa";
+
+        importance = "2 * 16 * 0.05";
+
+        size = 16;
+
+    };
+
+
+    class Fountain {
+
+        coefMax = 4;
+
+        coefMin = 0.25;
+
+        color[] = {0,0,0,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\fountain_ca.paa";
+
+        importance = "1 * 12 * 0.05";
+
+        size = 11;
+
+    };
+
+
+    class Fuelstation {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {1,1,1,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\fuelstation_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class Hospital {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {1,1,1,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\hospital_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+/*
+    class Legend {
+
+        color[] = {0,0,0,1};
+
+        colorBackground[] = {1,1,1,0.5};
+
+        font = "PuristaMedium";
+
+        h = "3.5 *((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+
+        sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
+
+        w = "10 *(((safezoneW / safezoneH) min 1.2) / 40)";
+
+        x = "SafeZoneX + (((safezoneW / safezoneH) min 1.2) / 40)";
+
+        y = "SafeZoneY + safezoneH - 4.5 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25)";
+
+    };
+*/
+
+    class Lighthouse {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {1,1,1,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\lighthouse_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class Power {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {1,1,1,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\power_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class PowerSolar {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {1,1,1,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\powersolar_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class PowerWave {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {1,1,1,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\powerwave_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class PowerWind {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {1,1,1,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\powerwind_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class Quay {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {1,1,1,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\quay_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class Rock {
+
+        coefMax = 4;
+
+        coefMin = 0.25;
+
+        color[] = {0.1,0.1,0.1,0.8};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\rock_ca.paa";
+
+        importance = "0.5 * 12 * 0.05";
+
+        size = 12;
+
+    };
+
+
+    class Ruin {
+
+        coefMax = 4;
+
+        coefMin = 1;
+
+        color[] = {0,0,0,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\ruin_ca.paa";
+
+        importance = "1.2 * 16 * 0.05";
+
+        size = 16;
+
+    };
+
+
+    class Shipwreck {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {0,0,0,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\Shipwreck_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class SmallTree {
+
+        coefMax = 4;
+
+        coefMin = 0.25;
+
+        color[] = {0.45,0.64,0.33,0.4};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\bush_ca.paa";
+
+        importance = "0.6 * 12 * 0.05";
+
+        size = 12;
+
+    };
+
+
+    class Stack {
+
+        coefMax = 4;
+
+        coefMin = 0.9;
+
+        color[] = {0,0,0,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\stack_ca.paa";
+
+        importance = "2 * 16 * 0.05";
+
+        size = 20;
+
+    };
+
+
+    class Task {
+
+        coefMax = 1;
+
+        coefMin = 1;
+
+        color[] = {"(profilenamespace getvariable ['IGUI_TEXT_RGB_R',0])","(profilenamespace getvariable ['IGUI_TEXT_RGB_G',1])","(profilenamespace getvariable ['IGUI_TEXT_RGB_B',1])","(profilenamespace getvariable ['IGUI_TEXT_RGB_A',0.8])"};
+
+        colorCanceled[] = {0.7,0.7,0.7,1};
+
+        colorCreated[] = {1,1,1,1};
+
+        colorDone[] = {0.7,1,0.3,1};
+
+        colorFailed[] = {1,0.3,0.2,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\taskIcon_CA.paa";
+
+        iconCanceled = "\A3\ui_f\data\map\mapcontrol\taskIconCanceled_CA.paa";
+
+        iconCreated = "\A3\ui_f\data\map\mapcontrol\taskIconCreated_CA.paa";
+
+        iconDone = "\A3\ui_f\data\map\mapcontrol\taskIconDone_CA.paa";
+
+        iconFailed = "\A3\ui_f\data\map\mapcontrol\taskIconFailed_CA.paa";
+
+        importance = 1;
+
+        size = 27;
+
+    };
+
+
+    class Tourism {
+
+        coefMax = 4;
+
+        coefMin = 0.7;
+
+        color[] = {0,0,0,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\tourism_ca.paa";
+
+        importance = "1 * 16 * 0.05";
+
+        size = 16;
+
+    };
+
+
+    class Transmitter {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {1,1,1,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\transmitter_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class Tree {
+
+        coefMax = 4;
+
+        coefMin = 0.25;
+
+        color[] = {0.45,0.64,0.33,0.4};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\bush_ca.paa";
+
+        importance = "0.9 * 16 * 0.05";
+
+        size = 12;
+
+    };
+
+
+    class ViewTower {
+
+        coefMax = 4;
+
+        coefMin = 0.5;
+
+        color[] = {0,0,0,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\viewtower_ca.paa";
+
+        importance = "2.5 * 16 * 0.05";
+
+        size = 16;
+
+    };
+
+
+    class WaterTower {
+
+        coefMax = 1;
+
+        coefMin = 0.85;
+
+        color[] = {1,1,1,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\watertower_CA.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class Waypoint {
+
+        coefMax = 1;
+
+        coefMin = 1;
+
+        color[] = {0,0,0,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\waypoint_ca.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+
+    class WaypointCompleted {
+
+        coefMax = 1;
+
+        coefMin = 1;
+
+        color[] = {0,0,0,1};
+
+        icon = "\A3\ui_f\data\map\mapcontrol\waypointCompleted_ca.paa";
+
+        importance = 1;
+
+        size = 24;
+
+    };
+
+};
+
+class DIS_RscPicture {
+		//access = 0;
+		type = CT_STATIC;
+		style = ST_PICTURE;
+		colorBackground[] = {0,0,0,0};
+		colorText[] = {1,1,1,0.8};
+		font = "RobotoCondensed";
+		sizeEx = 0;
+		lineSpacing = 0;
+		text = "";
+		fixedWidth = 0;
+		shadow = 0;
+		x = 0;
+		y = 0;
+		w = 0.2;
+		h = 0.15;
+};		
+class DIS_RscPictureKeepAspect: DIS_RscPicture {
+	style = ST_MULTI + ST_TITLE_BAR + ST_KEEP_ASPECT_RATIO;
+};		
+
+class notificationSystem
+{
+	#include "notificationSystem\config\config_master.hpp"
+};
+
+class RscTitles
+{
+	#include "ProgressBar.hpp"
+	#include "DisplayHud.hpp"
+	#include "notificationSystem\rsc\rsc_notifications.hpp"
+
+	
+	class DIS_MAPRSC {
+		idd = 16000;
+		duration = 9999999999;
+		fadeIn = 0.2;
+		fadeOut = 0.2;
+		name = "DIS_MAPRSC";
+		onLoad = "uiNamespace setVariable ['DIS_MAPRSC',_this select 0]";
+		onUnload = "uiNamespace setVariable ['DIS_MAPRSC',nil]";
+		style = ST_MULTI + ST_TITLE_BAR + ST_KEEP_ASPECT_RATIO;
+		colorText[] = {0, 0, 0,0}; 
+		text = "";
+		class controlsBackground {
+			colorText[] = {0, 0, 0,0}; 
+			text = "";
+			class DIS_MAPFINAL1: RscMapControl {
+				class LineMarker
+				{
+						lineWidthThin = 0.008;
+						lineWidthThick = 0.014;
+						lineDistanceMin = 3e-005;
+						lineLengthMin = 5;
+				};			
+				onLoad = "uiNamespace setVariable ['DIS_MAPRSCC',_this select 0]";
+				onUnload = "uiNamespace setVariable ['DIS_MAPRSCC',nil]";			
+				idc = 1001;
+				size = 0.040;
+				x = (0.70 * safezoneW + safezoneX);
+				y = (0.77 * safezoneH + safezoneY);
+				w = (0.1 * safezoneW);
+				h = (0.1755 * safezoneH);
+				style = ST_MULTI + ST_TITLE_BAR + ST_KEEP_ASPECT_RATIO;
+				colorText[] = {0,0,0,0};
+				lineSpacing = 2;
+				maxSatelliteAlpha = 0;
+				colorBackground[] = {0,0,0,0};
+				font = "RobotoCondensed";
+				shadow = 0;
+				colorSea[] = {0,0,0,0};
+				colorLevels[] = {0,0,0,0};
+				colorGrid[] = {0,0,0,0};
+				colorGridMap[] = {0,0,0,0};
+				colorCountlines[] = {0,0,0,0};
+				colorCountlinesWater[] = {0,0,0,0};
+				colorMainCountlinesWater[] = {0,0,0,0};	
+				colorForest[] = {0,0,0,0};
+				colorForestBorder[] = {0,0,0,0};
+				colorInactive[] = {0,0,0,0};	
+				colorMainCountlines[] = {0,0,0,0};
+				text = "";
+				textureComboBoxColor = "";	
+				colorMainRoads[] = {0,0,0,0};
+			
+				colorMainRoadsFill[] = {0,0,0,0};
+			
+				colorNames[] = {0,0,0,0};
+			
+				colorOutside[] = {0,0,0,0};
+			
+				colorPowerLines[] = {0,0,0,0};
+			
+				colorRailWay[] = {0,0,0,0};
+			
+				colorRoads[] = {0,0,0,0};
+			
+				colorRoadsFill[] = {0,0,0,0};
+			
+				colorRocks[] = {0,0,0,0};
+			
+				colorRocksBorder[] = {0,0,0,0};
+			
+				colorTracks[] = {0,0,0,0};
+			
+				colorTracksFill[] = {0,0,0,0};
+				
+				class Attributes {
+					align = "left";
+				};
+			};
+					
+			class DIS_BACKGROUND1: DIS_RscPictureKeepAspect {
+				idc = 1002;				
+				size = 0.040;
+				x = 0.70 * safezoneW + safezoneX;
+				y = 0.77 * safezoneH + safezoneY;
+				w = 0.1 * safezoneW;
+				h = 0.1755 * safezoneH;
+				text = "Pictures\SquadBack.paa";
+				font = "RobotoCondensed";
+				shadow = 0;
+				class Attributes {
+					align = "left";
+				};
+			};
+			class DIS_BACKGROUND2: DIS_RscPictureKeepAspect {
+				idc = 1003;		
+				size = 0.040;
+				x = 0.70 * safezoneW + safezoneX;
+				y = 0.77 * safezoneH + safezoneY;
+				w = 0.1 * safezoneW;
+				h = 0.1755 * safezoneH;
+				text = "Pictures\SquadRadarCompassBackgroundTexture_ca.paa";
+				font = "RobotoCondensed";
+				shadow = 0;
+				class Attributes {
+					align = "left";
+				};
+			};
+
+					
+		};
+	};	
+
+  #include "Dialog\dis_gui_tablet.hpp"
+  #include "Dialog\dis_gui_tabPurchase.hpp"
+  #include "Dialog\dis_gui_tabCommander.hpp"	
+	#include "Dialog\dis_gui_tabPlayer.hpp"
+	
+};
+
+class DIS_MAP : RscMapControl 
+{
+	idd = 3000;
+	movingenable = "false";
+	//this onload is used to assign unique name to leaded asset so you can latter access it thru function via
+	//_ui = uiNamespace getVariable "MY_GPS_Display"; 
+	onLoad = "uiNamespace setVariable ['MY_GPS_Display', (_this select 0)]";
+	class controlsBackground 
+{
+	class DIS_MAPFINAL : RscMapControl 
+	{
+		idc = 1200;
+		maxSatelliteAlpha = 0;
+		 scaleMin = 0.000000001;
+		//recommended is to use safezone as a base reference to position UI overlay
+		//values can be obtained thru ingame UI editor once u pause the game in editor [sP]
+		x = 0.358265 * safezoneW + safezoneX;
+		y = 0.259146 * safezoneH + safezoneY;
+		w = 0.28211 * safezoneW;
+		h = 0.464952 * safezoneH;
+	};
+}; 
+};
+
+#include "Dialog\dis_gui_tablet.hpp"
+#include "Dialog\dis_gui_tabPurchase.hpp"
+#include "Dialog\dis_gui_tabCommander.hpp"
+#include "Dialog\dis_gui_tabPlayer.hpp"
+class CfgTablet
+{
+    #include "Dialog\dis_cfg_abilities.hpp"
+};
+
+class CfgSounds
+{
+
+  sounds[] = {
+	Purchase,
+	Sell
+  };
+	//#include "mdh_topDownAttack\sounds\cfgSounds.hpp"		
+	#include "GRAD_fireworks\cfgSounds.hpp"
+	//#include "c\CRS\f\SFX.hpp"
+  class Flyby
+  {
+    name="Flyby";
+    sound[]={"Sounds\Flyby.ogg", db+2, 1};
+    titles[]={};
+  };	
+  class Purchase
+  {
+    name="Purchase";
+    sound[]={"Sounds\Purchase.ogg", db+10, 1};
+    titles[]={};
+  };
+  class Sell
+  {
+    name="Sell";
+    sound[]={"Sounds\Sell.ogg", db+10, 1};
+    titles[]={};
+  };
+  class promotion
+  {
+    name="promotion";
+    sound[]={"promotion.ogg", db+10, 1};
+    titles[]={};
+  };
+  class transport_lz_selected
+  {
+    name="transport_lz_selected";
+    sound[]={"Sounds\transport_lz_selected.ogg", db+10, 1};
+    titles[]={};
+  };  
+  class transport_welcome
+  {
+    name="transport_welcome";
+    sound[]={"Sounds\transport_welcome.ogg", db+10, 1};
+    titles[]={};
+  };   
+  class transport_destroyed
+  {
+    name="transport_destroyed";
+    sound[]={"Sounds\transport_destroyed.ogg", db+10, 1};
+    titles[]={};
+  };  
+  class artillery_acknowledged
+  {
+    name="artillery_acknowledged";
+    sound[]={"Sounds\artillery_acknowledged.ogg", db+10, 1};
+    titles[]={};
+  };
+  class artillery_accomplished
+  {
+    name="artillery_accomplished";
+    sound[]={"Sounds\artillery_accomplished.ogg", db+10, 1};
+    titles[]={};
+  };
+  class artillery_rounds_complete
+  {
+    name="artillery_rounds_complete";
+    sound[]={"Sounds\artillery_rounds_complete.ogg", db+10, 1};
+    titles[]={};
+  };
+   class cas_heli_destroyed
+  {
+    name="cas_heli_destroyed";
+    sound[]={"Sounds\cas_heli_destroyed.ogg", db+10, 1};
+    titles[]={};
+  }; 
+   class cas_heli_acknowledged
+  {
+    name="cas_heli_acknowledged";
+    sound[]={"Sounds\cas_heli_acknowledged.ogg", db+10, 1};
+    titles[]={};
+  }; 
+   class cas_heli_accomplished
+  {
+    name="cas_heli_accomplished";
+    sound[]={"Sounds\cas_heli_accomplished.ogg", db+10, 1};
+    titles[]={};
+  };
+   class drop_accomplished
+  {
+    name="drop_accomplished";
+    sound[]={"Sounds\drop_accomplished.ogg", db+10, 1};
+    titles[]={};
+  };  
+   class transport_accomplished
+  {
+    name="transport_accomplished";
+    sound[]={"Sounds\transport_accomplished.ogg", db+10, 1};
+    titles[]={};
+  };
+   class BReloading1
+  {
+    name="BReloading1";
+    sound[]={"AIComms\Sounds\Blufor\reloading1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class BReloading2
+  {
+    name="BReloading2";
+    sound[]={"AIComms\Sounds\Blufor\reloading2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class BReloading3
+  {
+    name="BReloading3";
+    sound[]={"AIComms\Sounds\Blufor\reloading3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class BReloading4
+  {
+    name="BReloading4";
+    sound[]={"AIComms\Sounds\Blufor\reloading4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class BReloading5
+  {
+    name="BReloading5";
+    sound[]={"AIComms\Sounds\Blufor\reloading5.ogg", db+23, 1};
+    titles[]={};
+  };
+   class Bsubdown1
+  {
+    name="Bsubdown1";
+    sound[]={"AIComms\Sounds\Blufor\subdown1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bsubdown2
+  {
+    name="Bsubdown2";
+    sound[]={"AIComms\Sounds\Blufor\subdown2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bsubdown3
+  {
+    name="Bsubdown3";
+    sound[]={"AIComms\Sounds\Blufor\subdown3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bsubdown4
+  {
+    name="Bsubdown4";
+    sound[]={"AIComms\Sounds\Blufor\subdown4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bsubdown5
+  {
+    name="Bsubdown5";
+    sound[]={"AIComms\Sounds\Blufor\subdown5.ogg", db+23, 1};
+    titles[]={};
+  };
+   class Bsupptarget1
+  {
+    name="Bsupptarget1";
+    sound[]={"AIComms\Sounds\Blufor\supptarget1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bsupptarget2
+  {
+    name="Bsupptarget2";
+    sound[]={"AIComms\Sounds\Blufor\supptarget2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bsupptarget3
+  {
+    name="Bsupptarget3";
+    sound[]={"AIComms\Sounds\Blufor\supptarget3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bsupptarget4
+  {
+    name="Bsupptarget4";
+    sound[]={"AIComms\Sounds\Blufor\supptarget4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bsupptarget5
+  {
+    name="Bsupptarget5";
+    sound[]={"AIComms\Sounds\Blufor\supptarget5.ogg", db+23, 1};
+    titles[]={};
+  };
+   class Btarget1
+  {
+    name="Btarget1";
+    sound[]={"AIComms\Sounds\Blufor\target1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Btarget2
+  {
+    name="Btarget2";
+    sound[]={"AIComms\Sounds\Blufor\target2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Btarget3
+  {
+    name="Btarget3";
+    sound[]={"AIComms\Sounds\Blufor\target3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Btarget4
+  {
+    name="Btarget4";
+    sound[]={"AIComms\Sounds\Blufor\target4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Btarget5
+  {
+    name="Btarget5";
+    sound[]={"AIComms\Sounds\Blufor\target5.ogg", db+23, 1};
+    titles[]={};
+  };
+    class Bwatchfire1
+  {
+    name="Bwatchfire1";
+    sound[]={"AIComms\Sounds\Blufor\watchfire1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bwatchfire2
+  {
+    name="Bwatchfire2";
+    sound[]={"AIComms\Sounds\Blufor\watchfire2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bwatchfire3
+  {
+    name="Bwatchfire3";
+    sound[]={"AIComms\Sounds\Blufor\watchfire3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bwatchfire4
+  {
+    name="Bwatchfire4";
+    sound[]={"AIComms\Sounds\Blufor\watchfire4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bwatchfire5
+  {
+    name="Bwatchfire5";
+    sound[]={"AIComms\Sounds\Blufor\watchfire5.ogg", db+23, 1};
+    titles[]={};
+  };
+     class Bwounded1
+  {
+    name="Bwounded1";
+    sound[]={"AIComms\Sounds\Blufor\wounded1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bwounded2
+  {
+    name="Bwounded2";
+    sound[]={"AIComms\Sounds\Blufor\wounded2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bwounded3
+  {
+    name="Bwounded3";
+    sound[]={"AIComms\Sounds\Blufor\wounded3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Bwounded4
+  {
+    name="Bwounded4";
+    sound[]={"AIComms\Sounds\Blufor\wounded4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+      class Bwounded5
+  {
+    name="Bwounded5";
+    sound[]={"AIComms\Sounds\Blufor\wounded5.ogg", db+23, 1};
+    titles[]={};
+  };
+    
+    class Byeee1
+  {
+    name="Byeee1";
+    sound[]={"AIComms\Sounds\Blufor\yeee1.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee2
+  {
+    name="Byeee2";
+    sound[]={"AIComms\Sounds\Blufor\yeee2.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee3
+  {
+    name="Byeee3";
+    sound[]={"AIComms\Sounds\Blufor\yeee3.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee4
+  {
+    name="Byeee4";
+    sound[]={"AIComms\Sounds\Blufor\yeee4.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee5
+  {
+    name="Byeee5";
+    sound[]={"AIComms\Sounds\Blufor\yeee5.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee6
+  {
+    name="Byeee6";
+    sound[]={"AIComms\Sounds\Blufor\yeee6.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee7
+  {
+    name="Byeee7";
+    sound[]={"AIComms\Sounds\Blufor\yeee7.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee8
+  {
+    name="Byeee8";
+    sound[]={"AIComms\Sounds\Blufor\yeee8.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee9
+  {
+    name="Byeee9";
+    sound[]={"AIComms\Sounds\Blufor\yeee9.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee10
+  {
+    name="Byeee10";
+    sound[]={"AIComms\Sounds\Blufor\yeee10.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee11
+  {
+    name="Byeee11";
+    sound[]={"AIComms\Sounds\Blufor\yeee11.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee12
+  {
+    name="Byeee12";
+    sound[]={"AIComms\Sounds\Blufor\yeee12.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee13
+  {
+    name="Byeee13";
+    sound[]={"AIComms\Sounds\Blufor\yeee13.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee14
+  {
+    name="Byeee14";
+    sound[]={"AIComms\Sounds\Blufor\yeee14.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee15
+  {
+    name="Byeee15";
+    sound[]={"AIComms\Sounds\Blufor\yeee15.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee16
+  {
+    name="Byeee16";
+    sound[]={"AIComms\Sounds\Blufor\yeee16.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Byeee17
+  {
+    name="Byeee17";
+    sound[]={"AIComms\Sounds\Blufor\yeee17.ogg", db+23, 1};
+    titles[]={};
+  };
+        class Byeee18
+  {
+    name="Byeee18";
+    sound[]={"AIComms\Sounds\Blufor\yeee18.ogg", db+23, 1};
+    titles[]={};
+  };  
+      class Bincominggrenade7
+  {
+    name="Bincominggrenade7";
+    sound[]={"AIComms\Sounds\Blufor\incominggrenade7.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Bincominggrenade8
+  {
+    name="Bincominggrenade8";
+    sound[]={"AIComms\Sounds\Blufor\incominggrenade8.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Bincominggrenade11
+  {
+    name="Bincominggrenade11";
+    sound[]={"AIComms\Sounds\Blufor\incominggrenade11.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Bincominggrenade13
+  {
+    name="Bincominggrenade13";
+    sound[]={"AIComms\Sounds\Blufor\incominggrenade13.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Bincominggrenade14
+  {
+    name="Bincominggrenade14";
+    sound[]={"AIComms\Sounds\Blufor\incominggrenade14.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Bincominggrenade16
+  {
+    name="Bincominggrenade16";
+    sound[]={"AIComms\Sounds\Blufor\incominggrenade16.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Bincominggrenade20
+  {
+    name="Bincominggrenade20";
+    sound[]={"AIComms\Sounds\Blufor\incominggrenade20.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Bincominggrenade22
+  {
+    name="Bincominggrenade22";
+    sound[]={"AIComms\Sounds\Blufor\incominggrenade22.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Bincominggrenade25
+  {
+    name="Bincominggrenade25";
+    sound[]={"AIComms\Sounds\Blufor\incominggrenade25.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Bincominggrenade28
+  {
+    name="Bincominggrenade28";
+    sound[]={"AIComms\Sounds\Blufor\incominggrenade28.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Bincominggrenade30
+  {
+    name="Bincominggrenade30";
+    sound[]={"AIComms\Sounds\Blufor\incominggrenade30.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Bincominggrenade31
+  {
+    name="Bincominggrenade31";
+    sound[]={"AIComms\Sounds\Blufor\incominggrenade31.ogg", db+23, 1};
+    titles[]={};
+  };
+  
+  
+  //
+  //
+  //OPFOR SECTION
+  //
+  //
+   class OReloading1
+  {
+    name="OReloading1";
+    sound[]={"AIComms\Sounds\Opfor\reloading1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class OReloading2
+  {
+    name="OReloading2";
+    sound[]={"AIComms\Sounds\Opfor\reloading2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class OReloading3
+  {
+    name="OReloading3";
+    sound[]={"AIComms\Sounds\Opfor\reloading3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class OReloading4
+  {
+    name="OReloading4";
+    sound[]={"AIComms\Sounds\Opfor\reloading4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class OReloading5
+  {
+    name="OReloading5";
+    sound[]={"AIComms\Sounds\Opfor\reloading5.ogg", db+23, 1};
+    titles[]={};
+  };
+   class Osubdown1
+  {
+    name="Osubdown1";
+    sound[]={"AIComms\Sounds\Opfor\subdown1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Osubdown2
+  {
+    name="Osubdown2";
+    sound[]={"AIComms\Sounds\Opfor\subdown2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Osubdown3
+  {
+    name="Osubdown3";
+    sound[]={"AIComms\Sounds\Opfor\subdown3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Osubdown4
+  {
+    name="Osubdown4";
+    sound[]={"AIComms\Sounds\Opfor\subdown4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Osubdown5
+  {
+    name="Osubdown5";
+    sound[]={"AIComms\Sounds\Opfor\subdown5.ogg", db+23, 1};
+    titles[]={};
+  };
+   class Osupptarget1
+  {
+    name="Osupptarget1";
+    sound[]={"AIComms\Sounds\Opfor\supptarget1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Osupptarget2
+  {
+    name="Osupptarget2";
+    sound[]={"AIComms\Sounds\Opfor\supptarget2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Osupptarget3
+  {
+    name="Osupptarget3";
+    sound[]={"AIComms\Sounds\Opfor\supptarget3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Osupptarget4
+  {
+    name="Osupptarget4";
+    sound[]={"AIComms\Sounds\Opfor\supptarget4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Osupptarget5
+  {
+    name="Osupptarget5";
+    sound[]={"AIComms\Sounds\Opfor\supptarget5.ogg", db+23, 1};
+    titles[]={};
+  };
+   class Otarget1
+  {
+    name="Otarget1";
+    sound[]={"AIComms\Sounds\Opfor\target1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Otarget2
+  {
+    name="Otarget2";
+    sound[]={"AIComms\Sounds\Opfor\target2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Otarget3
+  {
+    name="Otarget3";
+    sound[]={"AIComms\Sounds\Opfor\target3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Otarget4
+  {
+    name="Otarget4";
+    sound[]={"AIComms\Sounds\Opfor\target4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Otarget5
+  {
+    name="Otarget5";
+    sound[]={"AIComms\Sounds\Opfor\target5.ogg", db+23, 1};
+    titles[]={};
+  };
+    class Owatchfire1
+  {
+    name="Owatchfire1";
+    sound[]={"AIComms\Sounds\Opfor\watchfire1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Owatchfire2
+  {
+    name="Owatchfire2";
+    sound[]={"AIComms\Sounds\Opfor\watchfire2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Owatchfire3
+  {
+    name="Owatchfire3";
+    sound[]={"AIComms\Sounds\Opfor\watchfire3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Owatchfire4
+  {
+    name="Owatchfire4";
+    sound[]={"AIComms\Sounds\Opfor\watchfire4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Owatchfire5
+  {
+    name="Owatchfire5";
+    sound[]={"AIComms\Sounds\Opfor\watchfire5.ogg", db+23, 1};
+    titles[]={};
+  };
+     class Owounded1
+  {
+    name="Owounded1";
+    sound[]={"AIComms\Sounds\Opfor\wounded1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Owounded2
+  {
+    name="Owounded2";
+    sound[]={"AIComms\Sounds\Opfor\wounded2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Owounded3
+  {
+    name="Owounded3";
+    sound[]={"AIComms\Sounds\Opfor\wounded3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Owounded4
+  {
+    name="Owounded4";
+    sound[]={"AIComms\Sounds\Opfor\wounded4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Owounded5
+  {
+    name="Owounded5";
+    sound[]={"AIComms\Sounds\Opfor\wounded5.ogg", db+23, 1};
+    titles[]={};
+  };
+    class Oyeee1
+  {
+    name="Oyeee1";
+    sound[]={"AIComms\Sounds\Opfor\yeee1.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee2
+  {
+    name="Oyeee2";
+    sound[]={"AIComms\Sounds\Opfor\yeee2.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee3
+  {
+    name="Oyeee3";
+    sound[]={"AIComms\Sounds\Opfor\yeee3.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee4
+  {
+    name="Oyeee4";
+    sound[]={"AIComms\Sounds\Opfor\yeee4.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee5
+  {
+    name="Oyeee5";
+    sound[]={"AIComms\Sounds\Opfor\yeee5.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee6
+  {
+    name="Oyeee6";
+    sound[]={"AIComms\Sounds\Opfor\yeee6.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee7
+  {
+    name="Oyeee7";
+    sound[]={"AIComms\Sounds\Opfor\yeee7.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee8
+  {
+    name="Oyeee8";
+    sound[]={"AIComms\Sounds\Opfor\yeee8.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee9
+  {
+    name="Oyeee9";
+    sound[]={"AIComms\Sounds\Opfor\yeee9.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee10
+  {
+    name="Oyeee10";
+    sound[]={"AIComms\Sounds\Opfor\yeee10.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee11
+  {
+    name="Oyeee11";
+    sound[]={"AIComms\Sounds\Opfor\yeee11.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee12
+  {
+    name="Oyeee12";
+    sound[]={"AIComms\Sounds\Opfor\yeee12.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee13
+  {
+    name="Oyeee13";
+    sound[]={"AIComms\Sounds\Opfor\yeee13.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee14
+  {
+    name="Oyeee14";
+    sound[]={"AIComms\Sounds\Opfor\yeee14.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee15
+  {
+    name="Oyeee15";
+    sound[]={"AIComms\Sounds\Opfor\yeee15.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee16
+  {
+    name="Oyeee16";
+    sound[]={"AIComms\Sounds\Opfor\yeee16.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee17
+  {
+    name="Oyeee17";
+    sound[]={"AIComms\Sounds\Opfor\yeee17.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oyeee18
+  {
+    name="Oyeee18";
+    sound[]={"AIComms\Sounds\Opfor\yeee18.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oincominggrenade1
+  {
+    name="Oincominggrenade1";
+    sound[]={"AIComms\Sounds\Opfor\incominggrenade1.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Oincominggrenade2
+  {
+    name="Oincominggrenade2";
+    sound[]={"AIComms\Sounds\Opfor\incominggrenade2.ogg", db+23, 1};
+    titles[]={};
+  };  
+      class Oincominggrenade3
+  {
+    name="Oincominggrenade3";
+    sound[]={"AIComms\Sounds\Opfor\incominggrenade3.ogg", db+23, 1};
+    titles[]={};
+  };  
+      class Oincominggrenade18
+  {
+    name="Oincominggrenade18";
+    sound[]={"AIComms\Sounds\Opfor\incominggrenade18.ogg", db+23, 1};
+    titles[]={};
+  };  
+      class Oincominggrenade24
+  {
+    name="Oincominggrenade24";
+    sound[]={"AIComms\Sounds\Opfor\incominggrenade24.ogg", db+23, 1};
+    titles[]={};
+  };  
+      class Oincominggrenade32
+  {
+    name="Oincominggrenade32";
+    sound[]={"AIComms\Sounds\Opfor\incominggrenade32.ogg", db+23, 1};
+    titles[]={};
+  };    
+  //
+  //
+  //RESISTANCE SECTION
+  //
+  //
+   class RReloading1
+  {
+    name="RReloading1";
+    sound[]={"AIComms\Sounds\Resistance\reloading1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class RReloading2
+  {
+    name="RReloading2";
+    sound[]={"AIComms\Sounds\Resistance\reloading2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class RReloading3
+  {
+    name="RReloading3";
+    sound[]={"AIComms\Sounds\Resistance\reloading3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class RReloading4
+  {
+    name="RReloading4";
+    sound[]={"AIComms\Sounds\Resistance\reloading4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class RReloading5
+  {
+    name="RReloading5";
+    sound[]={"AIComms\Sounds\Resistance\reloading5.ogg", db+23, 1};
+    titles[]={};
+  };
+   class Rsubdown1
+  {
+    name="Rsubdown1";
+    sound[]={"AIComms\Sounds\Resistance\subdown1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rsubdown2
+  {
+    name="Rsubdown2";
+    sound[]={"AIComms\Sounds\Resistance\subdown2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rsubdown3
+  {
+    name="Rsubdown3";
+    sound[]={"AIComms\Sounds\Resistance\subdown3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rsubdown4
+  {
+    name="Rsubdown4";
+    sound[]={"AIComms\Sounds\Resistance\subdown4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rsubdown5
+  {
+    name="Rsubdown5";
+    sound[]={"AIComms\Sounds\Resistance\subdown5.ogg", db+23, 1};
+    titles[]={};
+  };
+   class Rsupptarget1
+  {
+    name="Rsupptarget1";
+    sound[]={"AIComms\Sounds\Resistance\supptarget1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rsupptarget2
+  {
+    name="Rsupptarget2";
+    sound[]={"AIComms\Sounds\Resistance\supptarget2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rsupptarget3
+  {
+    name="Rsupptarget3";
+    sound[]={"AIComms\Sounds\Resistance\supptarget3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rsupptarget4
+  {
+    name="Rsupptarget4";
+    sound[]={"AIComms\Sounds\Resistance\supptarget4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rsupptarget5
+  {
+    name="Rsupptarget5";
+    sound[]={"AIComms\Sounds\Resistance\supptarget5.ogg", db+23, 1};
+    titles[]={};
+  };
+   class Rtarget1
+  {
+    name="Rtarget1";
+    sound[]={"AIComms\Sounds\Resistance\target1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rtarget2
+  {
+    name="Rtarget2";
+    sound[]={"AIComms\Sounds\Resistance\target2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rtarget3
+  {
+    name="Rtarget3";
+    sound[]={"AIComms\Sounds\Resistance\target3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rtarget4
+  {
+    name="Rtarget4";
+    sound[]={"AIComms\Sounds\Resistance\target4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rtarget5
+  {
+    name="Rtarget5";
+    sound[]={"AIComms\Sounds\Resistance\target5.ogg", db+23, 1};
+    titles[]={};
+  };
+    class Rwatchfire1
+  {
+    name="Rwatchfire1";
+    sound[]={"AIComms\Sounds\Resistance\watchfire1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rwatchfire2
+  {
+    name="Rwatchfire2";
+    sound[]={"AIComms\Sounds\Resistance\watchfire2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rwatchfire3
+  {
+    name="Rwatchfire3";
+    sound[]={"AIComms\Sounds\Resistance\watchfire3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rwatchfire4
+  {
+    name="Rwatchfire4";
+    sound[]={"AIComms\Sounds\Resistance\watchfire4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rwatchfire5
+  {
+    name="Rwatchfire5";
+    sound[]={"AIComms\Sounds\Resistance\watchfire5.ogg", db+23, 1};
+    titles[]={};
+  };
+    class Rwounded1
+  {
+    name="Rwounded1";
+    sound[]={"AIComms\Sounds\Resistance\wounded1.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rwounded2
+  {
+    name="Rwounded2";
+    sound[]={"AIComms\Sounds\Resistance\wounded2.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rwounded3
+  {
+    name="Rwounded3";
+    sound[]={"AIComms\Sounds\Resistance\wounded3.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rwounded4
+  {
+    name="Rwounded4";
+    sound[]={"AIComms\Sounds\Resistance\wounded4.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Rwounded5
+  {
+    name="Rwounded5";
+    sound[]={"AIComms\Sounds\Resistance\wounded5.ogg", db+23, 1};
+    titles[]={};
+  }; 
+    class Ryeee1
+  {
+    name="Ryeee1";
+    sound[]={"AIComms\Sounds\Resistance\yeee1.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee2
+  {
+    name="Ryeee2";
+    sound[]={"AIComms\Sounds\Resistance\yeee2.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee3
+  {
+    name="Ryeee3";
+    sound[]={"AIComms\Sounds\Resistance\yeee3.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee4
+  {
+    name="Ryeee4";
+    sound[]={"AIComms\Sounds\Resistance\yeee4.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee5
+  {
+    name="Ryeee5";
+    sound[]={"AIComms\Sounds\Resistance\yeee5.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee6
+  {
+    name="Ryeee6";
+    sound[]={"AIComms\Sounds\Resistance\yeee6.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee7
+  {
+    name="Ryeee7";
+    sound[]={"AIComms\Sounds\Resistance\yeee7.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee8
+  {
+    name="Ryeee8";
+    sound[]={"AIComms\Sounds\Resistance\yeee8.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee9
+  {
+    name="Ryeee9";
+    sound[]={"AIComms\Sounds\Resistance\yeee9.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee10
+  {
+    name="Ryeee10";
+    sound[]={"AIComms\Sounds\Resistance\yeee10.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee11
+  {
+    name="Ryeee11";
+    sound[]={"AIComms\Sounds\Resistance\yeee11.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee12
+  {
+    name="Ryeee12";
+    sound[]={"AIComms\Sounds\Resistance\yeee12.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee13
+  {
+    name="Ryeee13";
+    sound[]={"AIComms\Sounds\Resistance\yeee13.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee14
+  {
+    name="Ryeee14";
+    sound[]={"AIComms\Sounds\Resistance\yeee14.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee15
+  {
+    name="Ryeee15";
+    sound[]={"AIComms\Sounds\Resistance\yeee15.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee16
+  {
+    name="Ryeee16";
+    sound[]={"AIComms\Sounds\Resistance\yeee16.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee17
+  {
+    name="Ryeee17";
+    sound[]={"AIComms\Sounds\Resistance\yeee17.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Ryeee18
+  {
+    name="Ryeee18";
+    sound[]={"AIComms\Sounds\Resistance\yeee18.ogg", db+23, 1};
+    titles[]={};
+  };
+      class Rincominggrenade7
+  {
+    name="Rincominggrenade7";
+    sound[]={"AIComms\Sounds\Resistance\incominggrenade7.ogg", db+23, 1};
+    titles[]={};
+  };   
+        class Rincominggrenade8
+  {
+    name="Rincominggrenade8";
+    sound[]={"AIComms\Sounds\Resistance\incominggrenade8.ogg", db+23, 1};
+    titles[]={};
+  };   
+        class Rincominggrenade9
+  {
+    name="Rincominggrenade9";
+    sound[]={"AIComms\Sounds\Resistance\incominggrenade9.ogg", db+23, 1};
+    titles[]={};
+  };   
+        class Rincominggrenade11
+  {
+    name="Rincominggrenade11";
+    sound[]={"AIComms\Sounds\Resistance\incominggrenade11.ogg", db+23, 1};
+    titles[]={};
+  };   
+        class Rincominggrenade13
+  {
+    name="Rincominggrenade13";
+    sound[]={"AIComms\Sounds\Resistance\incominggrenade13.ogg", db+23, 1};
+    titles[]={};
+  };   
+        class Rincominggrenade14
+  {
+    name="Rincominggrenade14";
+    sound[]={"AIComms\Sounds\Resistance\incominggrenade14.ogg", db+23, 1};
+    titles[]={};
+  };   
+        class Rincominggrenade15
+  {
+    name="Rincominggrenade15";
+    sound[]={"AIComms\Sounds\Resistance\incominggrenade15.ogg", db+23, 1};
+    titles[]={};
+  };   
+        class Rincominggrenade16
+  {
+    name="Rincominggrenade16";
+    sound[]={"AIComms\Sounds\Resistance\incominggrenade16.ogg", db+23, 1};
+    titles[]={};
+  };   
+        class Rincominggrenade19
+  {
+    name="Rincominggrenade19";
+    sound[]={"AIComms\Sounds\Resistance\incominggrenade19.ogg", db+23, 1};
+    titles[]={};
+  };   
+        class Rincominggrenade21
+  {
+    name="Rincominggrenade21";
+    sound[]={"AIComms\Sounds\Resistance\incominggrenade21.ogg", db+23, 1};
+    titles[]={};
+  };   
+        class Rincominggrenade22
+  {
+    name="Rincominggrenade22";
+    sound[]={"AIComms\Sounds\Resistance\incominggrenade22.ogg", db+23, 1};
+    titles[]={};
+  };   
+        class Rincominggrenade27
+  {
+    name="Rincominggrenade27";
+    sound[]={"AIComms\Sounds\Resistance\incominggrenade27.ogg", db+23, 1};
+    titles[]={};
+  };   
+	class Rincominggrenade28
+  {
+    name="Rincominggrenade28";
+    sound[]={"AIComms\Sounds\Resistance\incominggrenade28.ogg", db+23, 1};
+    titles[]={};
+  };   
+  
+	//Commander Speech	
+	class EVANewMissionObj
+	{
+		name="EVANewMissionObj";
+		sound[]={"Sounds\EVANewMissionObj.ogg", db+5, 1};
+		titles[]={};
+	};
+	class LEGIONNewMissionObj
+	{
+		name="LEGIONNewMissionObj";
+		sound[]={"Sounds\LEGIONNewMissionObj.ogg", db+5, 1};
+		titles[]={};
+	};
+	class EVABuildingOnline
+	{
+		name="EVABuildingOnline";
+		sound[]={"Sounds\EVABuildingOnline.ogg", db+5, 1};
+		titles[]={};
+	};
+	class LEGIONBuildingOnline
+	{
+		name="LEGIONBuildingOnline";
+		sound[]={"Sounds\LEGIONBuildingOnline.ogg", db+5, 1};
+		titles[]={};
+	}; 
+	class EVABuildingLost
+	{
+		name="EVABuildingLost";
+		sound[]={"Sounds\EVABuildingLost.ogg", db+5, 1};
+		titles[]={};
+	};
+	class LEGIONBuildingLost
+	{
+		name="LEGIONBuildingLost";
+		sound[]={"Sounds\LEGIONBuildingLost.ogg", db+5, 1};
+		titles[]={};
+	};
+	class EVAControlPointCaptured
+	{
+		name="EVAControlPointCaptured";
+		sound[]={"Sounds\EVAControlPointCaptured.ogg", db+5, 1};
+		titles[]={};
+	};
+	class LEGIONControlPointCaptured
+	{
+		name="LEGIONControlPointCaptured";
+		sound[]={"Sounds\LEGIONControlPointCaptured.ogg", db+5, 1};
+		titles[]={};
+	};  	
+	class EVAControlPointLost
+	{
+		name="EVAControlPointLost";
+		sound[]={"Sounds\EVAControlPointLost.ogg", db+5, 1};
+		titles[]={};
+	};
+	class LEGIONControlPointLost
+	{
+		name="LEGIONControlPointLost";
+		sound[]={"Sounds\LEGIONControlPointLost.ogg", db+5, 1};
+		titles[]={};
+	};  		
+	class EVACriticalStructureAttacked
+	{
+		name="EVACriticalStructureAttacked";
+		sound[]={"Sounds\EVACriticalStructureAttacked.ogg", db+5, 1};
+		titles[]={};
+	};
+	class LEGIONCriticalStructureAttacked
+	{
+		name="LEGIONCriticalStructureAttacked";
+		sound[]={"Sounds\LEGIONCriticalStructureAttacked.ogg", db+5, 1};
+		titles[]={};
+	};
+	class EVAEnemyBaseSighted
+	{
+		name="EVAEnemyBaseSighted";
+		sound[]={"Sounds\EVAEnemyBaseSighted.ogg", db+5, 1};
+		titles[]={};
+	};
+	class LEGIONEnemyBaseSighted
+	{
+		name="LEGIONEnemyBaseSighted";
+		sound[]={"Sounds\LEGIONEnemyBaseSighted.ogg", db+5, 1};
+		titles[]={};
+	};
+	class EVAEnemyDefeated
+	{
+		name="EVAEnemyDefeated";
+		sound[]={"Sounds\EVAEnemyDefeated.ogg", db+5, 1};
+		titles[]={};
+	};
+	class LEGIONEnemyDefeated
+	{
+		name="LEGIONEnemyDefeated";
+		sound[]={"Sounds\LEGIONEnemyDefeated.ogg", db+5, 1};
+		titles[]={};
+	};
+	class EVAEnemyPlayer
+	{
+		name="EVAEnemyPlayer";
+		sound[]={"Sounds\EVAEnemyPlayer.ogg", db+5, 1};
+		titles[]={};
+	};
+	class LEGIONEnemyPlayer
+	{
+		name="LEGIONEnemyPlayer";
+		sound[]={"Sounds\LEGIONEnemyPlayer.ogg", db+5, 1};
+		titles[]={};
+	};
+	class EVAEnemyUnits
+	{
+		name="EVAEnemyUnits";
+		sound[]={"Sounds\EVAEnemyUnits.ogg", db+5, 1};
+		titles[]={};
+	};
+	class LEGIONEnemyUnits
+	{
+		name="LEGIONEnemyUnits";
+		sound[]={"Sounds\LEGIONEnemyUnits.ogg", db+5, 1};
+		titles[]={};
+	};
+	class EVAFundsTransferred
+	{
+		name="EVAFundsTransferred";
+		sound[]={"Sounds\EVAFundsTransferred.ogg", db+5, 1};
+		titles[]={};
+	};
+	class LEGIONFundsTransferred
+	{
+		name="LEGIONFundsTransferred";
+		sound[]={"Sounds\LEGIONFundsTransferred.ogg", db+5, 1};
+		titles[]={};
+	};
+	class EVAInsufficentFunds
+	{
+		name="EVAInsufficentFunds";
+		sound[]={"Sounds\EVAInsufficentFunds.ogg", db+5, 1};
+		titles[]={};
+	};
+	class LEGIONInsufficentFunds
+	{
+		name="LEGIONInsufficentFunds";
+		sound[]={"Sounds\LEGIONInsufficentFunds.ogg", db+5, 1};
+		titles[]={};
+	};
+	class EVAReinforcements
+	{
+		name="EVAReinforcements";
+		sound[]={"Sounds\EVAReinforcements.ogg", db+5, 1};
+		titles[]={};
+	};
+	class LEGIONReinforcements
+	{
+		name="LEGIONReinforcements";
+		sound[]={"Sounds\LEGIONReinforcements.ogg", db+5, 1};
+		titles[]={};
+	};	
+	
+	//Sounds for COMMANDO
+	class CGetThisPartyStarted
+	{
+		name="CGetThisPartyStarted";
+		sound[]={"Sounds\CGetThisPartyStarted.ogg", db+5, 1};
+		titles[]={};
+	};
+	class CKeepDayJob
+	{
+		name="CKeepDayJob";
+		sound[]={"Sounds\CKeepDayJob.ogg", db+5, 1};
+		titles[]={};
+	};
+	class CLetsDoThisThing
+	{
+		name="CLetsDoThisThing";
+		sound[]={"Sounds\CLetsDoThisThing.ogg", db+5, 1};
+		titles[]={};
+	};
+	class CLetsRoll
+	{
+		name="CLetsRoll";
+		sound[]={"Sounds\CLetsRoll.ogg", db+5, 1};
+		titles[]={};
+	};
+	class CSetThemUp
+	{
+		name="CSetThemUp";
+		sound[]={"Sounds\CSetThemUp.ogg", db+5, 1};
+		titles[]={};
+	};
+	class CThisWillBeFun
+	{
+		name="CThisWillBeFun";
+		sound[]={"Sounds\CThisWillBeFun.ogg", db+5, 1};
+		titles[]={};
+	};	
+	class CWhatDoYouGotForMe
+	{
+		name="CWhatDoYouGotForMe";
+		sound[]={"Sounds\CWhatDoYouGotForMe.ogg", db+5, 1};
+		titles[]={};
+	};	
+	class CWhereAreThey
+	{
+		name="CWhereAreThey";
+		sound[]={"Sounds\CWhereAreThey.ogg", db+5, 1};
+		titles[]={};
+	};		
+};
+
+
+/*
+	_AIComms = "AIComms" call BIS_fnc_getParamValue;
+	_DISTransport = "DISTransport" call BIS_fnc_getParamValue;
+*/
+
+class Params
+{
+	class Mod
+	{
+		title = "Mod";
+		texts[] = {"Vanilla","RHS","Iron Front","Iron Front + FOW","UNSUNG"};
+		values[] = {0,1,2,3,4};
+		default = 0;
+	};
+	class TimeSpeed
+	{
+		title = "Time Acceleration";
+		texts[] = {"1x","2x","4x","6x","8x","12x"};
+		values[] = {1,2,4,6,8,12};
+		default = 4;
+	};	
+	//setTimeMultiplier 
+	class RegionSize
+	{
+		title = "Map Size";
+		texts[] = {"Whole Map","2 KM Radius","3 KM Radius","4 KM Radius","5 KM Radius","6 KM Radius","7 KM Radius","8 KM Radius","9 KM Radius","10 KM Radius"};
+		values[] = {50000,2000,3000,4000,5000,6000,7000,8000,9000,10000};
+		default = 5000;
+	};	
+	class HC
+	{
+		title = "Headless Client - Recommended to turn on to Enabled";
+		texts[] = {"Enabled","Disabled"};
+		values[] = {1,0};
+		default = 1;
+	};
+	class DynamicRendering
+	{
+		title = "Dynamic View Distance";
+		texts[] = {"Enabled","Disabled"};
+		values[] = {1,0};
+		default = 1;
+	};
+	class CommanderLanguage
+	{
+		title = "Commander Speaks";
+		texts[] = {"Enabled","Disabled"};
+		values[] = {1,0};
+		default = 1;
+	};	
+	class ViewDistance
+	{
+		title = "Base View Distance (in metres) - Heavily impacts performance";
+		values[] = {500,1000,2000,5000};
+		//When 'texts' are missing, values will be displayed directly instead
+		default = 1000;
+		file = "functions\setViewDistance.sqf"; // (Optional) Script [[call]]ed when player joins, selected value is passed as an argument
+	};	
+	class GlobalTerrainGrid
+	{
+		title = "Terrain Grid - Higher means better FPS, but smoother terrain.";
+		values[] = {50,25,12.5,6.25,3.125};
+		default = 25;
+	};		
+	class DISPAUSE
+	{
+		title = "Enable Pause Capable Game: No Players = Paused AI";
+		texts[] = {"Enabled","Disabled"};
+		values[] = {1,0};
+		default = 1;
+	};	
+	class DISDEBUG
+	{
+		title = "Debug Mode. This just adds systemchat/hint spam.";
+		texts[] = {"Enabled","Disabled"};
+		values[] = {0,1};
+		default = 1;
+	};			
+	class NewSave
+	{
+		title = "New Game? (Overwrite old map save file. This does not impact player level)";
+		texts[] = {"Continue Game","New Game"};
+		values[] = {0,1};
+		default = 0;
+	};
+	class DynMusic
+	{
+		title = "Enable Dissension Dynamic Music";
+		texts[] = {"Enabled","Disabled"};
+		values[] = {0,1};
+		default = 0;
+	};		
+	class ACTIVETOWNS
+	{
+		title = "# of towns that can active at once - PER SIDE. THIS WILL CAUSE LAG";
+		texts[] = {"1","2"};
+		values[] = {1,2};
+		default = 2;
+	};
+	class TOWNSCALING
+	{
+		title = "Player Count to Town Garrison Ratio";
+		texts[] = {"0% Increase","10% Increase","20% Increase","30% Increase","40% Increase","50% Increase","60% Increase","70% Increase","80% Increase","90% Increase","100% Increase"};
+		values[] = {0,10,20,30,40,50,60,70,80,90,100};
+		default = 20;	
+	};
+	class Daytime
+	{
+		title = "Time";
+		texts[] = {"0000","0100","0200","0300","0400","0500","0600","0700","0800","0900","1000","1100","1200","1300","1400","1500","1600","1700","1800","1900","2000","2100","2200","2300"};
+		values[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23};
+		default = 12;
+		function = "BIS_fnc_paramDaytime"; // (Optional) [[Functions_Library_(Arma_3)|Function]] [[call]]ed when player joins, selected value is passed as an argument
+		isGlobal = 0; // (Optional) 1 to execute script / function locally for every player who joins, 0 to do it only on server
+	};
+	class ResourceIncomeRate
+	{
+		title = "Resource Income Rate";
+		texts[] = {"2 Minute","3 Minutes","4 Minutes","5 Minutes"};
+		values[] = {120,180,240,300};
+		default = 300;
+	};
+	class MaterialsResourceStart
+	{
+		title = "Materials Resource Start Amount";
+		texts[] = {"300","400","500","600","700","800","900","1000","2000","3000"};
+		values[] = {300,400,500,600,700,800,900,1000,2000,3000};
+		default = 600;
+	};	
+	class AISoftCap
+	{
+		title = "AI Recruitment Cap for ONLY Offensive Squads.";
+		texts[] = {"12 Per Side","24 Per Side","36 Per Side"};
+		values[] = {12,24,36};
+		default = 36;
+	};
+	class AIMaxInPlayerGroup
+	{
+		title = "Total number of AI allowed in a players group - per group";
+		texts[] = {"4 AI","5 AI","6 AI","7 AI","8 AI","9 AI","10 AI","11 AI","12 AI","100 AI, prepare for lag."};
+		values[] = {4,5,6,7,8,9,10,11,12,100};
+		default = 8;
+	};
+	class AIMaxInHighCommand
+	{
+		title = "Total number of AI allowed in High Command Groups - per player";
+		texts[] = {"4 AI","5 AI","6 AI","7 AI","8 AI","9 AI","10 AI","11 AI","12 AI","100 AI, prepare for lag."};
+		values[] = {4,5,6,7,8,9,10,11,12,100};
+		default = 9;
+	};	
+	class AIPlayerWatch
+	{
+		title = "Give AI commanders faster responses to players. Humans are too unpredictable. DOWN WITH HUMANS.";
+		texts[] = {"Yes","No"};
+		values[] = {1,0};
+		default = 1;
+	};
+	class EnableA3Stamina
+	{
+		title = "Enable or disable A3's stamina system.";
+		texts[] = {"Enabled","Disabled"};
+		values[] = {1,0};
+		default = 1;
+	};
+	class A3StaminaValue
+	{
+		title = "How much stamina should players have?";
+		texts[] = {"50%","75%","100%","125%","150%","175%","200%"};
+		values[] = {1.50,1.25,1,0.75,0.50,0.25,0};
+		default = 0.50;
+	};
+	class DissensionRevive
+	{
+		title = "Dissension Revive System";
+		texts[] = {"Enabled","Disabled"};
+		values[] = {1,0};
+		default = 1;
+	};
+	class SquadRadar
+	{
+		title = "Enable Dissension Squad Radar";
+		texts[] = {"Enabled","Disabled"};
+		values[] = {1,0};
+		default = 1;
+	};
+	class POVCam
+	{
+		title = "3rd Person Camera is Allowed...";
+		texts[] = {"Always","Only in Vehicles","Never"};
+		values[] = {0,1,2};
+		default = 1;	
+	};
+	class TownFurniture
+	{
+		title = "FS: Enable Dissension Town Furniture";
+		texts[] = {"Enabled","Disabled"};
+		values[] = {1,0};
+		default = 0;
+	};
+	class TownFurnitureNum
+	{
+		title = "FS: Maximum # buildings with furniture";
+		texts[] = {"1","2","3","4","5"};
+		values[] = {1,2,3,4,5};
+		default = 3;
+	};
+	class TownFurnitureDist
+	{
+		title = "FS: Distance Buildings Spawn with Furniture";
+		texts[] = {"50","100","150","200","300"};
+		values[] = {50,100,150,200,300};
+		default = 100;
+	};
+	class AIComms
+	{
+		title = "Make AI Chatter";
+		texts[] = {"Enabled","Disabled"};
+		values[] = {1,0};
+		default = 1;
+	};
+	class DISTransport
+	{
+		title = "Dissension AI Transport across Water";
+		texts[] = {"Enabled","Disabled"};
+		values[] = {1,0};
+		default = 1;
+	};
+	class VcomAIMineSupport
+	{
+		title = "Vcom AI: Add mines to town AI.";
+		texts[] = {"Enabled","Disabled"};
+		values[] = {1,0};
+		default = 1;
+	};			
+};
+

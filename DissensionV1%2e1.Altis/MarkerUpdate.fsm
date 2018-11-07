@@ -1,0 +1,1654 @@
+/*%FSM<COMPILE "C:\Program Files (x86)\Steam\steamapps\common\Arma 3 Tools\FSMEditor\scriptedFSM.cfg, MarkerUpdate">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"Begin_Marker_Cyc",0,250,-95.000000,-330.000000,25.000000,-270.000000,0.000000,"Begin Marker Cycle"};
+item1[] = {"True",8,218,-205.000000,520.000000,-115.000000,570.000000,0.000000,"True"};
+item2[] = {"Exit",1,250,-210.000000,815.000000,-120.000000,865.000000,0.000000,"Exit"};
+item3[] = {"Building",4,218,0.000000,95.000000,90.000000,145.000000,100.000000,"Building"};
+item4[] = {"Build",2,4346,-5.000000,210.000000,85.000000,260.000000,0.000000,"Build"};
+item5[] = {"StaticBuild",4,218,-130.000000,95.000000,-40.000000,145.000000,99.000000,"StaticBuild"};
+item6[] = {"StaticBuild",2,250,-140.000000,210.000000,-50.000000,260.000000,0.000000,"StaticBuild"};
+item7[] = {"Harass",4,218,-265.000000,100.000000,-175.000000,150.000000,98.000000,"Harass"};
+item8[] = {"Setup_Harass_Mar",2,250,-275.000000,195.000000,-185.000000,245.000000,0.000000,"Setup Harass Marker"};
+item9[] = {"Scout",4,218,-385.000000,125.000000,-295.000000,175.000000,97.000000,"Scout"};
+item10[] = {"Scout",2,250,-385.000000,210.000000,-295.000000,260.000000,0.000000,"Scout"};
+item11[] = {"StaticDeploy",4,218,-505.000000,120.000000,-415.000000,170.000000,96.000000,"StaticDeploy"};
+item12[] = {"StaticDeploy",2,250,-510.000000,200.000000,-420.000000,250.000000,0.000000,"StaticDeploy"};
+item13[] = {"AAirCapture",4,218,-630.000000,120.000000,-540.000000,170.000000,95.000000,"AAirCapture"};
+item14[] = {"AAirCapture",2,250,-630.000000,210.000000,-540.000000,260.000000,0.000000,"AAirCapture"};
+item15[] = {"ACapture",4,218,-760.000000,125.000000,-670.000000,175.000000,94.000000,"ACapture"};
+item16[] = {"ACapture",2,250,-765.000000,205.000000,-675.000000,255.000000,0.000000,"ACapture"};
+item17[] = {"Aggressive",4,218,-865.000000,115.000000,-775.000000,165.000000,92.000000,"Aggressive"};
+item18[] = {"Aggressive",2,250,-875.000000,220.000000,-785.000000,270.000000,0.000000,"Aggressive"};
+item19[] = {"CloseCapture",4,218,-990.000000,100.000000,-900.000000,150.000000,93.000000,"CloseCapture"};
+item20[] = {"CloseCapture",2,250,-1010.000000,235.000000,-920.000000,285.000000,0.000000,"CloseCapture"};
+item21[] = {"DefenceSpawn_1",4,218,-1130.000000,105.000000,-1040.000000,155.000000,92.000000,"DefenceSpawn"};
+item22[] = {"DefenceSpawn",2,250,-1150.000000,240.000000,-1060.000000,290.000000,0.000000,"DefenceSpawn"};
+item23[] = {"DefenceSpawn",4,218,155.000000,85.000000,245.000000,135.000000,101.000000,"DefenceSpawn"};
+item24[] = {"DefenceSpawn_1",2,250,165.000000,215.000000,255.000000,265.000000,0.000000,"DefenceSpawn"};
+item25[] = {"PMC",4,218,265.000000,90.000000,355.000000,140.000000,102.000000,"PMC"};
+item26[] = {"PMC",2,250,275.000000,225.000000,365.000000,275.000000,0.000000,"PMC"};
+item27[] = {"PMCSupport",4,218,360.000000,85.000000,450.000000,135.000000,103.000000,"PMCSupport"};
+item28[] = {"PMCSupport",2,250,380.000000,230.000000,470.000000,280.000000,0.000000,"PMCSupport"};
+item29[] = {"SEMedict",4,218,490.000000,85.000000,580.000000,135.000000,104.000000,"SEMedict"};
+item30[] = {"SEMedic",2,250,505.000000,240.000000,595.000000,290.000000,0.000000,"SEMedic"};
+item31[] = {"Guerrilla",4,218,650.000000,95.000000,740.000000,145.000000,105.000000,"Guerrilla"};
+item32[] = {"Guerrilla",2,250,655.000000,230.000000,745.000000,280.000000,0.000000,"Guerrilla"};
+item33[] = {"SupportEnthusias",4,218,790.000000,95.000000,880.000000,145.000000,106.000000,"SupportEnthusiast"};
+item34[] = {"SupportEnthusias",2,250,795.000000,260.000000,885.000000,310.000000,0.000000,"SupportEnthusiast"};
+item35[] = {"Recruit",4,218,930.000000,100.000000,1020.000000,150.000000,107.000000,"Recruit"};
+item36[] = {"Recruit",2,250,970.000000,270.000000,1060.000000,320.000000,0.000000,"Recruit"};
+item37[] = {"SupplyCreate",4,218,1110.000000,105.000000,1200.000000,155.000000,108.000000,"SupplyCreate"};
+item38[] = {"SupplyCreate",2,250,1130.000000,320.000000,1220.000000,370.000000,0.000000,"SupplyCreate"};
+item39[] = {"Supply_Full",4,218,1315.000000,100.000000,1405.000000,150.000000,109.000000,"Supply Full"};
+item40[] = {"Supply_Full",2,250,1315.000000,335.000000,1405.000000,385.000000,0.000000,"Supply Full"};
+item41[] = {"Recruit_1",4,218,-1275.000000,90.000000,-1185.000000,140.000000,91.000000,"Recruit"};
+item42[] = {"Recruit_1",2,250,-1320.000000,260.000000,-1220.000000,320.000000,0.000000,"Recruit"};
+link0[] = {0,3};
+link1[] = {0,5};
+link2[] = {0,7};
+link3[] = {0,9};
+link4[] = {0,11};
+link5[] = {0,13};
+link6[] = {0,15};
+link7[] = {0,17};
+link8[] = {0,19};
+link9[] = {0,21};
+link10[] = {0,23};
+link11[] = {0,25};
+link12[] = {0,27};
+link13[] = {0,29};
+link14[] = {0,31};
+link15[] = {0,33};
+link16[] = {0,35};
+link17[] = {0,37};
+link18[] = {0,39};
+link19[] = {0,41};
+link20[] = {1,2};
+link21[] = {3,4};
+link22[] = {4,1};
+link23[] = {5,6};
+link24[] = {6,1};
+link25[] = {7,8};
+link26[] = {8,1};
+link27[] = {9,10};
+link28[] = {10,1};
+link29[] = {11,12};
+link30[] = {12,1};
+link31[] = {13,14};
+link32[] = {14,1};
+link33[] = {15,16};
+link34[] = {16,1};
+link35[] = {17,18};
+link36[] = {18,1};
+link37[] = {19,20};
+link38[] = {20,1};
+link39[] = {21,22};
+link40[] = {22,1};
+link41[] = {23,24};
+link42[] = {24,1};
+link43[] = {25,26};
+link44[] = {26,1};
+link45[] = {27,28};
+link46[] = {28,1};
+link47[] = {29,30};
+link48[] = {30,1};
+link49[] = {31,32};
+link50[] = {32,1};
+link51[] = {33,34};
+link52[] = {34,1};
+link53[] = {35,36};
+link54[] = {36,1};
+link55[] = {37,38};
+link56[] = {38,1};
+link57[] = {39,40};
+link58[] = {40,1};
+link59[] = {41,42};
+link60[] = {42,1};
+globals[] = {0.000000,0,0,0,0,640,480,2,429,6316128,1,-151.276154,903.160889,772.147095,-375.286285,737,802,1};
+window[] = {0,-1,-1,-1,-1,1038,235,2036,64,1,755};
+*//*%FSM</HEAD>*/
+class FSM
+{
+        fsmName = "MarkerUpdate";
+        class States
+        {
+                /*%FSM<STATE "Begin_Marker_Cyc">*/
+                class Begin_Marker_Cyc
+                {
+                        name = "Begin_Marker_Cyc";
+                        itemno = 0;
+                        init = /*%FSM<STATEINIT""">*/"_Side = _this select 0;" \n
+                         "_Style = _this select 3;" \n
+                         "" \n
+                         ""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Supply_Full">*/
+                                class Supply_Full
+                                {
+                                        itemno = 39;
+                                        priority = 109.000000;
+                                        to="Supply_Full";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""Supply Point"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "SupplyCreate">*/
+                                class SupplyCreate
+                                {
+                                        itemno = 37;
+                                        priority = 108.000000;
+                                        to="SupplyCreate";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""SupplyCreate"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Recruit">*/
+                                class Recruit
+                                {
+                                        itemno = 35;
+                                        priority = 107.000000;
+                                        to="Recruit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""Recruit"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "SupportEnthusias">*/
+                                class SupportEnthusias
+                                {
+                                        itemno = 33;
+                                        priority = 106.000000;
+                                        to="SupportEnthusias";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""SupportEnthusiast"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Guerrilla">*/
+                                class Guerrilla
+                                {
+                                        itemno = 31;
+                                        priority = 105.000000;
+                                        to="Guerrilla";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""Guerrilla"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "SEMedict">*/
+                                class SEMedict
+                                {
+                                        itemno = 29;
+                                        priority = 104.000000;
+                                        to="SEMedic";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""SEMedic"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "PMCSupport">*/
+                                class PMCSupport
+                                {
+                                        itemno = 27;
+                                        priority = 103.000000;
+                                        to="PMCSupport";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""PMCSupport"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "PMC">*/
+                                class PMC
+                                {
+                                        itemno = 25;
+                                        priority = 102.000000;
+                                        to="PMC";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""PMC"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "DefenceSpawn">*/
+                                class DefenceSpawn
+                                {
+                                        itemno = 23;
+                                        priority = 101.000000;
+                                        to="DefenceSpawn_1";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""Defensive"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Building">*/
+                                class Building
+                                {
+                                        itemno = 3;
+                                        priority = 100.000000;
+                                        to="Build";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""Building"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "StaticBuild">*/
+                                class StaticBuild
+                                {
+                                        itemno = 5;
+                                        priority = 99.000000;
+                                        to="StaticBuild";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""StaticBuild"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Harass">*/
+                                class Harass
+                                {
+                                        itemno = 7;
+                                        priority = 98.000000;
+                                        to="Setup_Harass_Mar";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""Harass"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Scout">*/
+                                class Scout
+                                {
+                                        itemno = 9;
+                                        priority = 97.000000;
+                                        to="Scout";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""Scout"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "StaticDeploy">*/
+                                class StaticDeploy
+                                {
+                                        itemno = 11;
+                                        priority = 96.000000;
+                                        to="StaticDeploy";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""StaticDeploy"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "AAirCapture">*/
+                                class AAirCapture
+                                {
+                                        itemno = 13;
+                                        priority = 95.000000;
+                                        to="AAirCapture";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""AAirCapture"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "ACapture">*/
+                                class ACapture
+                                {
+                                        itemno = 15;
+                                        priority = 94.000000;
+                                        to="ACapture";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""ACapture"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "CloseCapture">*/
+                                class CloseCapture
+                                {
+                                        itemno = 19;
+                                        priority = 93.000000;
+                                        to="CloseCapture";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""CloseCapture"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Aggressive">*/
+                                class Aggressive
+                                {
+                                        itemno = 17;
+                                        priority = 92.000000;
+                                        to="Aggressive";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""Aggressive"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "DefenceSpawn_1">*/
+                                class DefenceSpawn_1
+                                {
+                                        itemno = 21;
+                                        priority = 92.000000;
+                                        to="DefenceSpawn";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""DefenceSpawn"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Recruit_1">*/
+                                class Recruit_1
+                                {
+                                        itemno = 41;
+                                        priority = 91.000000;
+                                        to="Recruit_1";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_Style isEqualTo ""PlayerGroup"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Exit">*/
+                class Exit
+                {
+                        name = "Exit";
+                        itemno = 2;
+                        init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Build">*/
+                class Build
+                {
+                        name = "Build";
+                        itemno = 4;
+                        init = /*%FSM<STATEINIT""">*/"//[_Side,_Marker,_Loc,""Building"",_StructureName,_b] call DIS_fnc_mrkersave;" \n
+                         "//[EAST,""respawn_east_6377"",[11144.6,6086.68,35.6316],""Building"",""Barracks"",2070e2c0b80# 1675312: cargo_house_v1_f.p3d]" \n
+                         "" \n
+                         "_MarkerName = _this select 1;" \n
+                         "_Loc = _this select 2;" \n
+                         "_ExtraInfo = _this select 4;" \n
+                         "_ActualBuilding = _this select 5;" \n
+                         "" \n
+                         "if (alive _ActualBuilding) then" \n
+                         "{" \n
+                         "private _Marker = """";" \n
+                         "" \n
+                         "_Color = 'ColorRed';" \n
+                         "_WestRun = false;" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "};" \n
+                         "" \n
+                         "if (_WestRun) then" \n
+                         "{" \n
+                         "	if (_ExtraInfo isEqualTo ""Barracks"") then {_Marker = createMarkerlocal [_MarkerName,_Loc];} else {_Marker = createMarkerlocal [format[""Building_%1"",_Loc],_Loc];};" \n
+                         "}" \n
+                         "else" \n
+                         "{" \n
+                         "	if (_ExtraInfo isEqualTo ""Barracks"") then {_Marker = createMarkerlocal [_MarkerName,_Loc];} else {_Marker = createMarkerlocal [format[""Building_%1"",_Loc],_Loc];};" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "" \n
+                         "_Marker setMarkerShapelocal 'ICON';" \n
+                         "_Marker setMarkerColorlocal _Color;" \n
+                         "_Marker setMarkerAlphalocal 1;" \n
+                         "_Marker setMarkerSizelocal [1,1];" \n
+                         "_Marker setMarkerDirlocal 0;	" \n
+                         "_Marker setMarkerTypelocal 'loc_Bunker';" \n
+                         "_Marker setMarkerTextlocal format [""%1"",_ExtraInfo];" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "StaticBuild">*/
+                class StaticBuild
+                {
+                        name = "StaticBuild";
+                        itemno = 6;
+                        init = /*%FSM<STATEINIT""">*/"//[_RSide,_Marker,_RoadStatic,""StaticBuild""] call DIS_fnc_mrkersave; " \n
+                         "_Marker = _this select 1;" \n
+                         "_RandomStatic = _this select 2;" \n
+                         "if (alive _RandomStatic) then" \n
+                         "{" \n
+                         "" \n
+                         "private _MrkrType = ""o_installation"";" \n
+                         "_Color = 'ColorRed';" \n
+                         "_WestRun = false;" \n
+                         "" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "     _MrkrType = ""b_installation"";" \n
+                         "};" \n
+                         "" \n
+                         "_Marker = createMarkerLocal [format [""ID_%1"",_RandomStatic],[0,0,0]];" \n
+                         "	_Marker setMarkerTextLocal format [""%1"",(configFile >>  ""CfgVehicles"" >> (typeof _RandomStatic) >> ""displayName"")call BIS_fnc_getCfgData];	" \n
+                         "	_Marker setMarkerTypeLocal _MrkrType;	" \n
+                         "	_Marker setMarkerShapeLocal 'ICON';" \n
+                         "	_Marker setMarkerColorLocal _Color;" \n
+                         "	_Marker setMarkerSizeLocal [0.25,0.25];	" \n
+                         "	_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "" \n
+                         "[_Marker,_RandomStatic] spawn {" \n
+                         "" \n
+                         "_Marker = _this select 0;" \n
+                         "_RandomStatic = _this select 1;" \n
+                         "" \n
+                         "	while {(alive _RandomStatic) && {!(isNull _RandomStatic)}} do" \n
+                         "	{" \n
+                         "		_Marker setMarkerPosLocal (getposASL _RandomStatic);	" \n
+                         "		_Marker setMarkerDirLocal (getdir _RandomStatic);	" \n
+                         "		sleep 30;" \n
+                         "	};" \n
+                         "	sleep 5;" \n
+                         "	deleteMarker _Marker;" \n
+                         "};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Setup_Harass_Mar">*/
+                class Setup_Harass_Mar
+                {
+                        name = "Setup_Harass_Mar";
+                        itemno = 8;
+                        init = /*%FSM<STATEINIT""">*/"//[West,_Marker,_Group,""Harass""] call DIS_fnc_mrkersave;" \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "};" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [1,1];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "	while {({alive _x} count (units _Group)) > 0} do" \n
+                         "	{" \n
+                         "		_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "		_Marker setMarkerTextLocal format [""HARASS: %1"",({alive _x} count (units _Group))];" \n
+                         "		_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "		sleep 1.25;" \n
+                         "	};" \n
+                         "	sleep 5;" \n
+                         "	deleteMarker _Marker;" \n
+                         "};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Scout">*/
+                class Scout
+                {
+                        name = "Scout";
+                        itemno = 10;
+                        init = /*%FSM<STATEINIT""">*/"//[West,_Marker,_Group,""Scout""] call DIS_fnc_mrkersave;" \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "private _leader = leader _Group;" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [1,1];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;	" \n
+                         "_Marker setMarkerTextLocal ""SCOUT"";" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "[_Group,_Marker,_Color,_EnemySide,_EnemyColor,_Type] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "	_Color = _this select 2;" \n
+                         "	_EnemySide = _this select 3;" \n
+                         "	_EnemyColor = _this select 4;" \n
+                         "	_Type = _this select 5;" \n
+                         "	while {({alive _x} count (units _Group)) > 0} do" \n
+                         "	{" \n
+                         "		_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "		_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "		" \n
+                         "		private _MarkerArray = [];" \n
+                         "		{" \n
+                         "			if (_x distance _leader < 1001) then" \n
+                         "			{" \n
+                         "				private _NewMarker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "				_NewMarker setMarkerColorLocal _EnemyColor;" \n
+                         "				_Marker setMarkerSizeLocal [1,1];							" \n
+                         "				_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "				_Marker setMarkerTypeLocal _Type;		" \n
+                         "				_Marker setMarkerTextLocal ""ENEMY"";" \n
+                         "			};" \n
+                         "				true;" \n
+                         "		} count (allunits select {side _x isEqualTo _EnemySide});" \n
+                         "		" \n
+                         "		" \n
+                         "		sleep 3;" \n
+                         "		{" \n
+                         "			deleteMarker _x;" \n
+                         "			true;" \n
+                         "		} count _MarkerArray;" \n
+                         "	" \n
+                         "	};" \n
+                         "	sleep 5;" \n
+                         "	deleteMarker _Marker;		" \n
+                         "};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "StaticDeploy">*/
+                class StaticDeploy
+                {
+                        name = "StaticDeploy";
+                        itemno = 12;
+                        init = /*%FSM<STATEINIT""">*/"//[West,_Marker,_Unit,""StaticDeploy""] call DIS_fnc_mrkersave; " \n
+                         "private _Unit = _this select 2;" \n
+                         "if !(alive _Unit) then" \n
+                         "{" \n
+                         "" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_installation';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_installation';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Unit],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [0.25,0.25];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;	" \n
+                         "_Marker setMarkerTextLocal ""Static Deployment Unit"";" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "[_Unit,_Marker] spawn" \n
+                         "{" \n
+                         "	_Unit = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "		while {(alive _Unit) && {!(isNull _Unit)}} do" \n
+                         "		{" \n
+                         "			_Marker setMarkerPosLocal (getposASL _Unit);" \n
+                         "			_Marker setMarkerDirLocal (getdir _Unit);	" \n
+                         "			sleep 10;" \n
+                         "		};" \n
+                         "		sleep 5;" \n
+                         "		deleteMarker _Marker;" \n
+                         "};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "AAirCapture">*/
+                class AAirCapture
+                {
+                        name = "AAirCapture";
+                        itemno = 14;
+                        init = /*%FSM<STATEINIT""">*/"//[West,_Marker,_Group,""AAirCapture""] call DIS_fnc_mrkersave;" \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "" \n
+                         "" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [1,1];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;	" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "			while {({alive _x} count (units _Group)) > 0} do" \n
+                         "			{" \n
+                         "				_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "				_Marker setMarkerTextLocal format [""ASSAULT SQUAD %1"",({alive _x} count (units _Group))];" \n
+                         "				_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "				sleep 1.25;" \n
+                         "			};" \n
+                         "			sleep 5;" \n
+                         "			deleteMarker _Marker;	" \n
+                         "};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "ACapture">*/
+                class ACapture
+                {
+                        name = "ACapture";
+                        itemno = 16;
+                        init = /*%FSM<STATEINIT""">*/"//[West,_Marker,_Group,""ACapture""] call DIS_fnc_mrkersave;" \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [1,1];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;	" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "			while {({alive _x} count (units _Group)) > 0} do" \n
+                         "			{" \n
+                         "				_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "				_Marker setMarkerTextLocal format [""ASSAULT SQUAD %1"",({alive _x} count (units _Group))];" \n
+                         "				_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "				sleep 1.25;" \n
+                         "			};" \n
+                         "			sleep 5;" \n
+                         "			deleteMarker _Marker;	" \n
+                         "};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Aggressive">*/
+                class Aggressive
+                {
+                        name = "Aggressive";
+                        itemno = 18;
+                        init = /*%FSM<STATEINIT""">*/"//[_Cside,_Marker,_Group,""Aggressive""] call DIS_fnc_mrkersave; " \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [1,1];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "			while {({alive _x} count (units _Group)) > 0} do" \n
+                         "			{" \n
+                         "				_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "				_Marker setMarkerTextLocal format [""INTERCEPT SQUAD %1"",({alive _x} count (units _Group))];" \n
+                         "				_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "				sleep 1.25;" \n
+                         "			};" \n
+                         "			sleep 5;" \n
+                         "			deleteMarker _Marker;	" \n
+                         "};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "CloseCapture">*/
+                class CloseCapture
+                {
+                        name = "CloseCapture";
+                        itemno = 20;
+                        init = /*%FSM<STATEINIT""">*/"//[_Cside,_Marker,_Group,""CloseCapture""] call DIS_fnc_mrkersave; " \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [1,1];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "			while {({alive _x} count (units _Group)) > 0} do" \n
+                         "			{" \n
+                         "				_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "				_Marker setMarkerTextLocal format [""DEFENCE SQUAD %1"",({alive _x} count (units _Group))];" \n
+                         "				_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "				sleep 1.25;" \n
+                         "			};" \n
+                         "			sleep 5;" \n
+                         "			deleteMarker _Marker;	" \n
+                         "};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "DefenceSpawn">*/
+                class DefenceSpawn
+                {
+                        name = "DefenceSpawn";
+                        itemno = 22;
+                        init = /*%FSM<STATEINIT""">*/"//[_Cside,_Marker,_Group,""DefenceSpawn""] call DIS_fnc_mrkersave; " \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [1,1];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "			while {({alive _x} count (units _Group)) > 0} do" \n
+                         "			{" \n
+                         "				_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "				_Marker setMarkerTextLocal format [""DEFENCE SQUAD %1"",({alive _x} count (units _Group))];" \n
+                         "				_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "				sleep 1.25;" \n
+                         "			};" \n
+                         "			sleep 5;" \n
+                         "			deleteMarker _Marker;	" \n
+                         "};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "DefenceSpawn_1">*/
+                class DefenceSpawn_1
+                {
+                        name = "DefenceSpawn_1";
+                        itemno = 24;
+                        init = /*%FSM<STATEINIT""">*/"//[_Cside,_Marker,_Group,""Defensive""] call DIS_fnc_mrkersave;" \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [1,1];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "			while {({alive _x} count (units _Group)) > 0} do" \n
+                         "			{" \n
+                         "				_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "				_Marker setMarkerTextLocal format [""INTERCEPT SQUAD %1"",({alive _x} count (units _Group))];" \n
+                         "				_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "				sleep 1.25;" \n
+                         "			};" \n
+                         "			sleep 5;" \n
+                         "			deleteMarker _Marker;	" \n
+                         "};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "PMC">*/
+                class PMC
+                {
+                        name = "PMC";
+                        itemno = 26;
+                        init = /*%FSM<STATEINIT""">*/"//[_Cside,_Marker,_Group,""Defensive""] call DIS_fnc_mrkersave;" \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [1,1];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "			while {({alive _x} count (units _Group)) > 0} do" \n
+                         "			{" \n
+                         "				_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "				_Marker setMarkerTextLocal format [""INTERCEPT SQUAD %1"",({alive _x} count (units _Group))];" \n
+                         "				_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "				sleep 1.25;" \n
+                         "			};" \n
+                         "			sleep 5;" \n
+                         "			deleteMarker _Marker;	" \n
+                         "};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "PMCSupport">*/
+                class PMCSupport
+                {
+                        name = "PMCSupport";
+                        itemno = 28;
+                        init = /*%FSM<STATEINIT""">*/"//[_Cside,_Marker,_Group,""PMCSupport""] call DIS_fnc_mrkersave;" \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [1,1];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "			while {({alive _x} count (units _Group)) > 0} do" \n
+                         "			{" \n
+                         "				_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "				_Marker setMarkerTextLocal format [""MILITIA SQUAD %1"",({alive _x} count (units _Group))];" \n
+                         "				_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "				sleep 1.25;" \n
+                         "			};" \n
+                         "			sleep 5;" \n
+                         "			deleteMarker _Marker;	" \n
+                         "};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "SEMedic">*/
+                class SEMedic
+                {
+                        name = "SEMedic";
+                        itemno = 30;
+                        init = /*%FSM<STATEINIT""">*/"//[_Cside,_Marker,_Group,""SEMedic""] call DIS_fnc_mrkersave;" \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [1,1];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "_Marker setMarkerTextLocal ""MEDIC"";" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "			while {({alive _x} count (units _Group)) > 0} do" \n
+                         "			{" \n
+                         "				_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "				_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "				sleep 1.25;" \n
+                         "			};" \n
+                         "			sleep 5;" \n
+                         "			deleteMarker _Marker;	" \n
+                         "};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Guerrilla">*/
+                class Guerrilla
+                {
+                        name = "Guerrilla";
+                        itemno = 32;
+                        init = /*%FSM<STATEINIT""">*/"//[_Cside,_Marker,_Group,""Guerrilla""] call DIS_fnc_mrkersave;" \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [1,1];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "			while {({alive _x} count (units _Group)) > 0} do" \n
+                         "			{" \n
+                         "				_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "				_Marker setMarkerTextLocal format [""INTERCEPT SQUAD %1"",({alive _x} count (units _Group))];" \n
+                         "				_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "				sleep 1.25;" \n
+                         "			};" \n
+                         "			sleep 5;" \n
+                         "			deleteMarker _Marker;	" \n
+                         "};" \n
+                         "" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "SupportEnthusias">*/
+                class SupportEnthusias
+                {
+                        name = "SupportEnthusias";
+                        itemno = 34;
+                        init = /*%FSM<STATEINIT""">*/"//[_Cside,_Marker,_Group,""Guerrilla""] call DIS_fnc_mrkersave;" \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;" \n
+                         "_Marker setMarkerSizeLocal [1,1];			" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "			while {({alive _x} count (units _Group)) > 0} do" \n
+                         "			{" \n
+                         "				_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "				_Marker setMarkerTextLocal format [""INTERCEPT SQUAD %1"",({alive _x} count (units _Group))];" \n
+                         "				_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "				sleep 1.25;" \n
+                         "			};" \n
+                         "			sleep 5;" \n
+                         "			deleteMarker _Marker;	" \n
+                         "};" \n
+                         "" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Recruit">*/
+                class Recruit
+                {
+                        name = "Recruit";
+                        itemno = 36;
+                        init = /*%FSM<STATEINIT""">*/"//[West,_Marker,_Group,""Recruit""] call DIS_fnc_mrkersave; " \n
+                         "private _Group = _this select 2;" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;		" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "	_SelGroupName = groupId _Group;" \n
+                         "			while {({alive _x} count (units _Group)) > 0} do" \n
+                         "			{" \n
+                         "				_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "				_Marker setMarkerTextLocal format [""%2: %1"",({alive _x} count (units _Group)),_SelGroupName];" \n
+                         "				_Marker setMarkerPosLocal (getposASL (leader _Group));" \n
+                         "				_Marker setMarkerSizeLocal [0.5,0.5];" \n
+                         "				sleep 1.25;" \n
+                         "			};" \n
+                         "			sleep 5;" \n
+                         "			deleteMarker _Marker;	" \n
+                         "};" \n
+                         "" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "SupplyCreate">*/
+                class SupplyCreate
+                {
+                        name = "SupplyCreate";
+                        itemno = 38;
+                        init = /*%FSM<STATEINIT""">*/"//[_CSide,_Marker,_Building,""SupplyCreate""] call DIS_fnc_mrkersave;" \n
+                         "_Marker = _this select 1;" \n
+                         "_RandomStatic = _this select 2;" \n
+                         "if (alive _RandomStatic) then" \n
+                         "{" \n
+                         "" \n
+                         "private _MrkrType = ""o_installation"";" \n
+                         "_Color = 'ColorRed';" \n
+                         "_WestRun = false;" \n
+                         "" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "     _MrkrType = ""b_installation"";" \n
+                         "};" \n
+                         "" \n
+                         "_Marker = createMarkerLocal [format [""ID_%1"",_RandomStatic],[0,0,0]];" \n
+                         "	_Marker setMarkerTextLocal ""Supply Point"";" \n
+                         "	_Marker setMarkerTypeLocal _MrkrType;	" \n
+                         "	_Marker setMarkerShapeLocal 'ICON';" \n
+                         "	_Marker setMarkerColorLocal _Color;" \n
+                         "	_Marker setMarkerSizeLocal [0.25,0.25];	" \n
+                         "	_Marker setMarkerAlphaLocal 1;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Supply_Full">*/
+                class Supply_Full
+                {
+                        name = "Supply_Full";
+                        itemno = 40;
+                        init = /*%FSM<STATEINIT""">*/"//[_Cside,_Marker,_Building,""Supply Point""] call DIS_fnc_mrkersave;" \n
+                         "_CSide = _this select 0;" \n
+                         "_Marker = _this select 1;" \n
+                         "_Structure = _this select 2;" \n
+                         "if (alive _Structure && (_Structure getVariable [""DIS_Transporting"",false])) then" \n
+                         "{" \n
+                         "" \n
+                         "	private _Color = 'ColorRed';" \n
+                         "	if (playerSide isEqualTo West) then" \n
+                         "	{" \n
+                         "		_WestRun = true;" \n
+                         "		_Color = 'ColorBlue';" \n
+                         "	};" \n
+                         "" \n
+                         "	private _Marker = createMarkerLocal [format [""ID_%1"",_Structure],[0,0,0]];" \n
+                         "	_Marker setMarkerColorLocal _color;" \n
+                         "	_Marker setMarkerSizeLocal [0.5,0.5];			" \n
+                         "	_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "	_Marker setMarkerTypeLocal ""c_car"";" \n
+                         "	_Marker setMarkerTextLocal ""SUPPLY POINT FULL"";	" \n
+                         "	_Marker setMarkerPosLocal (getposASL (_Structure));" \n
+                         "	_Marker setMarkerDirLocal (getdir (_Structure));" \n
+                         "" \n
+                         "};" \n
+                         "" \n
+                         "[_Marker,_Structure] spawn" \n
+                         "{" \n
+                         "	params [""_Marker"",""_Structure""];" \n
+                         "" \n
+                         "	while {alive _Structure && (_Structure getVariable [""DIS_Transporting"",false])} do" \n
+                         "	{							" \n
+                         "		sleep 10;" \n
+                         "	};" \n
+                         "	sleep 5;" \n
+                         "	deleteMarker _Marker;			" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         ""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Recruit_1">*/
+                class Recruit_1
+                {
+                        name = "Recruit_1";
+                        itemno = 42;
+                        init = /*%FSM<STATEINIT""">*/"[_Side,_Marker,_Group,""PlayerGroup""] call DIS_fnc_mrkersave;" \n
+                         "private _Group = _this select 2;" \n
+                         "private _PlayerName = _this select 4;" \n
+                         "" \n
+                         "if !(count (units _Group) < 1) then" \n
+                         "{" \n
+                         "" \n
+                         "private _EnemySide = West;" \n
+                         "private _EnemyColor = 'ColorBlue';" \n
+                         "private _Color = 'ColorRed';" \n
+                         "private _WestRun = false;" \n
+                         "private _Type = 'o_inf';" \n
+                         "if (_Side isEqualTo West) then" \n
+                         "{" \n
+                         "	_WestRun = true;" \n
+                         "	_Color = 'ColorBlue';" \n
+                         "	_Type = 'b_inf';" \n
+                         "	_EnemySide = East;" \n
+                         "	_EnemyColor = 'ColorRed';" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "private _Marker = createMarkerLocal [format [""ID_%1"",_Group],[0,0,0]];" \n
+                         "_Marker setMarkerColorLocal _Color;		" \n
+                         "_Marker setMarkerShapeLocal 'ICON';		" \n
+                         "_Marker setMarkerTypeLocal _Type;" \n
+                         "_Marker setMarkerAlphaLocal 1;" \n
+                         "_Marker setMarkerSizeLocal [0.5,0.5];	" \n
+                         "" \n
+                         "[_Group,_Marker] spawn" \n
+                         "{" \n
+                         "	_Group = _this select 0;" \n
+                         "	_Marker = _this select 1;" \n
+                         "	_SelGroupName = groupId _Group;" \n
+                         "			while {({alive _x} count (units _Group)) > 0} do" \n
+                         "			{" \n
+                         "				private _DisplayName = format [""AI - %1 %2"",_PlayerName,({alive _x} count (units _Group))];					" \n
+                         "				_Marker setMarkerDirLocal (getdir (leader _Group));	" \n
+                         "				_Marker setMarkerTextLocal _DisplayName;" \n
+                         "				_Marker setMarkerPosLocal (getposASL (leader _Group));		" \n
+                         "				sleep 1.25;" \n
+                         "			};" \n
+                         "			sleep 5;" \n
+                         "			deleteMarker _Marker;	" \n
+                         "};" \n
+                         "" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+        };
+        initState="Begin_Marker_Cyc";
+        finalStates[] =
+        {
+                "Exit",
+        };
+};
+/*%FSM</COMPILE>*/

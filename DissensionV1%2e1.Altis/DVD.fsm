@@ -1,0 +1,130 @@
+/*%FSM<COMPILE "C:\Program Files (x86)\Steam\steamapps\common\Arma 3 Tools\FSMEditor\scriptedFSM.cfg, DVD">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"Begin_AI_Thought",0,4346,-1430.883179,-1353.043335,-1330.883179,-1293.043335,0.000000,"Begin AI Thought"};
+item1[] = {"True",8,218,-1427.107300,-1226.589844,-1337.107300,-1176.589844,0.000000,"True"};
+item2[] = {"Render_Distance",2,250,-1426.008301,-1112.259644,-1336.008301,-1062.259644,0.000000,"Render Distance Check"};
+item3[] = {"Wait",4,218,-1296.866333,-1112.512573,-1206.866333,-1062.512573,0.000000,"Wait"};
+link0[] = {0,1};
+link1[] = {1,2};
+link2[] = {2,3};
+link3[] = {3,2};
+globals[] = {0.000000,0,0,0,0,640,480,2,845,6316128,1,-1610.129883,-1082.319092,-994.663025,-1457.608154,594,521,1};
+window[] = {0,-1,-1,-1,-1,927,234,1776,234,1,612};
+*//*%FSM</HEAD>*/
+class FSM
+{
+        fsmName = "DVD";
+        class States
+        {
+                /*%FSM<STATE "Begin_AI_Thought">*/
+                class Begin_AI_Thought
+                {
+                        name = "Begin_AI_Thought";
+                        itemno = 0;
+                        init = /*%FSM<STATEINIT""">*/"private _t = 0;" \n
+                         "private _BaseViewDistance = 800;" \n
+                         "DIS_GUNVIEW = true;" \n
+                         "" \n
+                         "_DVDCall = " \n
+                         "{" \n
+                         "	private _Dist = _this call _DVDVC;" \n
+                         "	setViewDistance _Dist;" \n
+                         "	setObjectViewDistance [_Dist,(_Dist / 6)];" \n
+                         "	if (Dis_debug) then {hintsilent format [""RENDER: %1--SHADOW: %2"",_Dist,(_Dist/6)]};" \n
+                         "};" \n
+                         "" \n
+                         "_DVDFRC =" \n
+                         "{" \n
+                         "	if (diag_FPS < 60) then" \n
+                         "	{" \n
+                         "		private _Veh = objectParent player;" \n
+                         "		if !(isNull _Veh) then" \n
+                         "		{" \n
+                         "			setViewDistance _this;" \n
+                         "		};" \n
+                         "	};	" \n
+                         "};" \n
+                         "" \n
+                         "_DVDVC = " \n
+                         "{" \n
+                         "	private _BaseDist = _this;" \n
+                         "	private _Veh = objectParent player;" \n
+                         "	//If not on foot" \n
+                         "	if !(isNull _Veh) then" \n
+                         "	{" \n
+                         "		//We want to see further in air." \n
+                         "		if (_Veh isKindOf ""Air"") then {_BaseDist = _BaseDist + (_BaseDist * 2.5)};" \n
+                         "" \n
+                         "		//We want to see further in vehicles." \n
+                         "		if (_Veh isKindOf ""LandVehicle"") then {_BaseDist = _BaseDist + (_BaseDist * 1.5)};" \n
+                         "" \n
+                         "" \n
+                         "	};" \n
+                         "	" \n
+                         "	//Height check." \n
+                         "	_BaseDist = _BaseDist + (((getPosWorld player) select 2) * 4);" \n
+                         "" \n
+                         "	//Scoping in adds more distance." \n
+                         "	if (cameraView isEqualTo ""GUNNER"") then" \n
+                         "	{" \n
+                         "		if (DIS_GUNVIEW) then {_BaseDist spawn {waituntil {!(cameraView isEqualTo ""GUNNER"")};DIS_GUNVIEW = true;setViewDistance _this;setObjectViewDistance [_this,(_this / 6)];};};" \n
+                         "		_BaseDist = _BaseDist + 300;" \n
+                         "		DIS_GUNVIEW = false;" \n
+                         "	};" \n
+                         "	" \n
+                         "	(round _BaseDist)" \n
+                         "};" \n
+                         "" \n
+                         "	" \n
+                         "	" \n
+                         "" \n
+                         ""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Render_Distance";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Render_Distance">*/
+                class Render_Distance
+                {
+                        name = "Render_Distance";
+                        itemno = 2;
+                        init = /*%FSM<STATEINIT""">*/"_t = time;" \n
+                         "_BaseViewDistance call _DVDCall;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Wait">*/
+                                class Wait
+                                {
+                                        itemno = 3;
+                                        priority = 0.000000;
+                                        to="Render_Distance";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"time > _t + 3"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+        };
+        initState="Begin_AI_Thought";
+        finalStates[] =
+        {
+        };
+};
+/*%FSM</COMPILE>*/

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="notificationSystem">
+	<Package name="Notifications">
+		<Key ID="STR_author">
+			<English>Haz</English>
+		</Key>
+		<Key ID="STR_notification_queueCount">
+			<English>Queue count: %1</English>
+		</Key>
+		<Key ID="STR_notification_title_example">
+			<English>New Notification</English>
+		</Key>
+		<Key ID="STR_notification_message_example">
+			<English>This is a notification!</English>
+		</Key>
+	</Package>
+</Project>

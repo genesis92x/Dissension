@@ -1,0 +1,41 @@
+These are all commands/tricks that you can use to create unique situations using Vcom AI.
+
+
+
+=============
+==Waypoints==
+=============
+
+1)If a groups active waypoint speed is set to "FULL" they will 'charge' the waypoint and will only seek for cover when heavily suppressed.
+2)If a groups active waypoint is set to "HOLD" and is ontop of a structure, they will attempt to garrsion that structure/nearby structures.
+3)A group on a "HOLD" waypoint will try their best to not leave the HOLD waypoint location.
+4)A on a "DESTROY" waypoint will not generate extra waypoints until their target is A)Destroyed or B)Enough time has passed.
+5)AI groups with 2 or more waypoints will NOT generate extra waypoints, or move to help friendlies, when engaged in combat.
+6)AI groups with these active waypoints will not generate extra waypoints: "HOLD","GUARD","UNLOAD","LOAD","TR UNLOAD","SENTRY","DESTROY"
+7)AI groups with the dismissed waypoint will wander around until they are engaged in combat.
+
+=============
+==Scripting==
+=============
+
+1)To disable Vcom AI entirely on certain units put this command in their init field: "this setvariable ["NOAI",true];"
+2)To disable Vcom AI entirely on a group, put this command in any unit in a squad: "{_x setvariable ["NOAI",true]} foreach units (group this);"
+3)To get more feedback about what VCOM_AI is doing, put "VCOM_AIDEBUG = 1" in your init.sqf file.
+4)To disable Vcom AI from creating additional waypoints or running to support friendles, put this command in their init field: "this setvariable ["VCOM_NOPATHING_Unit",true];"
+5)To disable a Vcom AI group from creating additional waypoints or running to support friendlies, put this command in their init field:  "{_x setvariable ["VCOM_NOPATHING_Unit",true]} foreach units (group this);"
+
+
+=============
+====Extra====
+=============
+
+1)AI will sometimes attempt to garrison empty static weapons.
+2)AI will deploy static weapons from their packs (Vanilla statics only)
+3)AI will deply UAV's from their packs (Vanilla UAV's only)
+4)AI medics will heal hurt group members during combat without needing to be ordered (Only if they deem it safe)
+5)AI spawned inside buildings will not move from that building in MOST circumstances.
+6)AI can move in and out of artillery vehicles/statics and have a chance to be called for support from friendlies.
+7)AI with explosives will attempt to destroy garrisoned buildings.
+8)AI with landmines will randomly place them down in combat.
+9)AI have a chance to clear a garrisoned building by 'flushing' it out.
+

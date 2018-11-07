@@ -1,0 +1,31 @@
+STVT_fnc_TabHidenShow =
+{
+params ["_hideCtrls","_showCtrls"];
+_display = findDisplay 850000;
+_cntHide = count _hideCtrls;
+if (_cntHide == 0) then // want to close all apps
+{
+_allCtrls = allControls _display;
+_allCtrls deleteRange [0,9]; // don't delete background ctrls
+{
+if (ctrlShown _x) then
+{
+_x ctrlShow false;
+};
+}forEach _allCtrls;
+} else
+{
+for "_i" from (_hideCtrls select 0) to (_hideCtrls select 1) do
+{
+ctrlShow [_i, false];
+};
+};
+_cntShow = count _showCtrls;
+if (_cntShow > 0) then
+{
+for "_i" from (_showCtrls select 0) to (_showCtrls select 1) do
+{
+ctrlShow [_i, true];
+};
+};
+};
