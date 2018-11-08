@@ -1110,8 +1110,7 @@ switch (_SideObj) do
 				{
 					_x hideObjectGlobal false;
 				} forEach _TerArray;
-				deleteVehicle _Generator;
-				private _Mens = nearestObjects [(getposATL _Generator), ["Man"], 50];
+				private _Mens = nearestObjects [_FinalPos, ["Man"], 50];
 				{if (!(isPlayer _x) && {!(isplayer (leader _x))}) then {_x setDamage 1;};true;} count (_Mens select {(side _x isEqualTo _SSide)});
 				[_compReference] call LARs_fnc_deleteComp;
 				remoteExecCall ["",_RMES]; 

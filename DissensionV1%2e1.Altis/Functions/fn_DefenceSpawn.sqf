@@ -400,7 +400,8 @@ waitUntil
 	sleep 5;
 	_VarCheck
 };
-//NEXT WE NEED TO WAIT FOR THE TOTAL NEARBY FRIENDLY AI TO BE BELOW A CERTAIN THRESHOLD.
+
+//NEXT WE NEED TO WAIT FOR THE TOTAL NEARBY ENEMY AI TO BE BELOW A CERTAIN THRESHOLD.
 private _EnT = true;
 
 [
@@ -414,6 +415,42 @@ private _EnT = true;
 	}
 ] remoteExec ["bis_fnc_Spawn",0];
 
+
+private _RemainingUnits = [];
+private _FullList = [];
+private _WestRU = [];
+private _EastRU = [];
+private _ResRU = [];
+private _OpBlu = [];
+private _FinalCnt = [];
+
+waitUntil
+{
+	
+	//private _rtnarray = [_WestActive,_EastActive,_ResistanceActive,_OpBlu];
+	_FullList = [] call DIS_fnc_EmyLst;
+	_FullList params ["_WestActive","_EastActive","_ResistanceActive","_OpBlu"];
+	
+	switch (_SSide) do
+	{
+		case west: {_RemainingUnits = _WestActive;};
+		case east: {_RemainingUnits = _EastActive;};
+		case resistance: {_RemainingUnits = _ResistanceActive;};
+		default {};
+	};	
+	
+	_FinalCnt = [];
+	{
+		if (_x distance2D _PolePos < 500) then
+		{
+			_FinalCnt pushback _x;
+		};
+	} foreach _RemainingUnits;
+
+	
+	uisleep 5;
+	((count _FinalCnt) < 5)
+};
 
 {
 	if (_x select 0 isEqualTo _pole) then

@@ -4,15 +4,15 @@ params ["_Pole","_NameLocation","_SSide","_AtkSide"];
 private _PolePos = getposATL _Pole;
 private _SpwnPos = [_PolePos, 2, 400, 5, 0, 20, 0,[],[_PolePos,_PolePos]] call BIS_fnc_findSafePos;
 private _Tower = "Land_TTowerBig_2_F" createVehicle _SpwnPos;
-private _Tower2 = "Land_JetEngineStarter_01_F" createVehicle _SpwnPos;
+private _Tower2 = "Land_PowerGenerator_F" createVehicle _SpwnPos;
 _Tower2 disableCollisionWith _Tower;
-_Tower disableCollisionWith _Tower2;
 _Tower setpos _Spwnpos;
 _Tower allowdamage false;
 _Tower2 allowdamage false;
 _Tower setvariable ["DIS_PLAYERVEH",true,true];
 _Tower2 setvariable ["DIS_PLAYERVEH",true,true];
 _Tower2 setposATL (getposATL _Tower);
+_Tower2 setVelocity [0,0,0];
 _Pole setVariable ["DIS_TowerAlive",true,true];
 _Tower setVariable ["DIS_TowerPole",_Pole,true];
 _Tower setVariable ["DIS_TowerBox",_Tower2,true];
@@ -20,6 +20,7 @@ _Tower2 setVariable ["DIS_TowerBox",_Tower,true];
 _Tower2 setVectorUp [0,0,1];
 _Tower setVectorUp [0,0,1];
 
+/*
 [
 	[_Tower2],
 	{
@@ -28,7 +29,7 @@ _Tower setVectorUp [0,0,1];
 	}
 	
 ] remoteExec ["bis_fnc_Spawn",2]; 
-
+*/
 
 _Tower addEventHandler ["Killed", 
 {

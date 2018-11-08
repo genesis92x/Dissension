@@ -100,7 +100,7 @@ waitUntil
 			_SideText	ctrlSetStructuredText parseText format 
 			[
 				"
-				<t size='1.0'><t align='left'></t></t><t color=%2><t size='1.0'><t align='left'>%1: %3 Remaining</t></t></t> 
+				<t size='1.0'><t align='left'></t></t><t color=%2><t size='1.0'><t align='left'>%1: %3 Reinforcements</t></t></t> 
 				",_DefendingSide,_color,_Current
 			];
 		};

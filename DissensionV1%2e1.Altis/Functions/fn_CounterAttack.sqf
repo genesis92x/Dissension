@@ -37,6 +37,7 @@ if (_SSide isEqualTo EAST) then
 	_ControlledArray = OpControlledArray;
 };
 
+_ControlledArray = _ControlledArray - [_Pole];
 private _NearestTown = [_ControlledArray,_PolePos,true] call dis_closestobj;
 private _NearestTownPos = (getpos _NearestTown);
 private _direction = _NearestTown getdir _PolePos;

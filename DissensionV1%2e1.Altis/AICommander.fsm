@@ -3,7 +3,7 @@
 /*
 item0[] = {"Begin_AI_Thought",0,250,-1420.000000,-1360.000000,-1320.000000,-1300.000000,0.000000,"Begin AI Thought"};
 item1[] = {"West__Commander",4,218,-1280.000000,-1360.000000,-1180.000000,-1300.000000,0.000000,"West " \n "Commander"};
-item2[] = {"Basic_Variables",2,4346,-1147.896606,-1350.969604,-1057.896484,-1300.969604,0.000000,"Basic Variables"};
+item2[] = {"Basic_Variables",2,250,-1147.896606,-1350.969604,-1057.896484,-1300.969604,0.000000,"Basic Variables"};
 item3[] = {"Base_Thought",2,250,-840.000000,-1360.000000,-740.000000,-1300.000000,0.000000,"Base Thought"};
 item4[] = {"Continue",8,218,-993.499084,-1350.936035,-903.499084,-1300.936035,0.000000,"Continue"};
 item5[] = {"wait",4,218,-800.000000,-1250.000000,-700.000000,-1200.000000,0.000000,"wait"};
@@ -39,7 +39,7 @@ item34[] = {"",7,210,1341.949707,-522.277832,1349.949707,-514.277832,0.000000,""
 item35[] = {"Construction",4,218,-420.000000,-1540.000000,-320.000000,-1480.000000,1000.000000,"Construction"};
 item36[] = {"Anything_needed",2,250,400.000000,-1620.000000,540.000000,-1560.000000,0.000000,"Anything needed?"};
 item37[] = {"East_Commander",4,218,-1566.049683,-1349.452881,-1476.049683,-1299.452881,1.000000,"East" \n "Commander"};
-item38[] = {"Basic_Variables_1",2,250,-1735.757813,-1341.975830,-1645.757324,-1291.975830,0.000000,"Basic Variables"};
+item38[] = {"Basic_Variables_1",2,4346,-1735.757813,-1341.975830,-1645.757324,-1291.975830,0.000000,"Basic Variables"};
 item39[] = {"Base_Thought_1",2,250,-2125.000000,-1300.000000,-2025.000000,-1250.000000,0.000000,"Base Thought"};
 item40[] = {"Continue",8,218,-1893.541992,-1355.660767,-1793.541992,-1295.660767,0.000000,"Continue"};
 item41[] = {"wait",4,218,-1880.000000,-1500.000000,-1780.000000,-1440.000000,0.000000,"wait"};
@@ -91,7 +91,7 @@ item86[] = {"Wait_1",2,250,-3120.000000,-1620.000000,-3020.000000,-1560.000000,0
 item87[] = {"Enough_Time",4,218,-3380.000000,-1640.000000,-3280.000000,-1580.000000,0.000000,"Enough Time"};
 item88[] = {"Set_W_LowResources_1",2,250,-3780.000000,-1680.000000,-3680.000000,-1620.000000,0.000000,"Set W_LowResources false"};
 item89[] = {"Wait_Resources_",4,218,-3100.000000,-1720.000000,-3000.000000,-1660.000000,0.000000,"Wait Resources" \n ""};
-item90[] = {"Personality",4,218,-320.000000,-560.000000,-220.000000,-500.000000,930.000000,"Personality"};
+item90[] = {"Personality",4,218,-336.160645,-511.518066,-236.160645,-451.518066,930.000000,"Personality"};
 item91[] = {"Check_Personalit",2,250,240.000000,-360.000000,340.000000,-300.000000,0.000000,"Check Personality"};
 item92[] = {"Guerilla",4,218,500.000000,-320.000000,600.000000,-260.000000,100.000000,"Guerilla"};
 item93[] = {"Gur",2,250,800.000000,-320.000000,900.000000,-260.000000,0.000000,"Gur"};
@@ -116,7 +116,7 @@ item111[] = {"Defensive",4,218,-3200.000000,60.000000,-3100.000000,120.000000,0.
 item112[] = {"Aggressive",4,218,-3200.000000,120.000000,-3100.000000,180.000000,0.000000,"Aggressive"};
 item113[] = {"Def_1",2,250,-3460.000000,60.000000,-3360.000000,120.000000,0.000000,"Def"};
 item114[] = {"Aggre_1",2,250,-3463.863037,120.000000,-3363.863037,180.000000,0.000000,"Aggre"};
-item115[] = {"Close_Opfor",4,218,-400.000000,-60.000000,-300.000000,0.000000,150.000000,"Close Opfor"};
+item115[] = {"Close_Opfor",4,218,-407.655670,-102.106201,-307.655670,-42.106201,150.000000,"Close Opfor"};
 item116[] = {"Launch_Offensive",2,250,800.000000,60.000000,900.000000,120.000000,0.000000,"Launch Offensive"};
 item117[] = {"Close_Blufor",4,218,-2020.000000,-200.000000,-1920.000000,-140.000000,150.000000,"Close Blufor"};
 item118[] = {"Launch_Offensive_1",2,250,-3456.743896,276.720215,-3356.743896,336.720215,0.000000,"Launch Offensive"};
@@ -148,7 +148,7 @@ item143[] = {"RECRUIT_TROOPS",4,218,-252.133087,-1357.041626,-152.133072,-1297.0
 item144[] = {"Lets_Check",2,250,-415.282288,-1319.009644,-325.282288,-1269.009644,0.000000,"Lets Check"};
 item145[] = {"MOVE_CURRENT_TRO",4,218,-263.303101,-1210.362427,-163.303085,-1150.362427,100.000000,"MOVE CURRENT TROOPS"};
 item146[] = {"Move_Current_Tro",2,250,63.614777,-1103.983521,153.614777,-1053.983521,0.000000,"Move Current Troops"};
-item147[] = {"Town_Chosen",4,218,215.758362,-1021.670105,315.758362,-971.670105,90.000000,"Town Chosen"};
+item147[] = {"Town_Chosen",4,218,227.795258,-1038.521729,327.795258,-988.521790,90.000000,"Town Chosen"};
 item148[] = {"Attack_Structure",4,218,215.758362,-1121.670166,315.758362,-1071.670166,110.000000,"Attack Structures"};
 item149[] = {"No_Target",8,218,215.758301,-969.808228,315.758301,-929.808228,1.000000,"No Target"};
 item150[] = {"No_Target_D__2",2,250,398.050354,-959.467529,480.886932,-929.868164,0.000000,"No Target D:"};
@@ -402,8 +402,8 @@ link222[] = {172,173};
 link223[] = {172,174};
 link224[] = {173,172};
 link225[] = {174,156};
-globals[] = {0.000000,0,0,0,0,640,480,2,842,6316128,1,-2375.394531,-616.054932,-626.090210,-1811.184570,769,518,1};
-window[] = {0,-1,-1,-1,-1,794,104,1646,104,1,787};
+globals[] = {0.000000,0,0,0,0,640,480,2,842,6316128,1,-2190.414307,-849.648804,-586.526733,-1802.154053,975,884,1};
+window[] = {2,-1,-1,-1,-1,794,104,1646,104,3,993};
 *//*%FSM</HEAD>*/
 class FSM
 {
@@ -963,7 +963,7 @@ class FSM
                          "" \n
                          "_AdditionalMessage = ""PRIMARY TARGET REASON: EXPANSION. This town needs to be under our control."";" \n
                          "//[Side,Inf,Light,Heavy,Heli,Air,_TargetLoc,_AdditionalMessage] spawn dis_recruitunits;" \n
-                         "[West,12,1,1,1,1,_TargetLoc,_AdditionalMessage] spawn dis_recruitunits;" \n
+                         "[West,12,1,3,1,1,_TargetLoc,_AdditionalMessage] spawn dis_recruitunits;" \n
                          "" \n
                          "publicvariable ""W_CurrentTargetArray"";"/*%FSM</STATEINIT""">*/;
                         precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
@@ -1069,7 +1069,7 @@ class FSM
                          "_AdditionalMessage = ""I am under attack, I am calling in extra troops to defend me for some time. These troops will move out to assault locations once I am safe."";" \n
                          "" \n
                          "_CE = Dis_WestCommander call dis_ClosestEnemy;" \n
-                         "[West,24,0,0,0,0,(getpos _CE),_AdditionalMessage,true] spawn dis_recruitunits;" \n
+                         "[West,24,0,2,1,1,(getpos _CE),_AdditionalMessage,true] spawn dis_recruitunits;" \n
                          "W_CurrentDecisionD = false; [] spawn {sleep 800;W_CurrentDecisionD = true;};" \n
                          "[West,6] call DIS_fnc_CommanderSpeak;"/*%FSM</STATEINIT""">*/;
                         precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
@@ -2788,7 +2788,7 @@ class FSM
                          "" \n
                          "_AdditionalMessage = ""Enemy Opfor Territory Located: We are launching an attack to gain additional ground."";" \n
                          "//[Side,Inf,Light,Heavy,Heli,Air,_TargetLoc,_AdditionalMessage] spawn dis_recruitunits;" \n
-                         "[West,12,1,1,1,1,_CETPos,_AdditionalMessage,true] spawn dis_recruitunits;" \n
+                         "[West,12,3,3,1,1,_CETPos,_AdditionalMessage,true] spawn dis_recruitunits;" \n
                          "" \n
                          "W_CurrentTargetArray pushback _CETPos;" \n
                          "publicvariable ""W_CurrentTargetArray"";" \n
@@ -3145,7 +3145,7 @@ class FSM
                          "" \n
                          "_AdditionalMessage = ""PRIMARY TARGET REASON: ENEMY FOB, destroy it."";" \n
                          "" \n
-                         "[West,12,1,1,1,1,_TargetLoc,_AdditionalMessage] spawn dis_recruitunits;" \n
+                         "[West,12,1,3,1,1,_TargetLoc,_AdditionalMessage] spawn dis_recruitunits;" \n
                          "" \n
                          "publicvariable ""W_CurrentTargetArray"";"/*%FSM</STATEINIT""">*/;
                         precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;

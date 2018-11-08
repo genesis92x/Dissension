@@ -255,13 +255,15 @@ player addEventHandler ["Killed", {_this call DIS_fnc_LevelKilled}];
 player addEventHandler ["FiredMan", {BG_ShotsFired = BG_ShotsFired + 1;}];
 
 
+
+
 //Now we must constantly monitor the players level.
 [] spawn
 {
 	waitUntil
 	{
 		_nil = [] call DIS_fnc_RankLoop;
-		sleep 30;
+		uisleep 30;
 		false
 	};
 };
@@ -271,7 +273,7 @@ player addEventHandler ["FiredMan", {BG_ShotsFired = BG_ShotsFired + 1;}];
 {
 	waitUntil
 	{
-		sleep 300;
+		uisleep 300;
 		_nil = [] call DIS_fnc_SaveLoop;
 		false
 	};

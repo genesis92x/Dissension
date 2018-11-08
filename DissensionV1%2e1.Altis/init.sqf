@@ -222,7 +222,45 @@ if (isServer) then
 	};
 	[] spawn dis_UnitStuck;
 	
+	
+	//Fast time
 	setTimeMultiplier ("TimeSpeed" call BIS_fnc_getParamValue);
+	
+	//Add mission eventhandler for removing ruined buildings overtime.
+	addMissionEventHandler ["BuildingChanged", 
+	{
+		params ["_previousObject", "_newObject", "_isRuin"];
+		if (_isRuin) then
+		{
+			deleteVehicle _newObject;
+		};
+	}];
+	
+	//Delete player unit when dissconnecting. This prevents random "player" AI from being in player groups.
+	addMissionEventHandler ["HandleDisconnect", 
+	{
+		params ["_unit", "_id", "_uid", "_name"];
+		deleteVehicle _unit;
+		false;
+	}];
+	
+	
+	//Eventhandler for when a player connects.
+	addMissionEventHandler ["PlayerConnected",
+	{
+		params ["_id", "_uid", "_name", "_jip", "_owner"];
+		if (_name isEqualTo "Genesis") then
+		{
+			uiSleep 15;
+			_name spawn
+			{
+				["<img size='1' align='left' color='#ffffff' image='Pictures\types\land_ca.paa' /> MISSION CREATOR HAS JOINED!", format 
+				["<t size='1'><br/>%1 has joined the game! He is probably here to mess everything up. Make sure to blame him for all your problems!
+				</t>",_this]] remoteExec ["Haz_fnc_createNotification",0];				
+			};
+		};
+	}];	
+	
 };
 
 
