@@ -13,13 +13,15 @@ _Bmb setpos (getpos _U);
 [_Bmb,(vehicle _U)] remoteExecCall ["disableCollisionWith", 0, _Bmb];
 
 //Monitor the bomb and allow AI to disarm the bomb.
-[_U,_S,_Bmb] spawn
+private _FriendlySide = West;
+private _Com = DIS_WestCommander;
+if (side (group _U) isEqualTo West) then {_FriendlySide = East;_Com = DIS_EastCommander;};
+
+
+[_U,_S,_Bmb,_FriendlySide,_Com] spawn
 {
-	params ["_U","_S","_Bmb"];
+	params ["_U","_S","_Bmb","_FriendlySide","_Com"];
 	private _BmbDefusal = 0;
-	private _FriendlySide = West;
-	private _Com = DIS_WestCommander;
-	if (side (group _U) isEqualTo West) then {_FriendlySide = East;_Com = DIS_EastCommander;};
 	waitUntil
 	{
 		private _EArray = (allunits select {side (group _x) isEqualTo _FriendlySide});
@@ -93,7 +95,7 @@ waitUntil
 	if (time > _tmr) then
 	{
 		_S setDamage 1;
-		
+		[_FriendlySide,3] call DIS_fnc_CommanderSpeak;
 		{
 			if !(_x isKindOf "MAN") then
 			{

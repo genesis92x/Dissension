@@ -113,7 +113,6 @@ if (_this isEqualTo West) then
 		W_CurrentDecisionC = true;
 		W_CurrentDecisionO = true;
 		W_CurrentDecisionP = true;
-		W_CurrentDecisionEXP = true;
 		W_CurrentDecisionD = true;
 		W_CurrentDecisionT = true;
 		if !(W_CurrentTargetArray isEqualTo [1,1,1,1,1]) then {W_CurrentTargetArray = []};	
@@ -273,7 +272,6 @@ else
 		E_CurrentDecisionC = true;
 		E_CurrentDecisionO = true;
 		E_CurrentDecisionP = true;
-		E_CurrentDecisionEXP = true;
 		E_CurrentDecisionD = true;
 		E_CurrentDecisionT = true;
 		if !(E_CurrentTargetArray isEqualTo [1,1,1,1,1]) then {E_CurrentTargetArray = []};	

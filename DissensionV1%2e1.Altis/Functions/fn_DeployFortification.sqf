@@ -64,7 +64,7 @@
 					DIS_vehicleSp = (DIS_TempArray select DIS_ArraySel) createVehiclelocal [0,0,0];
 					DIS_vehicleSp allowdamage false;
 					DIS_vehicleSp setVehicleLock "LOCKED";
-					DIS_vehicleSp enableSimulationGlobal false;
+					DIS_vehicleSp enableSimulation false;
 					DIS_vehicleSp disableCollisionWith player;
 					for [{_i=0}, {_i<5}, {_i=_i+1}] do 
 					{
@@ -81,7 +81,7 @@
 					DIS_vehicleSp = (DIS_TempArray select DIS_ArraySel) createVehiclelocal [0,0,0];
 					DIS_vehicleSp allowdamage false;
 					DIS_vehicleSp setVehicleLock "LOCKED";
-					DIS_vehicleSp enableSimulationGlobal false;
+					DIS_vehicleSp enableSimulation false;
 					DIS_vehicleSp disableCollisionWith player;
 					for [{_i=0}, {_i<5}, {_i=_i+1}] do 
 					{
@@ -178,12 +178,13 @@
 							
 							
 							_CV allowdamage false;
-							_CV enableSimulation false;
 							_CV setposATL [_SP1 select 0,_SP1 select 1,(_SP1 select 2)];
 							_CV setdir _SD1;
 							if (DIS_Flush) then {_CV setVectorUp surfaceNormal position _CV;};
-							_CV spawn {sleep 2;_this allowdamage true;_this enableSimulation true;};
 							_CV call DIS_Floatchk;
+							_CV enableSimulation false;
+							DIS_FreezeObjects pushback _CV;
+							
 							{
 								if (_x isEqualTo _TypeOf) exitWith
 								{
@@ -210,7 +211,7 @@
 									DIS_vehicleSp = _TypeOf createVehiclelocal [0,0,0];
 									DIS_vehicleSp allowdamage false;
 									DIS_vehicleSp setVehicleLock "LOCKED";
-									DIS_vehicleSp enableSimulationGlobal false;
+									DIS_vehicleSp enableSimulation false;
 									DIS_vehicleSp disableCollisionWith player;
 									player disableCollisionWith DIS_vehicleSp;
 									for [{_i=0}, {_i<5}, {_i=_i+1}] do 
@@ -224,7 +225,7 @@
 								DIS_vehicleSp = _TypeOf createVehiclelocal [0,0,0];
 								DIS_vehicleSp allowdamage false;
 								DIS_vehicleSp setVehicleLock "LOCKED";
-								DIS_vehicleSp enableSimulationGlobal false;
+								DIS_vehicleSp enableSimulation false;
 								DIS_vehicleSp disableCollisionWith player;
 								player disableCollisionWith DIS_vehicleSp;
 								for [{_i=0}, {_i<5}, {_i=_i+1}] do 
@@ -260,13 +261,19 @@
 	DIS_CAMCONTROLS = (findDisplay 46) displayAddEventHandler ["KeyDown","_this call DIS_CONTROLFUN;false"];	
 	DIS_CAMCONTROLS2 = (findDisplay 46) displayAddEventHandler ["MouseButtonDown","_this call DIS_CONTROLFUN2;false"];	
 
-
+	DIS_FreezeObjects = nearestObjects [(getpos player), ["All"], 250];
+	{
+		if (local _x) then
+		{
+			_x enableSimulation false;
+		};
+	} foreach DIS_FreezeObjects;
 
 sleep 1;
 DIS_vehicleSp = (DIS_TempArray select 0) createVehiclelocal [0,0,0];
 DIS_vehicleSp allowdamage false;
 DIS_vehicleSp setVehicleLock "LOCKED";
-DIS_vehicleSp enableSimulationGlobal false;
+DIS_vehicleSp enableSimulation false;
 DIS_vehicleSp disableCollisionWith player;
 player disableCollisionWith DIS_vehicleSp;
 for [{_i=0}, {_i<5}, {_i=_i+1}] do 
@@ -320,9 +327,10 @@ while {alive DIS_Cam && {alive player}} do
 				}
 				else
 				{
-					DIS_vehicleSp setposATL [_nl select 0,_nl select 1,(_nl select 2) + DIS_Height];
-					DIS_vehicleSp setdir ((getdir player) + DIS_BaseRotation);
-					if (DIS_Flush) then {DIS_vehicleSp setVectorUp surfaceNormal position DIS_vehicleSp;};				
+					hintSilent "UNABLE TO PREVIEW OBJECT HERE.";
+					//DIS_vehicleSp setposATL [_nl select 0,_nl select 1,(_nl select 2) + DIS_Height];
+					//DIS_vehicleSp setdir ((getdir player) + DIS_BaseRotation);
+					//if (DIS_Flush) then {DIS_vehicleSp setVectorUp surfaceNormal position DIS_vehicleSp;};				
 					DIS_TooClose = false;
 				};
 				
@@ -343,6 +351,14 @@ while {alive DIS_Cam && {alive player}} do
 				
 			};
 };
+
+	{
+		if (local _x) then
+		{
+			_x enableSimulation true;
+		};
+	} foreach DIS_FreezeObjects;
+
 
 if !(isNil "DIS_vehicleSp") then
 {

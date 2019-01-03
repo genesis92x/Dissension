@@ -1,0 +1,413 @@
+/*%FSM<COMPILE "C:\Program Files (x86)\Steam\steamapps\common\Arma 3 Tools\FSMEditor\scriptedFSM.cfg, TownEngagementSystemHC">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"Begin_Defence",0,250,-1176.223633,-3079.659180,-1086.223511,-3029.659180,0.000000,"Begin Defence"};
+item1[] = {"True",8,218,-1175.132935,-3163.790283,-1085.132935,-3113.790283,0.000000,"True"};
+item2[] = {"Setup_Initial_Sc",2,4346,-1174.120605,-3216.439209,-1083.108032,-3180.613770,0.000000,"Setup" \n "Initial Scripts"};
+item3[] = {"True",8,218,-1160.452026,-3276.174805,-1081.589233,-3238.324463,0.000000,"True"};
+item4[] = {"Main_Loop",2,250,-1166.578735,-3362.513428,-1070.659912,-3324.350830,0.000000,"Main Loop"};
+item5[] = {"Spawn_Units",4,218,-1175.000000,-3525.000000,-1075.000000,-3475.000000,100.000000,"Spawn Units"};
+item6[] = {"Defeat",4,218,-940.430481,-3450.034180,-835.186707,-3407.720703,200.000000,"Defeat"};
+item7[] = {"Victory",4,218,-974.736450,-3522.767578,-881.960327,-3481.096680,190.000000,"Victory"};
+item8[] = {"Wait",4,218,-1047.460449,-3358.948486,-974.674744,-3327.310791,0.000000,"Wait"};
+item9[] = {"Return_to_Server",1,250,-792.757202,-3454.776611,-701.369019,-3415.881836,0.000000,"Return to Server"};
+item10[] = {"Spawn_Garrison",4,218,-1250.000000,-3450.000000,-1150.000000,-3400.000000,90.000000,"Spawn Garrison"};
+item11[] = {"Return_to_Server_1",1,250,-788.995422,-3529.292725,-697.607239,-3490.397949,0.000000,"Return to Server"};
+item12[] = {"Wait",2,250,-1300.000000,-3525.000000,-1225.000000,-3500.000000,0.000000,"Wait"};
+item13[] = {"Wait",4,218,-1350.000000,-3400.000000,-1275.000000,-3375.000000,0.000000,"Wait"};
+item14[] = {"HalfWayPoint",4,218,-1100.000000,-3500.000000,-1000.000000,-3450.000000,95.000000,"HalfWayPoint"};
+link0[] = {0,1};
+link1[] = {1,2};
+link2[] = {2,3};
+link3[] = {3,4};
+link4[] = {4,5};
+link5[] = {4,6};
+link6[] = {4,7};
+link7[] = {4,8};
+link8[] = {4,10};
+link9[] = {4,14};
+link10[] = {5,12};
+link11[] = {6,9};
+link12[] = {7,11};
+link13[] = {8,4};
+link14[] = {10,12};
+link15[] = {12,13};
+link16[] = {13,4};
+link17[] = {14,4};
+globals[] = {0.000000,0,0,0,0,640,480,2,976,6316128,1,-1418.334229,-789.598755,-3065.923340,-3628.781738,649,581,1};
+window[] = {0,-1,-1,-1,-1,779,26,1577,26,1,667};
+*//*%FSM</HEAD>*/
+class FSM
+{
+        fsmName = "TownEngagementSystemHC";
+        class States
+        {
+                /*%FSM<STATE "Begin_Defence">*/
+                class Begin_Defence
+                {
+                        name = "Begin_Defence";
+                        itemno = 0;
+                        init = /*%FSM<STATEINIT""">*/"params [""_SSide"",""_SpwnedUnits"",""_SpawnAmount"",""_Pole"",""_StrongHoldBuildings"",""_infantrylist"",""_AirList"",""_AtkSide"",""_NameLocation"",""_MaxAtOnce"",""_PolePos"",""_HC"",""_StaticList"",""_FactoryList"",""_ActiveSide"",""_GroupNames"",""_ControlledArray"",""_CloseStill"",""_Engaged"",""_OriginalAmount"",""_Marker"",""_TargetLand"",""_AttackPos"",""_AssaultFrom"",""_AttackSpawnPos"",""_DefenceSpawnPos"",""_ClosestDefenceTown"",""_HeavyFactoryList""];"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Setup_Initial_Sc";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Setup_Initial_Sc">*/
+                class Setup_Initial_Sc
+                {
+                        name = "Setup_Initial_Sc";
+                        itemno = 2;
+                        init = /*%FSM<STATEINIT""">*/"//Now we need to handle the loop for monitoring the waves of units." \n
+                         "//Waves of units should spawn every 10 seconds if there is room." \n
+                         "_pole setVariable [""DIS_ASSAULTSPAWNING"",true,true];" \n
+                         "" \n
+                         "private _grp = createGroup _SSide;" \n
+                         "_grp setVariable [""DIS_IMPORTANT"",true,true];" \n
+                         "private _grpGarrison = createGroup _SSide;" \n
+                         "_grpGarrison setVariable [""DIS_IMPORTANT"",true,true];" \n
+                         "" \n
+                         "" \n
+                         "" \n
+                         "//Here we will run the function to spawn in static weapons" \n
+                         "[_staticlist,_PolePos,_SSide,_InfantryList,_Pole] call DIS_fnc_StSpwn;" \n
+                         "" \n
+                         "//Here we will run the function to spawn in vehicles." \n
+                         "[_PolePos,_FactoryList,_SSide,_InfantryList,_Pole] call DIS_fnc_VehSpwn;" \n
+                         "" \n
+                         "[_Pole,_NameLocation,_SSide,_AtkSide] call DIS_fnc_DTowerSpawn;" \n
+                         "" \n
+                         "" \n
+                         "//Create mission specific objects for the towns" \n
+                         "[_Pole,_SSide,_StrongHoldBuildings,_grpGarrison,_infantrylist,_AirList,_AtkSide,_NameLocation] spawn DIS_fnc_TObjs;" \n
+                         "" \n
+                         "//If it's night out, lets get some flares going." \n
+                         "private _DayTime = date call BIS_fnc_sunriseSunsetTime;" \n
+                         "if !(_DayTime select 0 < daytime && {_DayTime select 1 > daytime}) then" \n
+                         "{" \n
+                         "	_Pole call DIS_fnc_NightObj;" \n
+                         "};" \n
+                         "" \n
+                         "[_Pole,_SSide,_StrongHoldBuildings,_grpGarrison,_infantrylist,_AirList,_AtkSide,_NameLocation] call DIS_fnc_TownCacheSpawns;" \n
+                         "" \n
+                         "" \n
+                         "//SETUP TOWN CAPTURE INFORMATION" \n
+                         "//TICKET AMOUNT" \n
+                         "Private _SpawnAmount = (_OriginalAmount + 40);" \n
+                         "private _HalfPoint = _SpawnAmount/2;" \n
+                         "_Pole setVariable [""DIS_Capture"",[_OriginalAmount,_SpawnAmount,_SSide],true];" \n
+                         "		" \n
+                         "//Setup virtualized houses to spawn units in if players come close." \n
+                         "private _HouseList = _StrongHoldBuildings call Dis_fnc_RandomHouses;	" \n
+                         "if (isNil ""_HouseList"") then {_HouseList = []};" \n
+                         "" \n
+                         "private _SpwnArray = [];" \n
+                         "private _SpwnedUnits = [];" \n
+                         "private _House = [];" \n
+                         "private _TownReinforceBool = false;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 3;
+                                        priority = 0.000000;
+                                        to="Main_Loop";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Main_Loop">*/
+                class Main_Loop
+                {
+                        name = "Main_Loop";
+                        itemno = 4;
+                        init = /*%FSM<STATEINIT""">*/"_t = time;" \n
+                         "//Compile list of enemy players" \n
+                         "private _EUnits = [];" \n
+                         "{" \n
+                         "	if !((side (group _x)) isEqualTo _SSide) then" \n
+                         "	{" \n
+                         "		_EUnits pushback _x;" \n
+                         "	};	" \n
+                         "} foreach allPlayers;" \n
+                         "" \n
+                         "" \n
+                         "//Check for closest enemy player." \n
+                         "private _ClstPlayer = [_EUnits,_PolePos,true] call dis_closestobj;" \n
+                         "//Check for distance between closest player and houses." \n
+                         "" \n
+                         "if (count _HouseList > 0) then" \n
+                         "{" \n
+                         "	_House = [_HouseList,_ClstPlayer,true] call dis_closestobj;" \n
+                         "}" \n
+                         "else" \n
+                         "{" \n
+                         "	_House = [0,0,0];" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "//Empty the array of units that are dead or deleted." \n
+                         "private _EmptyArray = [];" \n
+                         "{" \n
+                         "	if (!(alive _x) || isNull _x) then {_EmptyArray pushback _forEachIndex;}" \n
+                         "	else" \n
+                         "	{" \n
+                         "		if !(_x isKindOf ""MAN"") then" \n
+                         "		{" \n
+                         "			if (isNull (driver _x)) then" \n
+                         "			{" \n
+                         "				_EmptyArray pushback _forEachIndex;" \n
+                         "			};" \n
+                         "		};" \n
+                         "	};" \n
+                         "} foreach _SpwnedUnits;" \n
+                         "{" \n
+                         "	_SpwnedUnits deleteAt _x; " \n
+                         "} foreach _EmptyArray;" \n
+                         "" \n
+                         ""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Defeat">*/
+                                class Defeat
+                                {
+                                        itemno = 6;
+                                        priority = 200.000000;
+                                        to="Return_to_Server";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_SpawnAmount < 1"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"/*" \n
+                                         "[" \n
+                                         "	[_Pole,_SSide,_NameLocation,_AtkSide]," \n
+                                         "	{" \n
+                                         "			params [""_Pole"",""_SSide"",""_NameLocation"",""_AtkSide""];" \n
+                                         "			if (_AtkSide isEqualTo playerSide) then" \n
+                                         "			{" \n
+                                         "				[""DISTASK"",[""MAIN OBJECTIVE"",(MISSION_ROOT + ""Pictures\types\danger_ca.paa""),(format [""%1: FINISH REMAINING TROOPS"",(toUpper _NameLocation)]),""""]] call BIS_fnc_showNotification;;" \n
+                                         "			};" \n
+                                         "	}" \n
+                                         "] remoteExec [""bis_fnc_Spawn"",0];"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Victory">*/
+                                class Victory
+                                {
+                                        itemno = 7;
+                                        priority = 190.000000;
+                                        to="Return_to_Server_1";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_SpawnAmount >= 1 && {_Pole getVariable [""DIS_ASSAULTENDED"",false]} "/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Spawn_Units">*/
+                                class Spawn_Units
+                                {
+                                        itemno = 5;
+                                        priority = 100.000000;
+                                        to="Wait";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(count _SpwnedUnits < 16)"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"private _AmountToSpawn = (18 - (count _SpwnedUnits));" \n
+                                         "_SpawnAmount = _SpawnAmount - _AmountToSpawn;" \n
+                                         "private _Var1 = _Pole getVariable ""DIS_Capture"";" \n
+                                         "_Var1 set [1,_SpawnAmount];" \n
+                                         "_Pole setVariable [""DIS_Capture"",_Var1,true];" \n
+                                         "private _SpwnedUnits = [_InfantryList,_grp,_Pole,_SSide,_AmountToSpawn,_ClosestDefenceTown,_DefenceSpawnPos,_HeavyFactoryList,_AtkSide,_FactoryList,_AirList,_AssaultFrom,_AttackSpawnPos,_SpwnedUnits] call DIS_fnc_DSpwnUnit;"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "HalfWayPoint">*/
+                                class HalfWayPoint
+                                {
+                                        itemno = 14;
+                                        priority = 95.000000;
+                                        to="Main_Loop";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_SpawnAmount < _HalfPoint && {!(_TownReinforceBool)}"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"				[" \n
+                                         "					[_Pole,_SSide,_StrongHoldBuildings,_grpGarrison,_infantrylist,_AirList,_AtkSide,_NameLocation]," \n
+                                         "					{" \n
+                                         "						params [""_Pole"",""_SSide"",""_StrongHoldBuildings"",""_grpGarrison"",""_infantrylist"",""_AirList"",""_AtkSide"",""_NameLocation""];" \n
+                                         "						[_Pole,_SSide,_StrongHoldBuildings,_grpGarrison,_infantrylist,_AirList,_AtkSide,_NameLocation] spawn DIS_fnc_HalfPointReinforce;" \n
+                                         "					}" \n
+                                         "				] remoteExec [""bis_fnc_Spawn"",2];" \n
+                                         "				_TownReinforceBool = true;"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Spawn_Garrison">*/
+                                class Spawn_Garrison
+                                {
+                                        itemno = 10;
+                                        priority = 90.000000;
+                                        to="Wait";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"!(_House isEqualTo [0,0,0]) && {_House distance2D _ClstPlayer < 150} "/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"private _HousePositions = [_House] call BIS_fnc_buildingPositions;" \n
+                                         "" \n
+                                         "if !(isNil ""_HousePositions"") then" \n
+                                         "{" \n
+                                         "	{" \n
+                                         "		if (random 100 < 35) then" \n
+                                         "		{" \n
+                                         "			private _unit = _grpGarrison createUnit [((selectRandom _InfantryList) select 0) ,_x, [], 0, ""CAN_COLLIDE""];" \n
+                                         "			private _AIComms = ""AIComms"" call BIS_fnc_getParamValue;" \n
+                                         "			_unit addEventHandler [""Killed"", {_this call DIS_fnc_LevelKilled}];" \n
+                                         "			_unit disableAI ""PATH"";" \n
+                                         "			if (_AIComms isEqualTo 1) then" \n
+                                         "			{" \n
+                                         "				_unit call DIS_fnc_UnitInit;" \n
+                                         "			};	" \n
+                                         "		};" \n
+                                         "	} foreach _HousePositions;" \n
+                                         "	" \n
+                                         "	_HouseList deleteat (_HouseList findif {_x isEqualTo _House});" \n
+                                         "};"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Wait">*/
+                                class Wait
+                                {
+                                        itemno = 8;
+                                        priority = 0.000000;
+                                        to="Main_Loop";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"time > _t + 10"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Return_to_Server">*/
+                class Return_to_Server
+                {
+                        name = "Return_to_Server";
+                        itemno = 9;
+                        init = /*%FSM<STATEINIT""">*/"_pole setVariable [""DIS_ASSAULTSPAWNING"",false,true];" \n
+                         "[_SpwnedUnits,_grp] spawn" \n
+                         "{" \n
+                         "	params [""_SpwnedUnits"",""_grp""];" \n
+                         "	sleep 60;" \n
+                         "{" \n
+                         "		if !(_x isKindOf ""MAN"") then" \n
+                         "		{" \n
+                         "			{deletevehicle _x;} foreach (crew _x);" \n
+                         "			deletevehicle _x;" \n
+                         "		}" \n
+                         "		else" \n
+                         "		{" \n
+                         "			deletevehicle _x;" \n
+                         "		};" \n
+                         "} foreach _SpwnedUnits;" \n
+                         "" \n
+                         "{" \n
+                         "		if !(_x isKindOf ""MAN"") then" \n
+                         "		{" \n
+                         "			deletevehicle _x;	" \n
+                         "			deletevehicle _x;" \n
+                         "		}" \n
+                         "		else" \n
+                         "		{" \n
+                         "			deletevehicle _x;" \n
+                         "		};" \n
+                         "} foreach (units _grp);" \n
+                         "" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Return_to_Server_1">*/
+                class Return_to_Server_1
+                {
+                        name = "Return_to_Server_1";
+                        itemno = 11;
+                        init = /*%FSM<STATEINIT""">*/"_pole setVariable [""DIS_ASSAULTSPAWNING"",false,true];" \n
+                         "[_SpwnedUnits,_grp] spawn" \n
+                         "{" \n
+                         "	params [""_SpwnedUnits"",""_grp""];" \n
+                         "	sleep 60;" \n
+                         "{" \n
+                         "		if !(_x isKindOf ""MAN"") then" \n
+                         "		{" \n
+                         "			{deletevehicle _x;} foreach (crew _x);" \n
+                         "			deletevehicle _x;" \n
+                         "		}" \n
+                         "		else" \n
+                         "		{" \n
+                         "			deletevehicle _x;" \n
+                         "		};" \n
+                         "} foreach _SpwnedUnits;" \n
+                         "" \n
+                         "{" \n
+                         "		if !(_x isKindOf ""MAN"") then" \n
+                         "		{" \n
+                         "			deletevehicle _x;	" \n
+                         "			deletevehicle _x;" \n
+                         "		}" \n
+                         "		else" \n
+                         "		{" \n
+                         "			deletevehicle _x;" \n
+                         "		};" \n
+                         "} foreach (units _grp);" \n
+                         "" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Wait">*/
+                class Wait
+                {
+                        name = "Wait";
+                        itemno = 12;
+                        init = /*%FSM<STATEINIT""">*/"_t = time;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Wait">*/
+                                class Wait
+                                {
+                                        itemno = 13;
+                                        priority = 0.000000;
+                                        to="Main_Loop";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"time > _t + 5"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+        };
+        initState="Begin_Defence";
+        finalStates[] =
+        {
+                "Return_to_Server",
+                "Return_to_Server_1",
+        };
+};
+/*%FSM</COMPILE>*/

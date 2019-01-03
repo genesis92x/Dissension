@@ -25,7 +25,7 @@ TRUE spawn {
 	if (isDedicated) exitWith {diag_log '***** Mag Repack ***** Error ***** Is dedicated server *****';};
 	if (!hasInterface) exitWith {diag_log '***** Mag Repack ***** Error ***** Client has no interface *****';};
 	waitUntil {
-		uiSleep 0.1;
+		sleep 0.1;
 		(!isNull (findDisplay 46))
 	};
 	QS_fnc_returnArrayIndex = compileFinal "
@@ -182,18 +182,18 @@ TRUE spawn {
 				_unit addMagazine _x;
 			};
 			if (_canSuspend) then {
-				uiSleep 0.1;
+				sleep 0.1;
 			};
 		} count _addMagazineArray;
 		if (_canSuspend) then {
-			uiSleep 2;
+			sleep 2;
 			_unit setVariable ['QS_unit_repackingMagazines',nil,FALSE];
 			if (!isPlayer _unit) then {
 				reload _unit;
 			};	
 		} else {
 			_unit spawn {
-				uiSleep 2;
+				sleep 2;
 				_this setVariable ['QS_unit_repackingMagazines',nil,FALSE];
 				if (!isPlayer _unit) then {
 					reload _unit;

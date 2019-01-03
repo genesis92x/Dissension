@@ -1,5 +1,7 @@
 params ["_unit", "_source", "_damage", "_instigator"];
-
+if (((_unit getVariable ["DIS_TIMESAID",time]) + 3) > time) then
+{
+_unit setVariable ["DIS_TIMESAID",time];
 private _UnitG = group _Unit;
 
 if ((side _UnitG) isEqualTo (side _Source)) exitWith
@@ -26,4 +28,5 @@ switch (side _UnitG) do {
 if (_source isKindOf "MAN" && {!(isPlayer _source)}) then
 {
 	[_source,(selectRandom _VoiceResp)] remoteExec ["PlaySoundEverywhereSay3D",0];
+};
 };

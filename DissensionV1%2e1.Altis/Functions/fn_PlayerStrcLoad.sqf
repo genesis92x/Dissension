@@ -4,6 +4,7 @@
 
 params ["_Pos","_PhysicalObj","_Type","_PID","_PName","_Side","_Dir","_Vector"];
 
+if (isNil "_PhysicalObj") exitWith {};
 private _Object = _PhysicalObj createVehicle [0,0,0];
 _Object addEventHandler ["HandleDamage", {0}];
 _Object setposATL _Pos;
@@ -79,16 +80,6 @@ switch (_PhysicalObj) do {
 					}
 					
 				] remoteExec ["bis_fnc_Spawn",0,_Object];			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 		};
     case "Land_Research_house_V1_F": 
 		{

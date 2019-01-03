@@ -18,7 +18,7 @@ private _para = createVehicle ["B_Parachute_02_F", _Pos, [], 0, "CAN_COLLIDE"];
 //Delete Para if alive for too long.
 _Para spawn
 {
-	uiSleep 240;
+	sleep 240;
 	if (alive _this) then
 	{
 		deleteVehicle _this;

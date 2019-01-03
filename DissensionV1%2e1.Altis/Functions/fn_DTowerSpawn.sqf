@@ -56,7 +56,7 @@ _Tower addEventHandler ["Killed",
 	(_this select 0) spawn {sleep 30; deleteVehicle _this;}; 
 	
 	
-	}];	
+}];	
 
 [_Tower,_Tower2,_Pole] spawn
 {
@@ -75,6 +75,12 @@ _Tower addEventHandler ["Killed",
 [
 	[_Tower,_Pole,_Tower2,_SSide,_AtkSide],
 	{
+	
+		if (Dis_debug) then 
+		{
+			diag_log format ["DISDEBUG: TOWER SPAWN: TOWER:%1 POLE:%2 TOWER2:%3 SSIDE:%4 ATTACKSIDE:%5",(_this select 0),(_this select 1),(_this select 2),(_this select 3),(_this select 4)];
+		};	
+	
 		if !(hasInterface) exitwith {};		
 		sleep 10;
 		waitUntil {!(isNil "MISSION_ROOT")};
@@ -110,7 +116,7 @@ _Tower addEventHandler ["Killed",
 			{
 				_pos2 = getPos _Tower;
 				_pos2 set [2,(_pos2 select 2) + 2];
-				_alphaText = linearConversion[25, 800, player distance2D _Tower, 1, 0, true];
+				_alphaText = round (linearConversion[25, 800, player distance2D _Tower, 1, 0, true]);
 				call compile format 
 				[
 				'

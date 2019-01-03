@@ -97,7 +97,7 @@ _nearbyLocations1 = nearestLocations [getMarkerPos _markercenter1, ["NameVillage
 			private _AllObjects = nearestObjects [_FlagPole, ["Building"],350];
 			private _ArrayCount = [];
 			{
-				if ((typeof _x) in DIS_BuildingListVanilla && {(count _ArrayCount) < 300}) then 
+				if ((typeof _x) in DIS_BuildingListVanilla && {(count _ArrayCount) < 100}) then 
 				{
 					_ArrayCount pushback _x;
 				};
@@ -213,7 +213,7 @@ _marker1 setmarkersize [600,600];
 private _AllObjects = nearestObjects [_FlagPole, ["Building"],450];
 			private _ArrayCount = [];
 			{
-				if ((typeof _x) in DIS_BuildingListVanilla && {(count _ArrayCount) < 300}) then 
+				if ((typeof _x) in DIS_BuildingListVanilla && {(count _ArrayCount) < 100}) then 
 				{
 					_ArrayCount pushback _x;
 					
@@ -334,7 +334,7 @@ _marker1 setmarkersize [1000,1000];
 private _AllObjects = nearestObjects [_FlagPole, ["Building"],650];
 			private _ArrayCount = [];
 			{
-				if ((typeof _x) in DIS_BuildingListVanilla && {(count _ArrayCount) < 300}) then 
+				if ((typeof _x) in DIS_BuildingListVanilla && {(count _ArrayCount) < 100}) then 
 				{
 					_ArrayCount pushback _x;
 					
@@ -489,7 +489,7 @@ if (_ClosestOther distance _markerPos > 600) then
 			private _AllObjects = nearestObjects [_FlagPole, ["Building"],200];
 			private _ArrayCount = [];
 			{
-				if ((typeof _x) in DIS_BuildingListVanilla && {(count _ArrayCount) < 300}) then 
+				if ((typeof _x) in DIS_BuildingListVanilla && {(count _ArrayCount) < 100}) then 
 				{
 					_ArrayCount pushback _x;
 					
@@ -583,3 +583,10 @@ FlagPoleArray = _NewFlagArray;
 
 publicVariable "TownArray";
 publicVariable "FlagPoleArray";
+
+[] spawn
+{
+	sleep 2;
+	publicVariable "TownArray";
+	publicVariable "FlagPoleArray";
+};

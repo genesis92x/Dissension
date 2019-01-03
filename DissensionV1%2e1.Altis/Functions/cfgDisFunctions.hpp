@@ -137,6 +137,24 @@ class DissensionFunctions {
 		class ParaCreate {};
 		//[] call DIS_fnc_CommanderSpeak;
 		class CommanderSpeak {};
+		//[] call DIS_fnc_NearestRTown;
+		class NearestRTown {};
+		//[] call DIS_fnc_NearestETown;
+		class NearestETown {};		
+		//[] call DIS_fnc_ClosestFriendlyTown;
+		class ClosestFriendlyTown {};
+		//[] call DIS_fnc_CreateFOBs;
+		class CreateFobs {};
+		//[] call DIS_fnc_TownsSetupStage1;
+		class TownsSetupStage1 {};
+		//[] call DIS_fnc_TownsSetupStage2;
+		class TownsSetupStage2 {};		
+		//[] call Dis_fnc_RandomHouses;
+		class RandomHouses {};		
+		//[] call Dis_fnc_PrymSetup;
+		class PrymSetup {};
+		//[] call Dis_fnc_PlaySoundNear;
+		class PlaySoundNear {};
 	};
 
 	class DISInitializeMusic 
@@ -288,7 +306,16 @@ class DissensionFunctions {
 		class MissileBarrage;
 		//[] spawn DIS_fnc_RequestGunship;
 		class RequestGunship;		
-		
+		//[] spawn DIS_fnc_HCAS;
+		class HCAS;
+		//[] spawn DIS_fnc_HHCAS;
+		class HHCAS;		
+		//[] call DIS_fnc_HFired;
+		class HFired {};
+		//[] call DIS_fnc_HInc;
+		class HInc {};
+		//[] call DIS_fnc_HGoingDown;
+		class HGoingDown {};			
 	};	
 	class HC 
 	{

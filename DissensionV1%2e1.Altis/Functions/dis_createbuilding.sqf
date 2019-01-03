@@ -311,7 +311,6 @@ if (_WestRun) then
 		{
 			deleteVehicle _x;
 		} foreach _Variable1;
-		[West,3] call DIS_fnc_CommanderSpeak;
 	}];
 	
 	{
@@ -339,7 +338,6 @@ else
 		{
 			deleteVehicle _x;
 		} foreach _Variable1;		
-		[East,3] call DIS_fnc_CommanderSpeak;
 	}];
 	
 	{

@@ -47,8 +47,7 @@ if (_Side isEqualTo West) then
 			if (_MrkPosA in IndLandControlled) then {IndLandControlled = IndLandControlled - [_MrkPosA];};
 			_location setVariable ["DIS_Capture",[30,30,West],true];			
 		};
-		true;
-	} count	CompleteRMArray;
+	} forEach	CompleteRMArray;
 	
 	//For towns
 	//_NewArray = [_marker1Names,_locationName,_FlagPole,_marker1,0,0,0,false,40,_FinalStrongholds];
@@ -79,8 +78,7 @@ if (_Side isEqualTo West) then
 			if (_PolePosA in IndControlledArray) then {IndControlledArray = IndControlledArray - [_PolePosA];};								
 			_PolePosA setVariable ["DIS_Capture",[(_OriginalAmount + 20),(_OriginalAmount + 20),west],true];		
 		};
-		true;
-	} count	TownArray;
+	} forEach TownArray;
 	
 	
 	//For buildings
@@ -109,8 +107,7 @@ if (_Side isEqualTo West) then
 			private _Vector = _x select 6;
 			[_Pos,_PhysicalObj,_Type,_PID,_Player,West,_Dir,_Vector] call DIS_fnc_PlayerStrcLoad;
 		};
-		true;
-	} count _WBuildingList;
+	} forEach _WBuildingList;
 	
 	DIS_WestCommander setpos _WComPos;
 	publicVariable "IndControlledArray";
@@ -164,8 +161,7 @@ else
 			if (_MrkPosA in IndLandControlled) then {IndLandControlled = IndLandControlled - [_MrkPosA];};
 			_location setVariable ["DIS_Capture",[30,30,East],true];			
 		};
-		true;
-	} count	CompleteRMArray;
+	} forEach CompleteRMArray;
 	
 	//For towns
 	//_NewArray = [_marker1Names,_locationName,_FlagPole,_marker1,0,0,0,false,40,_FinalStrongholds];
@@ -196,8 +192,7 @@ else
 			if (_PolePosA in IndControlledArray) then {IndControlledArray = IndControlledArray - [_PolePosA];};								
 			_PolePosA setVariable ["DIS_Capture",[(_OriginalAmount + 20),(_OriginalAmount + 20),East],true];		
 		};
-		true;
-	} count	TownArray;
+	} forEach TownArray;
 	
 	
 	//For buildings
@@ -226,8 +221,7 @@ else
 			private _Vector = _x select 6;
 			[_Pos,_PhysicalObj,_Type,_PID,_Player,East,_Dir,_Vector] call DIS_fnc_PlayerStrcLoad;
 		};
-		true;
-	} count _EBuildingList;
+	} forEach _EBuildingList;
 	
 	DIS_EastCommander setpos _EComPos;
 	

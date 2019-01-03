@@ -1,5 +1,5 @@
 waitUntil {alive player};
-uisleep 2;
+sleep 2;
 private _ActionA = false;
 private _ACT = 0;
 private _ACT2 = 1;
@@ -17,7 +17,7 @@ if (side (group player) isEqualTo West) then
 					_BuildingArray pushback (_x select 0);
 				} foreach W_BuildingList;	
 				_NB = [_BuildingArray,getpos player,true] call dis_closestobj;
-				uisleep 10;
+				sleep 10;
 			};
 	
 			_ACT = player addaction ["Group Management",{disableSerialization;([] call BIS_fnc_displayMission) createDisplay "RscDisplayDynamicGroups";}];
@@ -30,12 +30,12 @@ if (side (group player) isEqualTo West) then
 					_BuildingArray pushback (_x select 0);
 				} foreach W_BuildingList;	
 				_NB = [_BuildingArray,getpos player,true] call dis_closestobj;
-				uisleep 10;
+				sleep 10;
 			};			
 			
 			player removeAction _ACT;
 			player removeAction _ACT2;
-			uisleep 10;
+			sleep 10;
 			false
 	};
 }
@@ -51,7 +51,7 @@ else
 					_BuildingArray pushback (_x select 0);
 				} foreach W_BuildingList;	
 				_NB = [_BuildingArray,getpos player,true] call dis_closestobj;
-				uisleep 10;
+				sleep 10;
 			};
 	
 			_ACT = player addaction ["Group Management",{disableSerialization;([] call BIS_fnc_displayMission) createDisplay "RscDisplayDynamicGroups";}];
@@ -64,12 +64,12 @@ else
 					_BuildingArray pushback (_x select 0);
 				} foreach W_BuildingList;	
 				_NB = [_BuildingArray,getpos player,true] call dis_closestobj;
-				uisleep 10;
+				sleep 10;
 			};			
 			
 			player removeAction _ACT;
 			player removeAction _ACT2;
-			uisleep 10;
+			sleep 10;
 			false
 	};
 

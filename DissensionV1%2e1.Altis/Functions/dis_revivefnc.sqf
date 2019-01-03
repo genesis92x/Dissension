@@ -350,7 +350,7 @@ DIS_HandleDam =
 										{
 											_pos2 = visiblePositionASL _DwnedUnit;
 											_pos2 set [2, ((_DwnedUnit modelToWorld [0,0,0]) select 2) + 0.25];
-											_alphaText = linearConversion[50, 500, player distance2D _DwnedUnit, 1, 0, true];
+											_alphaText = round(linearConversion[50, 500, player distance2D _DwnedUnit, 1, 0, true]);
 											call compile format 
 											[
 											'

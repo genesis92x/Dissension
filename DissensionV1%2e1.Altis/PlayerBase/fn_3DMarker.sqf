@@ -32,7 +32,7 @@ if (!(isNil "_CargoBox") && {alive _CargoBox} && {DIS_Contmrk}) then
 		{
 			_pos2 = visiblePositionASL _CargoBox;
 			_pos2 set [2, ((_CargoBox modelToWorld [0,0,0]) select 2) + 0.25];
-			_alphaText = linearConversion[50, 500, player distance2D _CargoBox, 1, 0, true];
+			_alphaText = round(linearConversion[50, 500, player distance2D _CargoBox, 1, 0, true]);
 			call compile format 
 			[
 			'

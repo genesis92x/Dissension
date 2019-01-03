@@ -11,7 +11,6 @@ private _HC = false;
 //Lets mark the town as engaged, and inform the function that there are 0 currently spawned units.
 _Pole setVariable ["DIS_ENGAGED",true,true];
 
-uiSleep 10;
 private _EOUnits = [];
 {
 	if !((side (group _x)) isEqualTo _SSide) then
@@ -74,7 +73,7 @@ private _ControlledArray = IndControlledArray;
 private _StaticList = R_StaticWeap;
 private _AirList = R_AirU;
 
-private _AtkSide = (side (group _ClosestUnit));
+private _AtkSide = _ClosestUnit;
 
 if (_AtkSide isEqualTo resistance) then {DIS_ResistTSpwn = DIS_ResistTSpwn + 1;};
 if (_AtkSide isEqualTo east) then {DIS_EastTSpwn = DIS_EastTSpwn + 1;};
@@ -196,7 +195,12 @@ _Pole setVariable ["DIS_ASSAULTENDED",false,true];
 	//Create mission specific objects for the towns
 	[_Pole,_SSide,_StrongHoldBuildings,_grpGarrison,_infantrylist,_AirList,_AtkSide,_NameLocation] spawn
 	{
-		_this spawn DIS_fnc_TObjs;
+		[
+			_this,
+			{
+				_this spawn DIS_fnc_TObjs;
+			}
+		] remoteExec ["bis_fnc_Spawn",2];
 		_this call DIS_fnc_TownCacheSpawns;
 	};
 	
@@ -308,7 +312,13 @@ _Pole setVariable ["DIS_ASSAULTENDED",false,true];
 			
 			if (!(_TownReinforceBool) && {_SpawnAmount < _HalfPoint}) then
 			{
-				[_Pole,_SSide,_StrongHoldBuildings,_grpGarrison,_infantrylist,_AirList,_AtkSide,_NameLocation] spawn DIS_fnc_HalfPointReinforce;
+				[
+					[_Pole,_SSide,_StrongHoldBuildings,_grpGarrison,_infantrylist,_AirList,_AtkSide,_NameLocation],
+					{
+						params ["_Pole","_SSide","_StrongHoldBuildings","_grpGarrison","_infantrylist","_AirList","_AtkSide","_NameLocation"];
+						[_Pole,_SSide,_StrongHoldBuildings,_grpGarrison,_infantrylist,_AirList,_AtkSide,_NameLocation] spawn DIS_fnc_HalfPointReinforce;
+					}
+				] remoteExec ["bis_fnc_Spawn",2];
 				_TownReinforceBool = true;
 			};
 			
@@ -448,7 +458,7 @@ waitUntil
 	} foreach _RemainingUnits;
 
 	
-	uisleep 5;
+	sleep 5;
 	((count _FinalCnt) < 5)
 };
 
@@ -550,7 +560,7 @@ if (_Engaged && {_CloseStill}) then
 		
 		[] spawn
 		{
-			uisleep 300;
+			sleep 300;
 			W_CurrentTargetArray = [];
 			W_CurrentDecisionEXP = true;	
 		};
@@ -661,7 +671,7 @@ if (_Engaged && {_CloseStill}) then
 		
 		[] spawn
 		{
-			uisleep 300;
+			sleep 300;
 			E_CurrentTargetArray = [];
 			E_CurrentDecisionEXP = true;	
 		};		

@@ -256,7 +256,7 @@ switch (_Event) do
 				[_unit,(typeof _unit)] call DIS_fnc_UniformHandle;
 				_unit disableAI "PATH";
 				_unit setVariable ["DIS_SPECIAL",true];
-				if (random 100 < 25) then
+				if (random 100 < 40) then
 				{
 					private _Box = "Box_IED_Exp_F" createVehicle _x;
 					_Box setvariable ["DIS_PLAYERVEH",true,true];
@@ -276,7 +276,7 @@ switch (_Event) do
 						};
 					} foreach _BoxArray;						
 				}
-			] remoteExec ["bis_fnc_call",0]; 
+			] remoteExec ["bis_fnc_spawn",0]; 
 			
 			
 			[format ["%1: ENEMIES HAVE GROUPED TO FORM A STRONGHOLD. THEY HAVE VALUABLE WEAPON CRATES LOCATED THROUGHOUT THE HOUSE.",(toUpper _NameLocation)],'#FE2411'] remoteExec ["MessageFramework",_AtkSide];

@@ -1,5 +1,83 @@
 //Function for creating side-objects within the town.
 params ["_Pole","_SSide","_StrongHoldBuildings","_grpGarrison","_infantrylist","_AirList","_AtkSide","_NameLocation"];
+
+
+private _InfantryList = R_BarrackLU;
+private _FactoryList = R_LFactDef;
+private _HeavyFactoryList = R_HFactU;
+private _GroupNames = R_Groups;
+private _ControlledArray = IndControlledArray;
+private _StaticList = R_StaticWeap;
+private _AirList = R_AirU;
+
+
+if (_SSide isEqualTo west) then
+{
+	_ActiveSide = W_ActiveUnits;
+	_InfantryList = [];
+	{
+		_InfantryList pushback (_x select 0);
+	} foreach W_BarrackU;
+
+	_FactoryList = [];
+	{
+		_FactoryList pushback (_x select 0);
+	} foreach W_LFactU;	
+	
+	
+	_HeavyFactoryList = [];
+	{
+		_HeavyFactoryList pushback (_x select 0);
+	} foreach W_HFactU;
+	
+	_AirList = [];
+	{
+		_AirList pushBack (_x select 0);
+	} foreach W_AirU;
+	
+	_StaticList = [((W_StaticWeap select 0) select 0),((W_StaticWeap select 1) select 0),((W_StaticWeap select 2) select 0),((W_StaticWeap select 3) select 0)];
+	
+	_GroupNames = W_Groups;
+	_ControlledArray = BluControlledArray;
+	
+};
+
+if (_SSide isEqualTo east) then
+{
+	_ActiveSide = E_ActiveUnits;
+	_InfantryList = [];
+	{
+		_InfantryList pushback (_x select 0);
+	} foreach E_BarrackU;
+
+	_FactoryList = [];
+	{
+		_FactoryList pushback (_x select 0);
+	} foreach E_LFactU;	
+	
+	_HeavyFactoryList = [];
+	{
+		_HeavyFactoryList pushback (_x select 0);
+	} foreach E_HFactU;	
+	
+	_AirList = [];
+	{
+		_AirList pushBack (_x select 0);
+	} foreach E_AirU;
+	
+	_StaticList = [((E_StaticWeap select 0) select 0),((E_StaticWeap select 1) select 0),((E_StaticWeap select 2) select 0),((E_StaticWeap select 3) select 0)];	
+	
+	_GroupNames = E_Groups;
+	_ControlledArray = OpControlledArray;
+};
+
+
+
+
+
+
+
+
 //If the closest player is too far, we just need to exit the function. No need to execute this when no players are even present. AI will not complete side-objectives.
 private _ClosestPlayer = [allplayers,_Pole,true,"TObj0"] call dis_closestobj;
 
@@ -7,11 +85,13 @@ private _ClosestPlayer = [allplayers,_Pole,true,"TObj0"] call dis_closestobj;
 if (count (allplayers select {(side _x) isEqualTo _AtkSide}) < 1) exitWith {};
 
 //Lets define our list of side-objects that can be completed here.
-private _SideObj = selectRandom ["HeavyBunker","AirTower","Assassinate","Artillery","DefendPointA","Shoothouse"];
+//private _SideObj = selectRandom ["HeavyBunker","AirTower","Assassinate","Artillery","DefendPointA","Shoothouse"];
+private _SideObj = selectRandom ["HeavyBunker","AirTower","DefendPointA","Shoothouse"];
 //private _SideObj = "Shoothouse";
 private _PolePos = getposATL _Pole;
 private _RndPos = [_PolePos, 25, 100, 5, 0, 20, 0,[],[_PolePos,_PolePos]] call BIS_fnc_findSafePos;
 private _ObjSpwnPos = [0,0,0];
+if (Dis_debug) then {diag_log format ["DISDEBUG CHANGED: SIDEOBJECTIVE: %1 AT %2",_SideObj,_NameLocation];};
 switch (_SideObj) do
 {
 	case "HeavyBunker" : 
@@ -40,7 +120,7 @@ switch (_SideObj) do
 		private _PrePos = ((_OpenAreas select 0) select 0);
 		private _FinalPos = [_PrePos, 10, 300, 0, 0, 0.05, 0, [], [_PrePos,_PrePos]] call BIS_fnc_findSafePos;
 
-		private _Generator = "Land_DieselGroundPowerUnit_01_F" createVehicle _ObjSpwnPos;
+		private _Generator = "Land_PowerGenerator_F" createVehicle _ObjSpwnPos;
 		_Generator setvariable ["DIS_PLAYERVEH",true,true];
 		_Generator allowdamage false;	
 		_Generator addEventHandler ["HandleDamage", {0}];
@@ -57,18 +137,16 @@ switch (_SideObj) do
 					{
 						["DISTASK",["SIDE OBJECTIVE COMPLETED",(MISSION_ROOT + "Pictures\types\danger_ca.paa"),"BUNKER CLAIMED",""]] call BIS_fnc_showNotification;
 						[
-						[
-							["Bunker Eliminated - Town Replenish Halted.","align = 'center' shadow = '1' size = '0.5' font='RobotoCondensed'"]
-						]
+							[
+								["Bunker Eliminated - Town Replenish Halted.","align = 'center' shadow = '1' size = '0.5' font='RobotoCondensed'"]
+							]
 						] spawn BIS_fnc_typeText2;				
 					};
 				}
 				
 			] remoteExec ["bis_fnc_Spawn",0]; 	
-			(_this select 0) spawn {sleep 30; deleteVehicle _this;}; 
-			
-			
-			}];	
+			(_this select 0) spawn {sleep 30; deleteVehicle _this;};
+			}];
 					
 			
 		
@@ -77,7 +155,7 @@ switch (_SideObj) do
 			[_FinalPos,_Generator,_Pole,_SSide],
 			{
 				params ["_FinalPos","_Generator","_Pole","_SSide"];
-				_Generator enableSimulationGlobal false;
+				
 				private _TerArray = [];
 				{
 					_x hideObjectGlobal true;
@@ -102,13 +180,13 @@ switch (_SideObj) do
 			
 		] remoteExec ["bis_fnc_Spawn",2]; 			
 		
-		uisleep 5;
-		private _Objs = nearestObjects [_FinalPos, ["VR_Shape_base_F","VR_CoverObject_base_F"], 50];
+		sleep 15;
+		private _Objs = nearestObjects [_FinalPos, ["VR_Shape_base_F","VR_CoverObject_base_F"], 100];
 		{
 			private _Type = typeOf _x;
 			if (_Type isEqualTo "Land_VR_Shape_01_cube_1m_F") then
 			{
-				private _Dir = getDir _x;
+				private _Dir = getDir _x;	
 				private _unit = _grpGarrison createUnit [(selectRandom _InfantryList) ,(getposATL _x), [], 0, "CAN_COLLIDE"];
 				_unit setVariable ["DIS_SPECIAL",true,true];
 				_unit addEventHandler ["Killed", {_this call DIS_fnc_LevelKilled}];
@@ -132,7 +210,7 @@ switch (_SideObj) do
 			{
 				if !(hasInterface) exitwith {};	
 
-				sleep 10;
+				sleep 15;
 				waitUntil {!(isNil "MISSION_ROOT")};
 				params ["_Generator","_Pole","_SSide","_AtkSide"];
 			
@@ -165,20 +243,20 @@ switch (_SideObj) do
 					{
 						_pos2 = getposATL _Generator;
 						_pos2 set [2,(_pos2 select 2) + 2];
-						_alphaText = linearConversion[25, 2000, player distance2D _Generator, 1, 0, true];
+						_alphaText = round(linearConversion[25, 2000, player distance2D _Generator, 1, 0, true]);
 						call compile format 
 						[
 						'
 						drawIcon3D
 						[
 							%1,
-							[1,1,1,%3],
+							[0.95,0.95,0,%3],
 							%2,
 							0.75,
 							0.75,
 							0,
 							"Heavy Bunker",
-							1,
+							2,
 							0.04,
 							"RobotoCondensed",
 							"center",
@@ -245,7 +323,7 @@ switch (_SideObj) do
 		private _PrePos = ((_OpenAreas select 0) select 0);
 		private _FinalPos = [_PrePos, 10, 300, 0, 0, 0.05, 0, [], [_PrePos,_PrePos]] call BIS_fnc_findSafePos;
 
-		private _Generator = "Land_DieselGroundPowerUnit_01_F" createVehicle [0,0,0];
+		private _Generator = "Land_PowerGenerator_F" createVehicle [0,0,0];
 		_Generator allowdamage false;		
 		_Generator addEventHandler ["HandleDamage", {0}];		
 		_Generator setvariable ["DIS_PLAYERVEH",true,true];
@@ -286,9 +364,7 @@ switch (_SideObj) do
 				{
 					_x hideObjectGlobal true;
 					_TerArray pushback _x;
-					true;
-				} count (nearestTerrainObjects [_FinalPos, [], 50,false]);				
-				_Generator enableSimulationGlobal false;
+				} forEach (nearestTerrainObjects [_FinalPos, [], 50,false]);				
 				private _compReference = ["AirTower",[(_FinalPos select 0),(_FinalPos select 1),0], [0,0,0], (random 360), true, true ] call LARs_fnc_spawnComp; 
 				while {_Pole getVariable ["DIS_ENGAGED",false]} do
 				{
@@ -297,8 +373,7 @@ switch (_SideObj) do
 				};
 				{
 					_x hideObjectGlobal false;
-					true;
-				} count _TerArray;
+				} forEach _TerArray;
 				deleteVehicle _Generator;
 				private _Mens = nearestObjects [(getposATL _Generator), ["Man"], 50];
 				{if (!(isPlayer _x) && {!(isplayer (leader _x))}) then {_x setDamage 1;};true;} count (_Mens select {(side _x isEqualTo _SSide)});
@@ -307,13 +382,13 @@ switch (_SideObj) do
 			
 		] remoteExec ["bis_fnc_Spawn",2];
 		
-		uisleep 5;
-		private _Objs = nearestObjects [_FinalPos, ["VR_Shape_base_F","VR_CoverObject_base_F"], 50];
+		sleep 15;
+		private _Objs = nearestObjects [_FinalPos, ["VR_Shape_base_F","VR_CoverObject_base_F"], 100];
 		{
 			private _Type = typeOf _x;
 			if (_Type isEqualTo "Land_VR_Shape_01_cube_1m_F") then
-			{
-				private _Dir = getDir _x;
+			{		
+				private _Dir = getDir _x;			
 				private _unit = _grpGarrison createUnit [(selectRandom _InfantryList) ,(getposATL _x), [], 0, "CAN_COLLIDE"];
 				_unit setVariable ["DIS_SPECIAL",true,true];
 				_unit addEventHandler ["Killed", {_this call DIS_fnc_LevelKilled}];
@@ -337,7 +412,7 @@ switch (_SideObj) do
 			[_Generator,_Pole,_SSide,_AtkSide],
 			{
 				if !(hasInterface) exitwith {};		
-				sleep 10;
+				sleep 15;
 				waitUntil {!(isNil "MISSION_ROOT")};
 				params ["_Generator","_Pole","_SSide","_AtkSide"];
 				if !(playerSide isEqualTo _SSide) then {
@@ -369,20 +444,20 @@ switch (_SideObj) do
 					{
 						_pos2 = getposATL _Generator;
 						_pos2 set [2,(_pos2 select 2) + 2];
-						_alphaText = linearConversion[25, 2000, player distance2D _Generator, 1, 0, true];
+						_alphaText = round(linearConversion[25, 2000, player distance2D _Generator, 1, 0, true]);
 						call compile format 
 						[
 						'
 						drawIcon3D
 						[
 							%1,
-							[1,1,1,%3],
+							[0.95,0.95,0,%3],
 							%2,
 							0.75,
 							0.75,
 							0,
 							"Air Controller",
-							1,
+							2,
 							0.04,
 							"RobotoCondensed",
 							"center",
@@ -504,7 +579,7 @@ switch (_SideObj) do
 			[_unit,_Pole,_SSide,_AtkSide],
 			{
 				if !(hasInterface) exitwith {};		
-				sleep 10;
+				sleep 15;
 				waitUntil {!(isNil "MISSION_ROOT")};
 				params ["_unit","_Pole","_SSide","_AtkSide"];
 				if (playerSide isEqualTo _SSide) exitWith {};
@@ -516,20 +591,20 @@ switch (_SideObj) do
 					{
 						_pos2 = getposATL _unit;
 						_pos2 set [2,(_pos2 select 2) + 2];
-						_alphaText = linearConversion[25, 2000, player distance2D _unit, 1, 0, true];
+						_alphaText = round(linearConversion[25, 2000, player distance2D _unit, 1, 0, true]);
 						call compile format 
 						[
 						'
 						drawIcon3D
 						[
 							%1,
-							[1,1,1,%3],
+							[0.95,0.95,0,%3],
 							%2,
 							0.5,
 							0.5,
 							0,
 							"Assassinate",
-							1,
+							2,
 							0.04,
 							"RobotoCondensed",
 							"center",
@@ -576,7 +651,6 @@ switch (_SideObj) do
 									] spawn BIS_fnc_typeText2;				
 								};
 							}
-							
 						] remoteExec ["bis_fnc_Spawn",0]; 								
 					};
 				} foreach (allgroups select {(side _x) isEqualTo (side _UGroup)});
@@ -690,7 +764,7 @@ switch (_SideObj) do
 			[_unit,_Pole,_SSide,_AtkSide],
 			{
 				if !(hasInterface) exitwith {};		
-				sleep 10;
+				sleep 15;
 				waitUntil {!(isNil "MISSION_ROOT")};
 				params ["_unit","_Pole","_SSide","_AtkSide"];
 				if (playerSide isEqualTo _SSide) exitWith {};
@@ -702,20 +776,20 @@ switch (_SideObj) do
 					{
 						_pos2 = getposATL _unit;
 						_pos2 set [2,(_pos2 select 2) + 2];
-						_alphaText = linearConversion[25, 2000, player distance2D _unit, 1, 0, true];
+						_alphaText = round(linearConversion[25, 2000, player distance2D _unit, 1, 0, true]);
 						call compile format 
 						[
 						'
 						drawIcon3D
 						[
 							%1,
-							[1,1,1,%3],
+							[0.95,0.95,0,%3],
 							%2,
 							0.5,
 							0.5,
 							0,
 							"Eliminate",
-							1,
+							2,
 							0.04,
 							"RobotoCondensed",
 							"center",
@@ -827,7 +901,6 @@ switch (_SideObj) do
 					_TerArray pushback _x;
 					true;
 				} count (nearestTerrainObjects [_FinalPos, [], 50,false]);				
-				_Generator enableSimulationGlobal false;
 				private _compReference = ["DefendPointA",[(_FinalPos select 0),(_FinalPos select 1),0], [0,0,0], (random 360), true, true ] call LARs_fnc_spawnComp; 
 				while {_Pole getVariable ["DIS_ENGAGED",false]} do
 				{
@@ -846,13 +919,13 @@ switch (_SideObj) do
 			
 		] remoteExec ["bis_fnc_Spawn",2];		
 		
-		uisleep 5;			
-		private _Objs = nearestObjects [_FinalPos, ["VR_Shape_base_F","VR_CoverObject_base_F"], 75];
+		sleep 15;			
+		private _Objs = nearestObjects [_FinalPos, ["VR_Shape_base_F","VR_CoverObject_base_F"], 100];
 		{
 			private _Type = typeOf _x;
 			if (_Type isEqualTo "Land_VR_Shape_01_cube_1m_F") then
 			{
-				private _Dir = getDir _x;
+				private _Dir = getDir _x;				
 				private _unit = _grpGarrison createUnit [(selectRandom _InfantryList) ,(getposATL _x), [], 0, "CAN_COLLIDE"];
 				_unit setVariable ["DIS_SPECIAL",true,true];
 				_unit addEventHandler ["Killed", {_this call DIS_fnc_LevelKilled}];
@@ -865,15 +938,12 @@ switch (_SideObj) do
 			};
 			if (_Type isEqualTo "Land_VR_CoverObject_01_kneelHigh_F") then
 			{
-				_ObjSpwnPos = getposATL _x;
+				_ObjSpwnPos = getpos _x;
 			};
 			deleteVehicle _x;
 		} foreach _Objs;
-		
-		
-		_Generator setposATL _ObjSpwnPos;
-		_Generator setpos (getpos _Generator);
 
+		_Generator setpos [(_ObjSpwnPos select 0),(_ObjSpwnPos select 1),((_ObjSpwnPos select 2) + 3)];
 
 		[
 			[_Generator,_Pole,_SSide,_InfantryList,_AtkSide],
@@ -912,20 +982,20 @@ switch (_SideObj) do
 					{
 						_pos2 = getposATL _Generator;
 						_pos2 set [2,(_pos2 select 2) + 2];
-						_alphaText = linearConversion[25, 2000, player distance2D _Generator, 1, 0, true];
+						_alphaText = round(linearConversion[25, 2000, player distance2D _Generator, 1, 0, true]);
 						call compile format 
 						[
 						'
 						drawIcon3D
 						[
 							%1,
-							[1,1,1,%3],
+							[0.95,0.95,0,%3],
 							%2,
 							0.75,
 							0.75,
 							0,
 							"Military Compound",
-							1,
+							2,
 							0.04,
 							"RobotoCondensed",
 							"center",
@@ -950,9 +1020,9 @@ switch (_SideObj) do
 
 		
 		
-		[_Generator,_Pole,_SSide,_compReference,_AtkSide,_NameLocation] spawn
+		[_Generator,_Pole,_SSide,_AtkSide,_NameLocation] spawn
 		{
-			params ["_Generator","_Pole","_SSide","_compReference","_AtkSide","_NameLocation"];
+			params ["_Generator","_Pole","_SSide","_AtkSide","_NameLocation"];
 			private _Aware = false;
 			private _Msg = false;
 			while {alive _Generator && {_Pole getVariable ["DIS_ENGAGED",false]}} do
@@ -997,7 +1067,7 @@ switch (_SideObj) do
 					};
 				};
 			};	
-		};		
+		};
 
 		[_Generator,_Pole,_SSide,_InfantryList,_AtkSide,_NameLocation] spawn
 		{
@@ -1118,7 +1188,7 @@ switch (_SideObj) do
 			
 		] remoteExec ["bis_fnc_Spawn",2];			
 		
-		uisleep 5;
+		sleep 15;
 		private _DocumentA = [];
 		private _Objs = nearestObjects [_FinalPos, ["VR_Shape_base_F","VR_CoverObject_base_F","Items_base_F"], 50];
 		{
@@ -1128,7 +1198,7 @@ switch (_SideObj) do
 			{
 				if (random 100 > 50) then
 				{
-					private _Dir = getDir _x;
+					private _Dir = getDir _x;					
 					private _unit = _grpGarrison createUnit [(selectRandom _InfantryList) ,(getposATL _x), [], 0, "CAN_COLLIDE"];
 					_unit setVariable ["DIS_SPECIAL",true,true];
 					_unit addEventHandler ["Killed", {_this call DIS_fnc_LevelKilled}];
@@ -1143,8 +1213,8 @@ switch (_SideObj) do
 			if (_Type isEqualTo "Land_File1_F") then
 			{
 				_DocumentA pushback _x;
-				private _Pos = getposATL _x;
-				_x setposATL [(_Pos select 0),(_Pos select 1),((_Pos select 2) + 2)];
+				private _Pos = getpos _x;
+				_x setpos [(_Pos select 0),(_Pos select 1),((_Pos select 2) + 2)];
 			};
 		} foreach _Objs;
 		[
@@ -1155,7 +1225,7 @@ switch (_SideObj) do
 				params ["_FinalPos","_Pole","_SSide","_AtkSide","_DocumentA"];
 				[_FinalPos,_Pole,_SSide,_AtkSide,_DocumentA] spawn
 				{
-					sleep 10;
+					sleep 45;
 					waitUntil {!(isNil "MISSION_ROOT")};
 					params ["_FinalPos","_Pole","_SSide","_AtkSide","_DocumentA"];
 					
@@ -1191,20 +1261,20 @@ switch (_SideObj) do
 						params ["_Img","_FinalPos","_Pole","_pos2"];
 						if (_Pole getVariable ["DIS_ENGAGED",false]) then
 						{
-							_alphaText = linearConversion[25, 2000, player distance2D _FinalPos, 1, 0, true];
+							_alphaText = round(linearConversion[25, 2000, player distance2D _FinalPos, 1, 0, true]);
 							call compile format 
 							[
 							'
 							drawIcon3D
 							[
 								%1,
-								[1,1,1,%3],
+								[0.95,0.95,0,%3],
 								%2,
 								0.75,
 								0.75,
 								0,
 								"Capture Documents",
-								1,
+								2,
 								0.04,
 								"RobotoCondensed",
 								"center",

@@ -1,0 +1,180 @@
+version=53;
+center[]={28805.395,-2,24369.678};
+class items
+{
+	items=9;
+	class Item0
+	{
+		dataType="Object";
+		class PositionInfo
+		{
+			position[]={-24.394531,0,6.3222656};
+			angles[]={0,1.7272497,0};
+		};
+		side="Empty";
+		class Attributes
+		{
+		};
+		id=2215;
+		type="Land_Carrier_01_base_F";
+		atlOffset=103.79153;
+	};
+	class Item1
+	{
+		dataType="Object";
+		class PositionInfo
+		{
+			position[]={-119.56055,21.370577,50.925781};
+		};
+		side="Empty";
+		flags=4;
+		class Attributes
+		{
+			reportRemoteTargets=1;
+			receiveRemoteTargets=1;
+			reportOwnPosition=1;
+			aiRadarUsage=1;
+		};
+		id=2218;
+		type="B_SAM_System_02_F";
+	};
+	class Item2
+	{
+		dataType="Object";
+		class PositionInfo
+		{
+			position[]={-25.537109,25.302849,-28.541016};
+		};
+		side="Empty";
+		flags=4;
+		class Attributes
+		{
+			reportRemoteTargets=1;
+			receiveRemoteTargets=1;
+			reportOwnPosition=1;
+			aiRadarUsage=1;
+		};
+		id=2221;
+		type="B_SAM_System_01_F";
+	};
+	class Item3
+	{
+		dataType="Object";
+		class PositionInfo
+		{
+			position[]={164.91602,13.783081,-6.609375};
+			angles[]={-0,1.7452347,-0};
+		};
+		side="Empty";
+		flags=4;
+		class Attributes
+		{
+			reportRemoteTargets=1;
+			receiveRemoteTargets=1;
+			reportOwnPosition=1;
+			aiRadarUsage=1;
+		};
+		id=2223;
+		type="B_AAA_System_01_F";
+	};
+	class Item4
+	{
+		dataType="Object";
+		class PositionInfo
+		{
+			position[]={-31.900391,20.617599,-40.894531};
+			angles[]={-0,3.3056815,0};
+		};
+		side="Empty";
+		flags=4;
+		class Attributes
+		{
+			reportRemoteTargets=1;
+			receiveRemoteTargets=1;
+			reportOwnPosition=1;
+			aiRadarUsage=1;
+		};
+		id=2224;
+		type="B_AAA_System_01_F";
+	};
+	class Item5
+	{
+		dataType="Object";
+		class PositionInfo
+		{
+			position[]={-123.87695,20.146923,52.576172};
+			angles[]={-0,0.14858495,0};
+		};
+		side="Empty";
+		flags=4;
+		class Attributes
+		{
+			reportRemoteTargets=1;
+			receiveRemoteTargets=1;
+			reportOwnPosition=1;
+			aiRadarUsage=1;
+		};
+		id=2226;
+		type="B_AAA_System_01_F";
+	};
+	class Item6
+	{
+		dataType="Object";
+		class PositionInfo
+		{
+			position[]={-141.57617,18.706209,-0.48046875};
+			angles[]={0,3.3001506,0};
+		};
+		side="Empty";
+		flags=4;
+		class Attributes
+		{
+			reportRemoteTargets=1;
+			receiveRemoteTargets=1;
+			reportOwnPosition=1;
+			aiRadarUsage=1;
+		};
+		id=2227;
+		type="B_SAM_System_02_F";
+		atlOffset=9.5367432e-007;
+	};
+	class Item7
+	{
+		dataType="Object";
+		class PositionInfo
+		{
+			position[]={158.2207,21.959454,17.681641};
+		};
+		side="Empty";
+		flags=4;
+		class Attributes
+		{
+			reportRemoteTargets=1;
+			receiveRemoteTargets=1;
+			reportOwnPosition=1;
+			aiRadarUsage=1;
+		};
+		id=2228;
+		type="B_SAM_System_02_F";
+	};
+	class Item8
+	{
+		dataType="Object";
+		class PositionInfo
+		{
+			position[]={143.71484,21.954165,-50.984375};
+			angles[]={0,3.2147069,0};
+		};
+		side="Empty";
+		class Attributes
+		{
+			reportRemoteTargets=1;
+			receiveRemoteTargets=1;
+			reportOwnPosition=1;
+			aiRadarUsage=1;
+		};
+		id=2229;
+		type="B_SAM_System_02_F";
+		atlOffset=0.25846672;
+	};
+};

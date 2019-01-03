@@ -7,7 +7,7 @@ private _HeavySpwn = 0;
 private _LightSpwn = 0;
 private _HeliSpwn = 0;
 private _AirSpwn = 0;
-private _InfPresence = 0;
+private _InfPresence = 12;
 private _PArty = [];
 private _TTLCnt = 0;
 
@@ -36,15 +36,15 @@ private _CETPos = _CETer select 0;
 private _ClosestEn = [_EOUnits,_CETPos,true] call dis_closestobj;
 
 {
-	if (_x distance2D _CETPos < 3000) then
+	if (_x distance2D _CETPos < 2000) then
 	{
-		if ((vehicle player) isKindOf "Tank") then {_HeavySpwn = _HeavySpwn + 2;}; 
-		if ((vehicle player) isKindOf "Car") then {_LightSpwn = _LightSpwn + 2;}; 
-		if ((vehicle player) isKindOf "Helicopter") then {_HeliSpwn = _HeliSpwn + 2;}; 
-		if ((vehicle player) isKindOf "Plane") then {_AirSpwn = _AirSpwn + 2;}; 
-		if ((vehicle player) isKindOf "Man") then {_InfPresence = _InfPresence + 6;}; 
+		if ((vehicle _x) isKindOf "Tank") then {_HeavySpwn = _HeavySpwn + 2;}; 
+		if ((vehicle _x) isKindOf "Car") then {_LightSpwn = _LightSpwn + 2;}; 
+		if ((vehicle _x) isKindOf "Helicopter") then {_HeliSpwn = _HeliSpwn + 2;}; 
+		if ((vehicle _x) isKindOf "Plane") then {_AirSpwn = _AirSpwn + 2;}; 
+		if ((vehicle _x) isKindOf "Man") then {_InfPresence = _InfPresence + 6;}; 
 		_TTLCnt = _TTLCnt + 1;
-		private _Txt = getNumber(configfile >> "CfgVehicles" >> (typeOf (vehicle player)) >> "artilleryScanner");
+		private _Txt = getNumber(configfile >> "CfgVehicles" >> (typeOf (vehicle _x)) >> "artilleryScanner");
 		if (_Txt isEqualTo 1) then
 		{
 			_PArty pushback _x;

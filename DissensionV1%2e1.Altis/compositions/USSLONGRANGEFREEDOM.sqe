@@ -1,0 +1,76 @@
+version=53;
+center[]={28844.918,-5.2471466,24228.369};
+class items
+{
+	items=4;
+	class Item0
+	{
+		dataType="Object";
+		class PositionInfo
+		{
+			position[]={22.638672,0,0.24804688};
+			angles[]={0,1.5540459,0};
+		};
+		side="Empty";
+		class Attributes
+		{
+		};
+		id=2214;
+		type="Land_Destroyer_01_base_F";
+		atlOffset=108.54998;
+	};
+	class Item1
+	{
+		dataType="Object";
+		class PositionInfo
+		{
+			position[]={-56.197266,14.824951,-0.99414063};
+			angles[]={0.00048828125,4.6973815,6.2571087};
+		};
+		side="Empty";
+		flags=4;
+		class Attributes
+		{
+			receiveRemoteTargets=1;
+		};
+		id=2219;
+		type="B_Ship_Gun_01_F";
+	};
+	class Item2
+	{
+		dataType="Object";
+		class PositionInfo
+		{
+			position[]={-39.800781,11.897377,-0.81054688};
+			angles[]={0,4.6931739,6.2761602};
+		};
+		side="Empty";
+		flags=4;
+		class Attributes
+		{
+			receiveRemoteTargets=1;
+		};
+		id=2222;
+		type="B_Ship_MRLS_01_F";
+	};
+	class Item3
+	{
+		dataType="Object";
+		class PositionInfo
+		{
+			position[]={73.355469,17.738441,1.5507813};
+			angles[]={0,6.2720251,-0};
+		};
+		side="Empty";
+		flags=4;
+		class Attributes
+		{
+			reportRemoteTargets=1;
+			receiveRemoteTargets=1;
+			reportOwnPosition=1;
+			aiRadarUsage=1;
+		};
+		id=2230;
+		type="B_AAA_System_01_F";
+	};
+};

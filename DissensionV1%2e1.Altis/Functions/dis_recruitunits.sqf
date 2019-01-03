@@ -20,6 +20,8 @@ if (("HC" call BIS_fnc_getParamValue) isEqualTo 1) then
 };
 
 //Side specific variables
+if (isNil "E_GuerC") then {E_GuerC = [];};
+if (isNil "W_GuerC") then {W_GuerC = [];};
 private _MoneyArray = E_RArray;
 private _ActiveSide = E_ActiveUnits;
 private _CurrentTickets = Dis_OpforTickets;

@@ -1,5 +1,9 @@
 params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_vehicle"];
 
+if (((_unit getVariable ["DIS_TIMESAID",time]) + 3) > time) then
+{
+_unit setVariable ["DIS_TIMESAID",time];
+
 if (random 100 < 15) then
 {
 	private _VoiceSel = [];
@@ -11,4 +15,5 @@ if (random 100 < 15) then
 	};	
 	
 	[_unit,(selectRandom _VoiceSel)] remoteExec ["PlaySoundEverywhereSay3D",0];
+};
 };

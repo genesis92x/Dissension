@@ -65,8 +65,10 @@ switch (_Side) do {
 			};				
 		};
 	};
-    case East: 
-	 {
+   case East: 
+	{
+		switch (_Num) do 
+		{
 			//New Mission Assigned.	 
 			case 1:
 			{
@@ -120,9 +122,10 @@ switch (_Side) do {
 			//Reinforcements Arrived
 			case 11:
 			{
-				["LEGIONReinforcements"] remoteExec ["PlaySoundEverywhere",West];
-			};				
-	 };
+				["LEGIONReinforcements"] remoteExec ["PlaySoundEverywhere",East];
+			};
+		};
+	};
     case resistance:
 	 {
 		

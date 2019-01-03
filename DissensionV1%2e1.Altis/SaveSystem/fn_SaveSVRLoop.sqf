@@ -1,8 +1,7 @@
 //A function that will loop every 10 minutes. The function will save the mission state.
 
-waitUntil
+while {true} do
 {
-	uisleep 600;
+	sleep 300;
 	[] call DIS_fnc_SaveSVR;
-	false
 };

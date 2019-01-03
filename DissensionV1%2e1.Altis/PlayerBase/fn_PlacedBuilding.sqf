@@ -7,14 +7,14 @@ params ["_ObjectClass","_Player","_Object"];
 //Prevent it from despawning
 _Object setVariable ["DIS_PLAYERVEH",true,true];
 _Object setVariable ["DIS_SPECIAL",true,true];
-[_Object,(side (group player))] call DIS_fnc_StructureMonitor;
+//[_Object,(side (group player))] call DIS_fnc_StructureMonitor;
 
 private _Radar = player getVariable ["DIS_RADAR",""];
 private _BRK = player getVariable ["DIS_BRKS",""];
 private _HQ = player getVariable ["DIS_HQ",""];
 private _PName = name player;
 private _PID = getPlayerUID player;
-
+private _Side = (side (group _Player));
 
 private _Clear1 = nearestTerrainObjects [_Object, ["TREE","BUSH","HIDE"], 25];
 
@@ -49,7 +49,7 @@ switch (_ObjectClass) do {
 			};
 			player setVariable ["DIS_HQ",_Object];			
 			
-			private _Side = (side (group _Player));
+			_Side = (side (group _Player));
 			private _Color = "ColorBlue";
 			if (_Side isEqualTo East) then {_Color = "ColorRed";};
 
@@ -82,11 +82,49 @@ switch (_ObjectClass) do {
 			{
 					params ["_Object","_Player","_Side","_Color","_PName","_PID","_Pos"];
 					sleep 10;
-					if (isServer) then 
-					{
-						_Object allowdamage false;
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"PHQ",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"PHQ",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"PHQ",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"PHQ",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";									
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"PHQ",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];	
+								publicVariable "E_BuildingList";
+							};							
+						};
 						waitUntil {alive player};
 						if ((side (group player)) isEqualTo _Side) then
 						{
@@ -176,10 +214,47 @@ switch (_ObjectClass) do {
 					params ["_Object","_Player","_RespawnMName","_Color","_Side","_PName","_PID","_Pos"];
 					if (isServer) then 
 					{
+						_Object setVariable ["DIS_BINFO",[_Object,"Barracks",_PID,_PName]];
 						_Object allowdamage false;
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"Barracks",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"Barracks",_PID,_PName];publicVariable "E_BuildingList";};
+						if (_Side isEqualTo West) then 
+						{
+							W_BuildingList pushback [_Object,"Barracks",_PID,_PName];
+							_Object addEventHandler ["killed",
+							{
+								params ["_Object", "_killer", "_instigator", "_useEffects"];
+								private _Array = _Object getVariable ["DIS_BINFO",[]];
+								W_BuildingList = W_BuildingList - _Array;
+								publicVariable "W_BuildingList";		
+							}];
+							_Object addEventHandler ["deleted",
+							{
+								params ["_Object"];
+								private _Array = _Object getVariable ["DIS_BINFO",[]];
+								W_BuildingList = W_BuildingList - _Array;
+								publicVariable "W_BuildingList";
+							}];
+							publicVariable "W_BuildingList";
+						} 
+						else 
+						{
+							E_BuildingList pushback [_Object,"Barracks",_PID,_PName];
+							_Object addEventHandler ["killed",
+							{
+								params ["_Object", "_killer", "_instigator", "_useEffects"];
+								private _Array = _Object getVariable ["DIS_BINFO",[]];
+								E_BuildingList = E_BuildingList - _Array;
+								publicVariable "E_BuildingList";	
+							}];
+							_Object addEventHandler ["deleted",
+							{
+								params ["_Object"];
+								private _Array = _Object getVariable ["DIS_BINFO",[]];
+								E_BuildingList = E_BuildingList - _Array;
+								publicVariable "E_BuildingList";
+							}];	
+							publicVariable "E_BuildingList";
+						};							
 					};
-
 						if ((side (group player)) isEqualTo _Side) then
 						{
 							_Object addEventHandler ["killed",
@@ -262,9 +337,50 @@ switch (_ObjectClass) do {
 						sleep 10;
 						if (isServer) then 
 						{
+							_Object setVariable ["DIS_BINFO",[_Object,"CommsTower",_PID,_PName]];
 							_Object allowdamage false;
-							if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"CommsTower",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"CommsTower",_PID,_PName];publicVariable "E_BuildingList";};
-						};
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"CommsTower",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"CommsTower",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								publicVariable "E_BuildingList";
+							};							
+						};						
+						
+						
+						
 						if ((side (group player)) isEqualTo _Side) then
 						{
 							private _Marker = createMarkerlocal [(str _Object),(getposASL _Object)];
@@ -321,12 +437,50 @@ switch (_ObjectClass) do {
 			[_Object,_Player,_Side,_Color,_PName,_PID],
 			{
 					params ["_Object","_Player","_Side","_Color","_PName","_PID"];
-					sleep 10;
-					if (isServer) then 
-					{
-						_Object allowdamage false;
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"Hangar",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"Hangar",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+					sleep 10;		
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"Hangar",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"Hangar",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"Hangar",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								publicVariable "E_BuildingList";
+							};							
+						};
 						if ((side (group player)) isEqualTo _Side) then
 						{
 							private _Marker = createMarkerlocal [(str _Object),(getPosASL _Object)];
@@ -383,11 +537,51 @@ switch (_ObjectClass) do {
 			[
 			[_Object,_PName,_Side,_PID],
 			{
-					params ["_Object","_PName","_Side","_PID"];
-					if (isServer) then 
-					{
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+						params ["_Object","_PName","_Side","_PID"];					
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"FORTIFICATION",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];	
+								publicVariable "E_BuildingList";
+							};							
+						};					
+					
 				}
 				
 				] remoteExec ["bis_fnc_Spawn",0];		
@@ -420,10 +614,49 @@ switch (_ObjectClass) do {
 			[_Object,_PName,_Side,_PID],
 			{
 					params ["_Object","_PName","_Side","_PID"];
-					if (isServer) then 
-					{
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"FORTIFICATION",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								publicVariable "E_BuildingList";
+							};							
+						};							
 				}
 				
 			] remoteExec ["bis_fnc_Spawn",0];		
@@ -456,10 +689,49 @@ switch (_ObjectClass) do {
 			[_Object,_PName,_Side,_PID],
 			{
 					params ["_Object","_PName","_Side","_PID"];
-					if (isServer) then 
-					{
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"FORTIFICATION",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								publicVariable "E_BuildingList";
+							};							
+						};							
 				}
 				
 			] remoteExec ["bis_fnc_Spawn",0];		
@@ -492,10 +764,49 @@ switch (_ObjectClass) do {
 			[_Object,_PName,_Side,_PID],
 			{
 					params ["_Object","_PName","_Side","_PID"];
-					if (isServer) then 
-					{
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"FORTIFICATION",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];	
+								publicVariable "E_BuildingList";
+							};							
+						};							
 				}
 				
 			] remoteExec ["bis_fnc_Spawn",0];		
@@ -528,10 +839,49 @@ switch (_ObjectClass) do {
 			[_Object,_PName,_Side,_PID],
 			{
 					params ["_Object","_PName","_Side","_PID"];
-					if (isServer) then 
-					{
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"FORTIFICATION",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								publicVariable "E_BuildingList";
+							};							
+						};							
 				}
 				
 			] remoteExec ["bis_fnc_Spawn",0];		
@@ -547,11 +897,49 @@ switch (_ObjectClass) do {
 			[_Object,_PName,_Side,_PID],
 			{
 					params ["_Object","_PName","_Side","_PID"];
-					if (isServer) then 
-					{
-						_Object allowdamage false;
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"FORTIFICATION",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								publicVariable "E_BuildingList";
+							};							
+						};
 				}
 				
 				] remoteExec ["bis_fnc_Spawn",0];		
@@ -586,10 +974,49 @@ switch (_ObjectClass) do {
 			[_Object,_PName,_Side,_PID],
 			{
 					params ["_Object","_PName","_Side","_PID"];
-					if (isServer) then 
-					{
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"FORTIFICATION",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];	
+								publicVariable "E_BuildingList";
+							};							
+						};		
 				}
 				
 				] remoteExec ["bis_fnc_Spawn",0];					
@@ -605,10 +1032,49 @@ switch (_ObjectClass) do {
 			[_Object,_PName,_Side,_PID],
 			{
 					params ["_Object","_PName","_Side","_PID"];
-					if (isServer) then 
-					{
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"FORTIFICATION",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								publicVariable "E_BuildingList";
+							};							
+						};		
 				}
 				
 				] remoteExec ["bis_fnc_Spawn",0];					
@@ -624,10 +1090,49 @@ switch (_ObjectClass) do {
 			[_Object,_PName,_Side,_PID],
 			{
 					params ["_Object","_PName","_Side","_PID"];
-					if (isServer) then 
-					{
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"FORTIFICATION",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];	
+								publicVariable "E_BuildingList";
+							};							
+						};		
 				}
 				
 				] remoteExec ["bis_fnc_Spawn",0];					
@@ -643,10 +1148,49 @@ switch (_ObjectClass) do {
 			[_Object,_PName,_Side,_PID],
 			{
 					params ["_Object","_PName","_Side","_PID"];
-					if (isServer) then 
-					{
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"FORTIFICATION",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								publicVariable "E_BuildingList";
+							};							
+						};		
 				}
 				
 				] remoteExec ["bis_fnc_Spawn",0];					
@@ -662,11 +1206,49 @@ switch (_ObjectClass) do {
 			[_Object,_PName,_Side,_PID],
 			{
 					params ["_Object","_PName","_Side","_PID"];
-					if (isServer) then 
-					{
-						_Object allowdamage false;
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"FORTIFICATION",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								publicVariable "E_BuildingList";
+							};							
+						};		
 				}
 				
 				] remoteExec ["bis_fnc_Spawn",0];			
@@ -679,10 +1261,49 @@ switch (_ObjectClass) do {
 			[_Object,_PName,_Side,_PID],
 			{
 					params ["_Object","_PName","_Side","_PID"];
-					if (isServer) then 
-					{
-						if (_Side isEqualTo West) then {W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "W_BuildingList";} else {E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];publicVariable "E_BuildingList";};
-					};
+						if (isServer) then 
+						{
+							_Object setVariable ["DIS_BINFO",[_Object,"FORTIFICATION",_PID,_PName]];
+							_Object allowdamage false;
+							if (_Side isEqualTo West) then 
+							{
+								W_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									W_BuildingList = W_BuildingList - _Array;
+									publicVariable "W_BuildingList";
+								}];
+								publicVariable "W_BuildingList";
+							} 
+							else 
+							{
+								E_BuildingList pushback [_Object,"FORTIFICATION",_PID,_PName];
+								_Object addEventHandler ["killed",
+								{
+									params ["_Object", "_killer", "_instigator", "_useEffects"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								_Object addEventHandler ["deleted",
+								{
+									params ["_Object"];
+									private _Array = _Object getVariable ["DIS_BINFO",[]];
+									E_BuildingList = E_BuildingList - _Array;
+									publicVariable "E_BuildingList";
+								}];
+								publicVariable "E_BuildingList";
+							};							
+						};		
 				}
 				
 				] remoteExec ["bis_fnc_Spawn",0];				

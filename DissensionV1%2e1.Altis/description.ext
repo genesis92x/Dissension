@@ -42,11 +42,14 @@ class CfgRemoteExec
 		class BIS_fnc_debugConsoleExec { allowedTargets = 0;jip = 1; };
 		class SpawnScript { allowedTargets = 0;jip = 1; };
 		class enableSimulationGlobal { allowedTargets = 0;jip = 1; };
+		class VCM_fnc_KnowAbout { allowedTargets = 0;jip = 1; };
 		//Dissension Specific
 		class Haz_fnc_createNotification { allowedTargets = 0;jip = 1; };		
 		class BIS_fnc_call { allowedTargets = 0;jip = 1; };
 		class BIS_fnc_spawn { allowedTargets = 0;jip = 1; };
 		class MessageFramework { allowedTargets = 0;jip = 1; };		
+		class PlaySoundEverywhereSay3D { allowedTargets = 0;jip = 1; };		
+		class PlaySoundNear { allowedTargets = 0;jip = 1; };		
 		
 	};
 	
@@ -1094,6 +1097,66 @@ class CfgSounds
     sound[]={"promotion.ogg", db+10, 1};
     titles[]={};
   };
+   class Sup_CASInbound
+  {
+    name="Sup_CASInbound";
+    sound[]={"Sounds\Sup_CASInbound.ogg", db+10, 1};
+    titles[]={};
+  };  
+   class Sup_CASOutbound
+  {
+    name="Sup_CASOutbound";
+    sound[]={"Sounds\Sup_CASOutbound.ogg", db+10, 1};
+    titles[]={};
+  };  
+   class Sup_CASENEMYMISSILE3
+  {
+    name="Sup_CASENEMYMISSILE3";
+    sound[]={"Sounds\Sup_CASENEMYMISSILE3.ogg", db+10, 1};
+    titles[]={};
+  };  
+   class Sup_CASENEMYMISSILE2
+  {
+    name="Sup_CASENEMYMISSILE2";
+    sound[]={"Sounds\Sup_CASENEMYMISSILE2.ogg", db+10, 1};
+    titles[]={};
+  };  
+   class Sup_CASENEMYMISSILE
+  {
+    name="Sup_CASENEMYMISSILE";
+    sound[]={"Sounds\Sup_CASENEMYMISSILE.ogg", db+10, 1};
+    titles[]={};
+  };  
+   class Sup_CASENEMY1
+  {
+    name="Sup_CASENEMY1";
+    sound[]={"Sounds\Sup_CASENEMY1.ogg", db+10, 1};
+    titles[]={};
+  };  
+   class Sup_CASENEMY2
+  {
+    name="Sup_CASENEMY2";
+    sound[]={"Sounds\Sup_CASENEMY2.ogg", db+10, 1};
+    titles[]={};
+  };  
+   class Sup_CASENEMY3
+  {
+    name="Sup_CASENEMY3";
+    sound[]={"Sounds\Sup_CASENEMY3.ogg", db+10, 1};
+    titles[]={};
+  };  
+   class Sup_CASENEMY4
+  {
+    name="Sup_CASENEMY4";
+    sound[]={"Sounds\Sup_CASENEMY4.ogg", db+10, 1};
+    titles[]={};
+  };  
+   class Sup_GOINGDOWN
+  {
+    name="Sup_GOINGDOWN";
+    sound[]={"Sounds\Sup_GOINGDOWN.ogg", db+10, 1};
+    titles[]={};
+  };    
   class transport_lz_selected
   {
     name="transport_lz_selected";
@@ -2458,10 +2521,10 @@ class Params
 	//setTimeMultiplier 
 	class RegionSize
 	{
-		title = "Map Size";
-		texts[] = {"Whole Map","2 KM Radius","3 KM Radius","4 KM Radius","5 KM Radius","6 KM Radius","7 KM Radius","8 KM Radius","9 KM Radius","10 KM Radius"};
-		values[] = {50000,2000,3000,4000,5000,6000,7000,8000,9000,10000};
-		default = 5000;
+		title = "Map Size - Only for Debug. NOT SAVE COMPATIBLE";
+		texts[] = {"Whole Map","3 KM Radius","4 KM Radius","5 KM Radius","6 KM Radius","7 KM Radius","8 KM Radius","9 KM Radius","10 KM Radius"};
+		values[] = {50000,3000,4000,5000,6000,7000,8000,9000,10000};
+		default = 50000;
 	};	
 	class HC
 	{
@@ -2624,7 +2687,7 @@ class Params
 		title = "3rd Person Camera is Allowed...";
 		texts[] = {"Always","Only in Vehicles","Never"};
 		values[] = {0,1,2};
-		default = 1;	
+		default = 0;	
 	};
 	class TownFurniture
 	{

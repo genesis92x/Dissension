@@ -39,6 +39,7 @@ if (_SSide isEqualTo EAST) then
 
 _ControlledArray = _ControlledArray - [_Pole];
 private _NearestTown = [_ControlledArray,_PolePos,true] call dis_closestobj;
+if (_NearestTown isEqualTo [0,0,0]) then {_NearestTown = _Pole;};
 private _NearestTownPos = (getpos _NearestTown);
 private _direction = _NearestTown getdir _PolePos;
 private _RoadSpawnRough = [_NearestTownPos,200,_direction] call BIS_fnc_relPos;

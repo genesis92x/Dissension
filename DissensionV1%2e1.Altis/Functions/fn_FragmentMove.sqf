@@ -122,7 +122,8 @@ if ((_ExecCheck > 0 && {_UnitPos distance2D _wPos > 200}) || _UnitPos distance2D
 					private _dist = (_rnd + 5);
 					private _dir = random 360;
 					private _positionsLand = [(_ActLandingLocation select 0) + (sin _dir) * _dist, (_ActLandingLocation select 1) + (cos _dir) * _dist, 0];
-					private _position = _positionsLand findEmptyPosition [1,100,(typeOf (vehicle _x))];
+					private _position = _positionsLand findEmptyPosition [10,100,(typeOf (vehicle _x))];
+					if (_position isEqualTo []) then {_position = _positionsLand;};
 					if !(surfaceisWater _position) then {_WaterGoGo = false};
 					_Attempts = _Attempts + 1;
 					sleep 0.01;

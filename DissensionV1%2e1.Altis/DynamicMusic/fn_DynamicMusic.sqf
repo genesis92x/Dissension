@@ -157,8 +157,8 @@ waitUntil
 		if (_CmbCooldwn > 0) then {_CmbCooldwn = _CmbCooldwn - 5};
 		if (Dis_debug) then
 		{
-			systemChat format ["MUSIC DEBUG: %1 -- %2",_CurrentTheme,[_CombatS,_actionS,_StealthS,_CalmS,_SafeS]];
-			systemChat format ["MUSIC DEBUG DIST: %1 -- %2 -- %3 -- %4",_Dist2P,(count _CrtL),_CmbCooldwn,(time - _PlayedAt)];
+			//systemChat format ["MUSIC DEBUG: %1 -- %2",_CurrentTheme,[_CombatS,_actionS,_StealthS,_CalmS,_SafeS]];
+			//systemChat format ["MUSIC DEBUG DIST: %1 -- %2 -- %3 -- %4",_Dist2P,(count _CrtL),_CmbCooldwn,(time - _PlayedAt)];
 		};
 	};
 	sleep 5;

@@ -263,7 +263,7 @@ player addEventHandler ["FiredMan", {BG_ShotsFired = BG_ShotsFired + 1;}];
 	waitUntil
 	{
 		_nil = [] call DIS_fnc_RankLoop;
-		uisleep 30;
+		sleep 30;
 		false
 	};
 };
@@ -273,7 +273,7 @@ player addEventHandler ["FiredMan", {BG_ShotsFired = BG_ShotsFired + 1;}];
 {
 	waitUntil
 	{
-		uisleep 300;
+		sleep 300;
 		_nil = [] call DIS_fnc_SaveLoop;
 		false
 	};

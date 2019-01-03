@@ -97,7 +97,7 @@ outlw_MR_createDialog =
 
 		while {!(IsNull (uiNamespace getVariable "outlw_MR_Dialog_Main"))} do
 		{
-			UIsleep 0.05;
+			sleep 0.05;
 
 			_b = magazinesAmmo player;
 
@@ -353,7 +353,7 @@ outlw_MR_repack =
 
 	while {time < _sleepTime && call _keepRepacking} do
 	{
-		UIsleep 0.05;
+		sleep 0.05;
 	};
 
 	while _keepRepacking do
@@ -367,7 +367,7 @@ outlw_MR_repack =
 
 		while {time < _sleepTime && call _keepRepacking} do
 		{
-			UIsleep 0.05;
+			sleep 0.05;
 		};
 	};
 
@@ -404,7 +404,7 @@ outlw_MR_repackingText =
 
 		((uiNamespace getVariable "outlw_MR_Dialog_Main") displayCtrl 1008) ctrlSetText _repacking;
 
-		UIsleep 1;
+		sleep 1;
 	};
 
 	((uiNamespace getVariable "outlw_MR_Dialog_Main") displayCtrl 1008) ctrlSetText "";
@@ -842,7 +842,7 @@ outlw_MR_optionsMenu =
 		[] spawn
 		{
 			{((uiNamespace getVariable "outlw_MR_Dialog_Main") displayCtrl _x) ctrlCommit 0.15;} forEach [9006,9001,9000,8999];
-			UIsleep 0.15;
+			sleep 0.15;
 			{((uiNamespace getVariable "outlw_MR_Dialog_Main") displayCtrl _x) ctrlCommit 0.1;} forEach [8998,8997];
 		};
 	}
@@ -860,7 +860,7 @@ outlw_MR_optionsMenu =
 		[] spawn
 		{
 			{((uiNamespace getVariable "outlw_MR_Dialog_Main") displayCtrl _x) ctrlCommit 0.1;} forEach [8998,8997];
-			UIsleep 0.1;
+			sleep 0.1;
 			{((uiNamespace getVariable "outlw_MR_Dialog_Main") displayCtrl _x) ctrlCommit 0.15;} forEach [9006,9001,9000,8999];
 		};
 	};
@@ -985,7 +985,7 @@ outlw_MR_onDialogDestroy =
 
 	[] spawn
 	{
-		UIsleep 0.5;
+		sleep 0.5;
 		outlw_MR_canCreateDialog = true;
 	};
 };

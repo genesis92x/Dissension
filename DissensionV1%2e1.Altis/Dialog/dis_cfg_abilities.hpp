@@ -33,6 +33,14 @@ class CfgAbilities
 		confirmCode = "0 = _this spawn dis_fnc_ATVD;";
 		LevelRequire = 10;		
 	};	
+	class HCAS
+	{
+		displayName = "Request Light CAS Support";
+		cost = 600;
+		description = "Request a helicraft for CAS. It will also mark identified enemies on the map for a short time. It is also generally bad ass.";
+		confirmCode = "0 = _this spawn dis_fnc_HCAS;";
+		LevelRequire = 15;		
+	};		
 	class SquadAD
 	{
 		displayName = "Squad Ammo Drop";
@@ -41,6 +49,14 @@ class CfgAbilities
 		confirmCode = "0 = _this spawn dis_fnc_SquadAD;";
 		LevelRequire = 20;		
 	};
+	class HHCAS
+	{
+		displayName = "Request Heavy CAS Support";
+		cost = 800;
+		description = "Request a heavy helicraft for CAS. It will also mark identified enemies on the map for a short time. It is also generally bad ass.";
+		confirmCode = "0 = _this spawn dis_fnc_HHCAS;";
+		LevelRequire = 25;		
+	};			
 		class LeafletD
 	{
 		displayName = "Leaflet Drop";

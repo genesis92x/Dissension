@@ -15,6 +15,16 @@ if (isNil "_LoadGame") then {_NewSave = 1;_LoadGame = 0;};
 		//Lets spawn us close to the border of the map
 		private _RanLoc1 = [_SpawnLocation,_PickRandom,false] call dis_closestobj;
 		
+		//Find random town to spawn in near the _RanLoc1
+		private _NewArray = [];
+		{
+			if (_x distance2D _RanLoc1 < 3000) then
+			{
+				_NewArray pushback _x;
+			};		
+		} foreach _SpawnLocation;
+		
+		_RanLoc1 = selectRandom _NewArray;
 		
 		_SpawnLocation = _SpawnLocation - [_RanLoc1];
 		if (_x isEqualTo West) then
@@ -129,8 +139,7 @@ if (isNil "_LoadGame") then {_NewSave = 1;_LoadGame = 0;};
 			
 			}
 			];		
-	
-	
+
 		};
 		
 		
@@ -146,6 +155,18 @@ if (isNil "_LoadGame") then {_NewSave = 1;_LoadGame = 0;};
 		if (_x isEqualTo East) then
 		{
 			private _Remove1st = [_SpawnLocation,(getpos Dis_WestCommander),false] call dis_closestobj;
+			
+		//Find random town to spawn in near the _RanLoc1
+		private _NewArray = [];
+		{
+			if (_x distance2D _Remove1st < 3000) then
+			{
+				_NewArray pushback _x;
+			};		
+		} foreach _SpawnLocation;
+		
+		_Remove1st = selectRandom _NewArray;			
+			
 			_position = getPos _Remove1st;
 			if (_NewSave isEqualTo 0) then
 			{
@@ -169,16 +190,16 @@ if (isNil "_LoadGame") then {_NewSave = 1;_LoadGame = 0;};
 
 			if (_NewSave isEqualTo 1) then
 			{
-				OpControlledArray pushback _RanLoc1;
-				IndControlledArray = IndControlledArray - [_RanLoc1];
+				OpControlledArray pushback _Remove1st;
+				IndControlledArray = IndControlledArray - [_Remove1st];
 				publicVariable "OpControlledArray";
 				publicVariable "IndControlledArray";
 				
 				{
 					_FlagPole = _x select 2;
-					if (_RanLoc1 isEqualTo _FlagPole) exitWith
+					if (_Remove1st isEqualTo _FlagPole) exitWith
 					{
-						_RanLoc1 setVariable ["DIS_Capture",[60,60,east],true];
+						_Remove1st setVariable ["DIS_Capture",[60,60,east],true];
 						[
 						[(_x select 3),East],
 						{
@@ -312,7 +333,14 @@ E_CheckAIGroup = false;
 E_LowResources = false;
 E_LaunchOff = true;
 publicvariable "E_PlayerMissions";
-	
+
+DIS_OpForVsBluFor = false;
+DIS_WestVsResistance = false;
+DIS_EastVsResistance = false;
+DIS_WESTCAMPRESPAWN = [];
+DIS_EASTASSAULTSPAWN = [];
+DIS_RESISTANCEASSAULTSPAWN = [];
+
 E_BuildingList = [];
 E_BuildingList pushback [Dis_EastCommander,"COMMANDER"];	
 W_BuildingList = [];
@@ -376,9 +404,5 @@ dis_ListOfBuildings =
 	
 	
 	};
-
-			waitUntil {!(isNil "W_GuerC")};
-			[West] call dis_SupplyInit;
-			[East] call dis_SupplyInit;		
 	
 };

@@ -3,6 +3,23 @@ params ["_UnitA","_grp"];
 private _Leader = leader _grp;
 private _b = behaviour _Leader;
 private _Blacklist = [DIS_EASTCOMMANDER,DIS_WESTCOMMANDER];
+
+
+private _RemoveUnits = [];
+{
+	if (isPlayer _x) then
+	{
+		_RemoveUnits pushback _x;
+	};
+} foreach _UnitA;
+
+{
+	private _PlayerUnit = _x;
+	private _IndexA = _UnitA findif {_x isEqualTo _PlayerUnit};
+	_UnitA deleteAt _IndexA;
+} foreach _RemoveUnits;
+
+
 if (!(_grp getVariable ["DIS_BoatN",false]) && {!(_b isEqualTo "COMBAT")}) then
 {
 	private _VehA = [];

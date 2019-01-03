@@ -3,7 +3,7 @@
 		//W_RArray = [W_Oil,W_Power,W_Cash,W_Materials];
 	//	W_RArray = 	[		100,			100,			100,				100];
 	//ResourceIncomeRate
-_ResourceTimer = "ResourceIncomeRate" call BIS_fnc_getParamValue;
+private _ResourceTimer = "ResourceIncomeRate" call BIS_fnc_getParamValue;
 	
 dis_KeepCounting = true;
 waitUntil
@@ -113,6 +113,8 @@ waitUntil
 					];
 					hint parseText (_title + _image + _Message);
 					DIS_PCASHNUM = DIS_PCASHNUM + _PTake;
+					sleep 5;
+					hintSilent "";				
 				}
 			] remoteExec ["bis_fnc_Spawn",West];				
 	
@@ -147,7 +149,7 @@ waitUntil
 							_NewPower = _NewPower + ((_x select 1) select 1);
 							_NewOil = _NewOil + ((_x select 1) select 2);
 							_NewMaterials = _NewMaterials + ((_x select 1) select 3);	
-							_PTake = 50;
+							_PTake = _PTake + 50;
 						};
 					} foreach CompleteTaskResourceArray;
 				} foreach _PoleArray;
@@ -160,7 +162,7 @@ waitUntil
 						if ((_x select 1 select 0) isEqualTo "Cash") then {_NewCash = _NewCash + (_x select 1 select 1)};
 						if ((_x select 1 select 0) isEqualTo "Oil") then {_NewOil = _NewOil +(_x select 1 select 1)};
 						if ((_x select 1 select 0) isEqualTo "Power") then {_NewPower = _NewPower + (_x select 1 select 1)};
-						_PTake = 25;
+						_PTake = _PTake + 25;
 					};
 				} foreach CompleteRMArray;
 	
@@ -199,6 +201,8 @@ waitUntil
 						];
 						hint parseText (_title + _image + _Message);
 						DIS_PCASHNUM = DIS_PCASHNUM + _PTake;
+						sleep 10;
+						hintSilent "";
 					}
 				] remoteExec ["bis_fnc_Spawn",East];			
 				/*

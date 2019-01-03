@@ -34,7 +34,7 @@ if !(isNull _AIRev) then
 			doStop _AIRev;
 			_AIRev doMove (getpos _Downed);
 		};
-		if (!(alive _AIRev) || !(alive _Downed)) exitWith {};
+		if (!(alive _AIRev) || !(alive _Downed) || !(lifeState _Downed isEqualTo "UNCONSCIOUS")) exitWith {};
 		_AIRev disableai "anim";
 		_AIRev setDir (_AIRev getdir _Downed);
 		[_AIRev,"Acts_TreatingWounded_in"] remoteExec ["DIS_playMoveEverywhere",0];

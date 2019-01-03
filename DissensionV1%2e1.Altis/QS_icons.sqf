@@ -1271,7 +1271,7 @@ _QS_fnc_iconColorGroup = {
 _QS_fnc_onGroupIconClick = {
 	scriptName 'QS_ST_onGroupIconClick';
 	params ['_is3D','_group','_wpID','_button','_posx','_posy','_shift','_ctrl','_alt'];
-	if (!((side _group) isEqualTo playerSide)) exitWith {hintSilent QS_ST_STR_text2;0 spawn {uiSleep 3;hintSilent '';};};
+	if (!((side _group) isEqualTo playerSide)) exitWith {hintSilent QS_ST_STR_text2;0 spawn {sleep 3;hintSilent '';};};
 	_QS_ST_X = [] call (missionNamespace getVariable 'QS_ST_X');
 	private _lifeState = '';
 	private _unitMOS = '';
@@ -1351,7 +1351,7 @@ _QS_fnc_onGroupIconOverLeave = {
 scriptName 'Soldier Tracker by Quiksilver - (Init)';
 _side = playerSide;
 _sides = [EAST,WEST,RESISTANCE,CIVILIAN];
-uiSleep 0.1;
+sleep 0.1;
 _QS_ST_faction = _sides find _side;
 if (_side isEqualTo EAST) then {
 	_QS_ST_showFriendlySides = _QS_ST_friendlySides_EAST;
@@ -1492,7 +1492,7 @@ _QS_ST_R = [
 	['QS_ST_drawArray_gps',[],FALSE]
 ];
 waitUntil {
-	uiSleep 0.1; 
+	sleep 0.1; 
 	!(isNull (findDisplay 12))
 };
 _QS_ST_X = [] call (missionNamespace getVariable 'QS_ST_X');
@@ -1527,7 +1527,7 @@ if (_QS_ST_X select 0) then {
 						_QS_display2Opened = FALSE;
 					};		
 				};
-				uiSleep 0.25;
+				sleep 0.25;
 			};
 		};
 	};
@@ -1573,7 +1573,7 @@ if (_QS_ST_X select 1) then {
 					};
 				};
 			} forEach (uiNamespace getVariable 'IGUI_displays');
-			uiSleep 0.25;
+			sleep 0.25;
 			if (_exit) exitWith {};
 		};
 	};
@@ -1684,7 +1684,7 @@ if (_QS_ST_X select 2) then {
 							};
 						};
 					};
-					uiSleep ([0.05,0.01] select _refreshGroups);
+					sleep ([0.05,0.01] select _refreshGroups);
 				} count allGroups;
 				if (_refreshGroups) then {
 					_refreshGroups = FALSE;
@@ -1696,14 +1696,14 @@ if (_QS_ST_X select 2) then {
 					setGroupIconsVisible [FALSE,FALSE];
 					waitUntil 
 					{
-						uiSleep 0.25;
+						sleep 0.25;
 						('ItemGPS' in (assignedItems player))
 					};
 				};
 			};
 			if ((!(visibleMap)) && (isNull ((findDisplay 160) displayCtrl 51)) && (isNull ((findDisplay -1) displayCtrl 500))) then {
 				waitUntil {
-					uiSleep 0.25;
+					sleep 0.25;
 					((visibleMap) || {(!isNull ((findDisplay 160) displayCtrl 51))} || {(!isNull ((findDisplay -1) displayCtrl 500))})
 				};
 				_refreshGroups = TRUE;
@@ -1727,7 +1727,7 @@ if (_QS_ST_X select 2) then {
 					};
 				};
 			};
-			uiSleep 0.1;
+			sleep 0.1;
 		};
 	};
 };

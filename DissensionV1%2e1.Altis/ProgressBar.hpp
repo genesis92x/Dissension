@@ -170,7 +170,7 @@ class Dis_TownProgress//dialogue name
 			type = 13;
 			style = 0;
 			text = "Test";		
-			x = 0.48 * safezoneW + safezoneX;
+			x = 0.43 * safezoneW + safezoneX;
 			y = 0.0125 * safezoneH + safezoneY;
 			w = 0.20 * safezoneW;
 			h = 0.020 * safezoneH;
@@ -178,7 +178,7 @@ class Dis_TownProgress//dialogue name
 			colorText[] = { 1, 1, 1, 1 };				
 			size =  "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 			sizeex =  "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";	
-		};				
+		};
     };
 };
 

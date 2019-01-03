@@ -176,6 +176,7 @@ while {_VehSpwn > _VehActualSpwn} do
 		};
 };
  
+private _KillTCT = 0;
 while {_SpawnAmount > 0 && {_CloseStill}} do
 {
 	//Lets find where all the units are on the map.
@@ -184,6 +185,7 @@ while {_SpawnAmount > 0 && {_CloseStill}} do
 	private _ResistanceActive = [];
 	private _OpBlu = [];
 	private _ActiveBaddies = [];
+	_KillTCT = _KillTCT + 1;
 	{
 		if ((side _x) isEqualTo WEST) then {_WestActive pushback _x;_OpBlu pushback _x;};
 		if ((side _x) isEqualTo EAST) then {_EastActive pushback _x;_OpBlu pushback _x;};
@@ -197,6 +199,13 @@ while {_SpawnAmount > 0 && {_CloseStill}} do
 	private _GroupCnt =  {alive _x} count (units _grp);
 
 	private _position = getpos _location;
+	if (_KillTCT > 300) then
+	{
+		{
+			_x setDamage 1;
+		} foreach (units _grp);
+		_KillTCT = 0;
+	};
 	if (_GroupCnt < _MaxAtOnce) then
 	{
 

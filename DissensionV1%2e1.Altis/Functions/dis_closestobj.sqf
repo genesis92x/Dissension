@@ -5,6 +5,9 @@ if (isNil "_script") then {_script = "Nil";};
 //_order = true, means closest first
 //[_list,_object,_order,"SCRIPT1"] call dis_closestobj;
 
+//Remove self from list, if applicable
+private _Index = _list findIf {_x isEqualTo _object};
+if (_Index > -1) then {_list deleteAt _Index;};
 
 private _position = [0,0,0];
 if (isNil "_object" || {isNil "_list"}) exitWith {_ClosestObject = [0,0,0];_ClosestObject};
@@ -18,7 +21,6 @@ switch (TypeName _object) do
 };
 
 private _DistanceArray = [];
-if (typeName _list isEqualTo "SCALAR") then {systemChat format ["_script: %1",_script];};
 private _NewObjectDistance = 0;
 {
 	if !(isNil "_x") then

@@ -1,0 +1,114 @@
+/*%FSM<COMPILE "C:\Program Files (x86)\Steam\steamapps\common\Arma 3 Tools\FSMEditor\scriptedFSM.cfg, TownEngagementSystem">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"Begin_Attack",0,250,-1175.000000,-3075.000000,-1075.000000,-3025.000000,0.000000,"Begin Attack"};
+item1[] = {"True",8,218,-1165.319702,-3133.827881,-1092.200562,-3103.687744,0.000000,"True"};
+item2[] = {"Create_Battlefie",2,250,-1175.000000,-3200.000000,-1100.000000,-3175.000000,0.000000,"Create" \n "Battlefield"};
+item3[] = {"Exit",8,218,-1175.000000,-3275.000000,-1075.000000,-3225.000000,0.000000,"Exit"};
+item4[] = {"Exit",1,250,-1175.000000,-3400.000000,-1075.000000,-3350.000000,0.000000,"Exit"};
+link0[] = {0,1};
+link1[] = {1,2};
+link2[] = {2,3};
+link3[] = {3,4};
+globals[] = {0.000000,0,0,0,0,640,480,2,953,6316128,1,-1352.470093,-655.380249,-2788.375732,-3423.660889,764,510,1};
+window[] = {0,-1,-1,-1,-1,916,234,1776,234,1,782};
+*//*%FSM</HEAD>*/
+class FSM
+{
+        fsmName = "TownEngagementSystem";
+        class States
+        {
+                /*%FSM<STATE "Begin_Attack">*/
+                class Begin_Attack
+                {
+                        name = "Begin_Attack";
+                        itemno = 0;
+                        init = /*%FSM<STATEINIT""">*/"//[West,Resistance,""_TargetLand"",""_AttackPos"",""_AssaultFrom""] execFSM ""TownEngagementSystem.fsm"";" \n
+                         "params [""_AttackSide"",""_DefendSide"",""_TargetLand"",""_AttackPos"",""_AssaultFrom""]; " \n
+                         "" \n
+                         "//Find important defence information." \n
+                         "private _ClosestTownArray = [_TargetLand,_DefendSide] call DIS_fnc_ClosestFriendlyTown;" \n
+                         "_ClosestTownArray params [""_ClosestDefenceTown"",""_DefenceTownIndex"",""_ClosestDefenceInformation""];" \n
+                         "" \n
+                         "private _IndexTT = TownArray findIf {(_x select 2) isEqualTo _TargetLand};" \n
+                         "private _TownInfo = (TownArray select _IndexTT); //[_marker1Names,_locationName,_FlagPole,_marker1,0,0,0,false,20,_FinalStrongholds];" \n
+                         "private _Engaged = _TownInfo select 7;" \n
+                         "_TargetLand setVariable [""DIS_ENGAGED"",true,true];" \n
+                         "" \n
+                         "//Find FOB positions" \n
+                         "private _AttackHalfWayPosition = (getpos _AssaultFrom);" \n
+                         "private _DefenderHalfWayPosition = (getpos _ClosestDefenceTown);" \n
+                         "if (_AssaultFrom distance2D _AttackPos > 1000) then {_AttackHalfWayPosition = [(getpos _AssaultFrom),((_AssaultFrom distance2D _AttackPos)/2),(_AssaultFrom getDir _TargetLand)] call BIS_fnc_relPos};" \n
+                         "if (_ClosestDefenceTown distance2D _AttackPos > 1000) then {_DefenderHalfWayPosition = [(getpos _ClosestDefenceTown),((_ClosestDefenceTown distance2D _AttackPos)/1.5),(_ClosestDefenceTown getDir _TargetLand)] call BIS_fnc_relPos};" \n
+                         "" \n
+                         ""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Create_Battlefie";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Create_Battlefie">*/
+                class Create_Battlefie
+                {
+                        name = "Create_Battlefie";
+                        itemno = 2;
+                        init = /*%FSM<STATEINIT""">*/"//Create FOB Positions" \n
+                         "private _AttackSpawnPos = [_AttackHalfWayPosition,_AttackSide,_TargetLand] call Dis_fnc_CreateFobs;" \n
+                         "private _DefenceSpawnPos = [_DefenderHalfWayPosition,_DefendSide,_TargetLand] call Dis_fnc_CreateFobs;" \n
+                         "" \n
+                         "//spawn in units" \n
+                         "[_TownInfo,_IndexTT,_Engaged,_DefendSide,_AttackSide,_TargetLand,_AttackPos,_AssaultFrom,_AttackSpawnPos,_DefenceSpawnPos,_ClosestDefenceTown] spawn DIS_fnc_TownsSetupStage1;" \n
+                         "[_DefendSide,_DefenceSpawnPos,_AttackSpawnPos,(_TownInfo select 2)] call Dis_fnc_PrymSetup;" \n
+                         "" \n
+                         "" \n
+                         "[_TownInfo,_DefendSide] call DIS_fnc_DisplayActiveT;" \n
+                         "[_AttackSide,1] call DIS_fnc_CommanderSpeak;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Exit">*/
+                                class Exit
+                                {
+                                        itemno = 3;
+                                        priority = 0.000000;
+                                        to="Exit";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Exit">*/
+                class Exit
+                {
+                        name = "Exit";
+                        itemno = 4;
+                        init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                        };
+                };
+                /*%FSM</STATE>*/
+        };
+        initState="Begin_Attack";
+        finalStates[] =
+        {
+                "Exit",
+        };
+};
+/*%FSM</COMPILE>*/

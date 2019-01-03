@@ -28,10 +28,8 @@ private _Array1L = [];
 		
 		//Put them into an array
 		_Array1L pushback [_ND,_O,_x];
-		true;
-	} count _Array2;
-	true;
-} count _Array1;
+	} forEach _Array2;
+} forEach _Array1;
 
 //Since the distance is the first in the array, it will sort based on that. True = shortest on top. False = furthest on top.
 _Array1L sort _order;

@@ -9,8 +9,8 @@ link0[] = {0,1};
 link1[] = {1,2};
 link2[] = {2,3};
 link3[] = {3,2};
-globals[] = {0.000000,0,0,0,0,640,480,2,845,6316128,1,-1610.129883,-1082.319092,-994.663025,-1457.608154,594,521,1};
-window[] = {0,-1,-1,-1,-1,927,234,1776,234,1,612};
+globals[] = {0.000000,0,0,0,0,640,480,2,845,6316128,1,-1636.520386,-1055.928589,-971.515747,-1480.755371,594,521,1};
+window[] = {0,-1,-1,-1,-1,823,130,1672,130,1,612};
 *//*%FSM</HEAD>*/
 class FSM
 {
@@ -30,8 +30,8 @@ class FSM
                          "{" \n
                          "	private _Dist = _this call _DVDVC;" \n
                          "	setViewDistance _Dist;" \n
-                         "	setObjectViewDistance [_Dist,(_Dist / 6)];" \n
-                         "	if (Dis_debug) then {hintsilent format [""RENDER: %1--SHADOW: %2"",_Dist,(_Dist/6)]};" \n
+                         "	setObjectViewDistance [_Dist,((_Dist / 6) min 100)];" \n
+                         "	if (Dis_debug) then {hintsilent format [""RENDER: %1--SHADOW: %2"",_Dist,((_Dist / 6) min 100)]};" \n
                          "};" \n
                          "" \n
                          "_DVDFRC =" \n
@@ -73,6 +73,19 @@ class FSM
                          "		DIS_GUNVIEW = false;" \n
                          "	};" \n
                          "	" \n
+                         "" \n
+                         "	//UAV Check" \n
+                         "	private _UAV = getConnectedUAV player;" \n
+                         "	if !(IsNull _UAV) then " \n
+                         "	{" \n
+                         "		private _UAVControl = UAVControl _UAV;" \n
+                         "		if !(_UAVControl select 1 isEqualTo """") then" \n
+                         "		{" \n
+                         "			_BaseDist = _BaseDist + 2000;" \n
+                         "		};" \n
+                         "	};" \n
+                         "" \n
+                         "" \n
                          "	(round _BaseDist)" \n
                          "};" \n
                          "" \n

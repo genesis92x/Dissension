@@ -67,12 +67,6 @@ dis_VehicleChanged = compileFinal preprocessFileLineNumbers "Functions\dis_Vehic
 Dis_RGuer = compileFinal preprocessFileLineNumbers "Commander\threatresp\dis_Guerrilla.sqf";
 Dis_RSE = compileFinal preprocessFileLineNumbers "Commander\threatresp\dis_SupportEnthusiast.sqf";
 
-//Supply System
-dis_SupplyInit = compileFinal preprocessFileLineNumbers "SupplyPoints\dis_SupplyInit.sqf";
-dis_SupplyLoop = compileFinal preprocessFileLineNumbers "SupplyPoints\dis_SupplyLoop.sqf";
-dis_SupplyManageLoop = compileFinal preprocessFileLineNumbers "SupplyPoints\dis_SupplyManageLoop.sqf";
-dis_SupplyCreate = compileFinal preprocessFileLineNumbers "SupplyPoints\dis_SupplyCreate.sqf";
-
 PlaySoundEverywhere = compileFinal "playsound (_this select 0)";
 PlaySoundEverywhereDist = compileFinal "if (player distance (_this select 0) < 400) then {playsound (_this select 1)}";
 MessageFramework = compileFinal "[(_this select 0),(_this select 1)] spawn Dis_MessageFramework;";
@@ -135,6 +129,7 @@ if (isServer) then
 	{
 		waitUntil
 		{
+			publicVariable "W_Markers";
 			sleep 300;
 			{
 				private _Obj = _x select 2;
@@ -154,7 +149,6 @@ if (isServer) then
 					W_Markers deleteAt _foreachIndex;
 				};
 			} foreach W_Markers;
-			publicVariable "W_Markers";
 			false
 		};
 	};
@@ -162,6 +156,7 @@ if (isServer) then
 	{
 		waitUntil
 		{
+			publicVariable "E_Markers";
 			sleep 300;
 			{
 				private _Obj = _x select 2;
@@ -181,7 +176,6 @@ if (isServer) then
 					E_Markers deleteAt _foreachIndex;
 				};
 			} foreach E_Markers;
-			publicVariable "E_Markers";
 			false
 		};
 		
@@ -202,7 +196,7 @@ if (isServer) then
 	};	
 	[] spawn DIS_fnc_PAUSE;	
 	//[] spawn DIS_fnc_CombineSounds;
-	[] spawn DIS_fnc_StuLoop;
+	//[] spawn DIS_fnc_StuLoop;
 	
 
 	[] spawn
@@ -226,16 +220,6 @@ if (isServer) then
 	//Fast time
 	setTimeMultiplier ("TimeSpeed" call BIS_fnc_getParamValue);
 	
-	//Add mission eventhandler for removing ruined buildings overtime.
-	addMissionEventHandler ["BuildingChanged", 
-	{
-		params ["_previousObject", "_newObject", "_isRuin"];
-		if (_isRuin) then
-		{
-			deleteVehicle _newObject;
-		};
-	}];
-	
 	//Delete player unit when dissconnecting. This prevents random "player" AI from being in player groups.
 	addMissionEventHandler ["HandleDisconnect", 
 	{
@@ -249,18 +233,37 @@ if (isServer) then
 	addMissionEventHandler ["PlayerConnected",
 	{
 		params ["_id", "_uid", "_name", "_jip", "_owner"];
-		if (_name isEqualTo "Genesis") then
+		["_id", "_uid", "_name", "_jip", "_owner"] spawn
 		{
-			uiSleep 15;
-			_name spawn
+			params ["_id", "_uid", "_name", "_jip", "_owner"];
+			if (_name isEqualTo "Genesis") then
 			{
-				["<img size='1' align='left' color='#ffffff' image='Pictures\types\land_ca.paa' /> MISSION CREATOR HAS JOINED!", format 
-				["<t size='1'><br/>%1 has joined the game! He is probably here to mess everything up. Make sure to blame him for all your problems!
-				</t>",_this]] remoteExec ["Haz_fnc_createNotification",0];				
+				sleep 30;
+				_name spawn
+				{
+					["<img size='1' align='left' color='#ffffff' image='Pictures\types\land_ca.paa' /> MISSION CREATOR HAS JOINED!", format 
+					["<t size='1'><br/>%1 has joined the game! He is probably here to mess everything up. Make sure to blame him for all your problems!
+					</t>",_this]] remoteExec ["Haz_fnc_createNotification",0];				
+				};
 			};
 		};
 	}];	
 	
+
+	//Add mission eventhandler for removing ruined buildings overtime.
+	addMissionEventHandler ["BuildingChanged", 
+	{
+		params ["_previousObject", "_newObject", "_isRuin"];
+		if (local _newObject) then
+		{
+			if (_isRuin) then
+			{
+				deleteVehicle _newObject;
+			};
+		};
+	}];
+	
+	[] spawn DIS_fnc_cratemonitor;	
 };
 
 
@@ -283,7 +286,11 @@ if (hasInterface) then
 	[] call DIS_fnc_RspnCam;
 	
 	playmusic "LeadTrack01a_F_EXP";
-	_Test = ["Pictures\ArmADis3.paa",false,10,10,0.3] spawn BIS_fnc_textTiles;
+	//After the game starts
+	cutText ["","BLACK OUT",0.001];
+	//["DissensionClip.ogv",[(0.37 * safezoneW + safezoneX),(0.37 * safezoneH + safezoneY),(0.25 * safezoneW),(0.25 * safezoneH)],[1,1,1,1],"BIS_fnc_playVideo_skipVideo",[0,0,0,0]] call BIS_fnc_playVideo;
+	["DissensionClip.ogv",[(0.37 * safezoneW + safezoneX),(0.35 * safezoneH + safezoneY),(0.25 * safezoneW),(0.25 * safezoneH)],[1,1,1,1],"BIS_fnc_playVideo_skipVideo",[0,0,0,0]] call BIS_fnc_playVideo;
+	cutText ["","BLACK IN",5];
 	[
 		[
 			[format ["%1: Welcome to Dissension",(name player)],"align = 'center' shadow = '1' size = '1' font='PuristaBold'"],
@@ -291,9 +298,8 @@ if (hasInterface) then
 			["Select a spawn location.","align = 'center' shadow = '1' size = '0.5'"]
 		]
 	] spawn BIS_fnc_typeText2;
-	WaitUntil{scriptDone _Test};
 };
-	
+
 waitUntil {!(isNil "W_Markers")};
 waitUntil {!(isNil "E_Markers")};
 waitUntil {(count BluLandControlled > 0)};
@@ -633,7 +639,7 @@ if (hasInterface) then
 	[] SPAWN 
 	{
 		sleep 20;
-		["<img size='1' align='left' color='#ffffff' image='Pictures\ArmADis3.paa' /> DISSENSION: PRESS H TO EXPAND", format ["<t size='0.75'>Dissension is a Team vs Team Capture the Island <t color='#00D506'>(CTI)</t> where the goal is to eliminate the opposing sides commander.<br/>To do this, you must first build your war machine by capturing <t color='#00D506'>grids</t> and <t color='#00D506'>towns</t>; these funnel resources (<t color='#00D506'>oil</t>/<t color='#00D506'>power</t>/<t color='#00D506'>cash</t>/<t color='#00D506'>materials</t>/<t color='#00D506'>tickets</t>) directly into your commander's wallet, and indirectly into your wallet.<br/>You only have to worry about cold hard <t color='#00D506'>cash</t>. <t color='#00D506'>Cash</t> is how you will be able to purchase your own <t color='#00D506'>gear</t>, <t color='#00D506'>vehicles</t>, <t color='#00D506'>units</t>, call in <t color='#00D506'>abilities</t>, and construct <t color='#00D506'>bases</t>.</t>"]] spawn Haz_fnc_createNotification;
+		["<img size='1' align='left' color='#ffffff' image='Pictures\Tasks_ca.paa' /> DISSENSION: PRESS H TO EXPAND", format ["<t size='0.75'>Dissension is a Team vs Team Capture the Island <t color='#00D506'>(CTI)</t> where the goal is to eliminate the opposing sides commander.<br/>To do this, you must first build your war machine by capturing <t color='#00D506'>grids</t> and <t color='#00D506'>towns</t>; these funnel resources (<t color='#00D506'>oil</t>/<t color='#00D506'>power</t>/<t color='#00D506'>cash</t>/<t color='#00D506'>materials</t>/<t color='#00D506'>tickets</t>) directly into your commander's wallet, and indirectly into your wallet.<br/>You only have to worry about cold hard <t color='#00D506'>cash</t>. <t color='#00D506'>Cash</t> is how you will be able to purchase your own <t color='#00D506'>gear</t>, <t color='#00D506'>vehicles</t>, <t color='#00D506'>units</t>, call in <t color='#00D506'>abilities</t>, and construct <t color='#00D506'>bases</t>.</t>"]] spawn Haz_fnc_createNotification;
 	};
 	
 	private _GlobalTerrainGrid = "GlobalTerrainGrid" call BIS_fnc_getParamValue;

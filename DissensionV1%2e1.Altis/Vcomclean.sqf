@@ -5,12 +5,12 @@ sleep 5;
 VCOM_CleanUpScript = true;
 
 //The distance2D a dead unit has to be from the player to be removed.
-private _DeadUnitDist = 500;
-private _DeadUnitMax = 50;
+private _DeadUnitDist = 200;
+private _DeadUnitMax = 25;
 private _DeadVehDist = 200;
 private _DeadVehicleMax = 5;
 private _Geardistance2D = 500;
-private _GearMax = 50;
+private _GearMax = 25;
 
 waitUntil
 {

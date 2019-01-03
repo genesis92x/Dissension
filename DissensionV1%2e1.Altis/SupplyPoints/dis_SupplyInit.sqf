@@ -8,7 +8,7 @@ if (_CSide isEqualTo West) then
 	_SupplyStructure = ["Land_BagBunker_Tower_F","CamoNet_BLUFOR_big_F"];
 	_Comm = Dis_WestCommander;
 	
-	[_Comm,_SupplyStructure,_CSide] spawn dis_SupplyLoop;	
+	[_Comm,_SupplyStructure,_CSide] spawn dis_SupplyLoop;
 	[_CSide,_SupplyStructure] spawn dis_SupplyManageLoop;
 	//[West,"Land_BagBunker_Tower_F"] spawn dis_SupplyManageLoop;
 	
