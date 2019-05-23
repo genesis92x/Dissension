@@ -37,6 +37,13 @@ _Tower addEventHandler ["Killed",
 	private _Bx = (_this select 0) getVariable "DIS_TowerBox";
 	_VR setVariable ["DIS_TowerAlive",false,true];
 	deleteVehicle _Bx;
+
+			private _Tower = (_this select 0);
+			private _DO = _Tower getVariable "DIS_DSOBT";
+			private _AO = _Tower getVariable "DIS_ASOBT";
+			[_DO,"FAILED"] call BIS_fnc_taskSetState;
+			[_AO,"SUCCEEDED"] call BIS_fnc_taskSetState;
+
 	[
 		[(_this select 0)],
 		{
@@ -152,3 +159,33 @@ _Tower addEventHandler ["Killed",
 	
 ] remoteExec ["bis_fnc_Spawn",0,_Tower]; 
 
+	[_Tower,_Pole,_SSide,_AtkSide] spawn
+	{
+		params ["_Tower","_Pole","_SSide","_AtkSide"];
+		sleep 5;
+
+
+		//Marker for tasks
+		private _ObjMM = createMarker [(format ["%1",(random 10000)]),(getpos _Tower)];
+		_ObjMM setmarkershape "ICON";
+		_ObjMM setMarkerType "Empty";
+		_pole setVariable ["DIS_TASKMM",_ObjMM];
+
+		//Defend task!
+		private _ObjN = _pole getVariable "DIS_DefendTID";
+		private _ObjSN = _pole getVariable ["DIS_DefendTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"TOWERSPAWND"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_DefendTISSO",_ObjSN];
+		[_SSide,[_ObjNSN,_ObjN], ["Prevent the enemy forces from planting charges on our comms tower! The comms tower will call in support if we are losing this battle!","Protect Comms Array",_ObjMM], (getpos _Tower), "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;
+		_Tower setVariable ["DIS_DSOBT",_ObjNSN];
+
+		//Attack task!
+		private _ObjN = _pole getVariable "DIS_AttackTID";
+		private _ObjSN = _pole getVariable ["DIS_AttackTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"TOWERSPAWNA"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_AttackTISSO",_ObjSN];
+		[_AtkSide,[_ObjNSN,_ObjN], ["Plant charges on this comms tower! This comms tower will provide signficiant support to enemy forces if they are losing the battle! Use the HOLD ACTION on the generator to plant charges this comms tower!","Destroy Comms Tower",_ObjMM], (getpos _Tower), "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;
+		_Tower setVariable ["DIS_ASOBT",_ObjNSN];
+	};

@@ -21,14 +21,6 @@ respawnOnStart =  1;
 
 
 
-//FOR VCOM
-
-
-class Extended_PreInit_EventHandlers 
-{
-	VCM_CBASettings = call compile preprocessFileLineNumbers "Vcom\Functions\VCM_CBASettings.sqf";
-};
-
 class CfgRemoteExec
 {
 	// List of script functions allowed to be sent from client via remoteExec
@@ -55,6 +47,11 @@ class CfgRemoteExec
 	
 	
 };
+
+class Extended_PreInit_EventHandlers {
+	VCM_CBASettings = call compile preprocessFileLineNumbers "Vcom\Functions\VCM_Functions\fn_CBASettings.sqf";
+};
+
 //END FOR VCOM
 
 
@@ -101,11 +98,11 @@ class CfgHints
 
 class CfgFunctions 
 {
-	#include "vcom\cfgFunctions.hpp"
 	#include "LARs\LARs_spawnComp.cpp"
 	#include "functions\cfgDisFunctions.hpp"
 	#include "GRAD_fireworks\cfgFunctions.hpp"
 	#include "scripts\GOM\functions\GOM_fnc_functions.hpp"
+	#include "vcom\cfgFunctions.hpp"
 
 	class Haz
 	{
@@ -988,6 +985,8 @@ class RscTitles
 				class Attributes {
 					align = "left";
 				};
+				
+				widthRailWay = 4;
 			};
 					
 			class DIS_BACKGROUND1: DIS_RscPictureKeepAspect {
@@ -2535,7 +2534,7 @@ class Params
 	};
 	class DynamicRendering
 	{
-		title = "Dynamic View Distance";
+		title = "Dynamic View Distance - For PvP";
 		texts[] = {"Enabled","Disabled"};
 		values[] = {1,0};
 		default = 1;

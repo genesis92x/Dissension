@@ -14,6 +14,8 @@ CompleteTaskArray = [];
 	_OilFlowRandom = _x select 1 select 2;
 	_MaterialsFlowRandom = _x select 1 select 3;
 	
+
+	
 	_currentTask = player createSimpleTask [format["%1",_Loc]];
 	_currentTask setSimpleTaskDestination _Pos;
 	_currentTask setSimpleTaskDescription [format["Cash: %1<br/>Power: %2<br/>Oil: %3<br/>Materials: %4",_CashFlowRandom,_PowerFlowRandom,_OilFlowRandom,_MaterialsFlowRandom],format["%1",_Loc],"Description"];

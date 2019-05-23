@@ -3,16 +3,16 @@
 /*
 item0[] = {"Begin_Defence",0,250,-1176.223633,-3079.659180,-1086.223511,-3029.659180,0.000000,"Begin Defence"};
 item1[] = {"True",8,218,-1175.132935,-3163.790283,-1085.132935,-3113.790283,0.000000,"True"};
-item2[] = {"Setup_Initial_Sc",2,4346,-1174.120605,-3216.439209,-1083.108032,-3180.613770,0.000000,"Setup" \n "Initial Scripts"};
+item2[] = {"Setup_Initial_Sc",2,250,-1175.000000,-3200.000000,-1075.000000,-3175.000000,0.000000,"Setup" \n "Initial Scripts"};
 item3[] = {"True",8,218,-1160.452026,-3276.174805,-1081.589233,-3238.324463,0.000000,"True"};
 item4[] = {"Main_Loop",2,250,-1166.578735,-3362.513428,-1070.659912,-3324.350830,0.000000,"Main Loop"};
 item5[] = {"Spawn_Units",4,218,-1175.000000,-3525.000000,-1075.000000,-3475.000000,100.000000,"Spawn Units"};
 item6[] = {"Defeat",4,218,-940.430481,-3450.034180,-835.186707,-3407.720703,200.000000,"Defeat"};
 item7[] = {"Victory",4,218,-974.736450,-3522.767578,-881.960327,-3481.096680,190.000000,"Victory"};
 item8[] = {"Wait",4,218,-1047.460449,-3358.948486,-974.674744,-3327.310791,0.000000,"Wait"};
-item9[] = {"Return_to_Server",1,250,-792.757202,-3454.776611,-701.369019,-3415.881836,0.000000,"Return to Server"};
+item9[] = {"Return_to_Server",1,4346,-792.757202,-3454.776611,-701.369019,-3415.881836,0.000000,"Return to Server"};
 item10[] = {"Spawn_Garrison",4,218,-1250.000000,-3450.000000,-1150.000000,-3400.000000,90.000000,"Spawn Garrison"};
-item11[] = {"Return_to_Server_1",1,250,-788.995422,-3529.292725,-697.607239,-3490.397949,0.000000,"Return to Server"};
+item11[] = {"Return_to_Server_1",1,250,-800.000000,-3525.000000,-700.000000,-3475.000000,0.000000,"Return to Server"};
 item12[] = {"Wait",2,250,-1300.000000,-3525.000000,-1225.000000,-3500.000000,0.000000,"Wait"};
 item13[] = {"Wait",4,218,-1350.000000,-3400.000000,-1275.000000,-3375.000000,0.000000,"Wait"};
 item14[] = {"HalfWayPoint",4,218,-1100.000000,-3500.000000,-1000.000000,-3450.000000,95.000000,"HalfWayPoint"};
@@ -34,8 +34,8 @@ link14[] = {10,12};
 link15[] = {12,13};
 link16[] = {13,4};
 link17[] = {14,4};
-globals[] = {0.000000,0,0,0,0,640,480,2,976,6316128,1,-1418.334229,-789.598755,-3065.923340,-3628.781738,649,581,1};
-window[] = {0,-1,-1,-1,-1,779,26,1577,26,1,667};
+globals[] = {0.000000,0,0,0,0,640,480,2,976,6316128,1,-1425.510254,-679.879883,-2980.265381,-3786.057373,817,884,1};
+window[] = {2,-1,-1,-1,-1,551,104,756,104,3,835};
 *//*%FSM</HEAD>*/
 class FSM
 {
@@ -70,7 +70,13 @@ class FSM
                 {
                         name = "Setup_Initial_Sc";
                         itemno = 2;
-                        init = /*%FSM<STATEINIT""">*/"//Now we need to handle the loop for monitoring the waves of units." \n
+                        init = /*%FSM<STATEINIT""">*/"//Defend task!" \n
+                         "private _ObjN = format [""%1-%2"",_PolePos,_SSide];" \n
+                         "[_SSide,_ObjN, [format [""Defend %1! Prevent the enemy from taking the town! Defend the radio tower and take the side objectives."",_NameLocation],format [""Defend %1"",_NameLocation]], _PolePos, ""AUTOASSIGNED"", 100, true, """", true] call BIS_fnc_taskCreate;" \n
+                         "_pole setVariable [""DIS_DefendTID"",_ObjN];" \n
+                         "" \n
+                         "" \n
+                         "//Now we need to handle the loop for monitoring the waves of units." \n
                          "//Waves of units should spawn every 10 seconds if there is room." \n
                          "_pole setVariable [""DIS_ASSAULTSPAWNING"",true,true];" \n
                          "" \n
@@ -116,7 +122,10 @@ class FSM
                          "private _SpwnArray = [];" \n
                          "private _SpwnedUnits = [];" \n
                          "private _House = [];" \n
-                         "private _TownReinforceBool = false;"/*%FSM</STATEINIT""">*/;
+                         "private _TownReinforceBool = false;" \n
+                         "" \n
+                         "" \n
+                         ""/*%FSM</STATEINIT""">*/;
                         precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
                         class Links
                         {
@@ -226,7 +235,7 @@ class FSM
                                         priority = 100.000000;
                                         to="Wait";
                                         precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
-                                        condition=/*%FSM<CONDITION""">*/"(count _SpwnedUnits < 16)"/*%FSM</CONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(count _SpwnedUnits < 12)"/*%FSM</CONDITION""">*/;
                                         action=/*%FSM<ACTION""">*/"private _AmountToSpawn = (18 - (count _SpwnedUnits));" \n
                                          "_SpawnAmount = _SpawnAmount - _AmountToSpawn;" \n
                                          "private _Var1 = _Pole getVariable ""DIS_Capture"";" \n
@@ -243,14 +252,14 @@ class FSM
                                         to="Main_Loop";
                                         precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
                                         condition=/*%FSM<CONDITION""">*/"_SpawnAmount < _HalfPoint && {!(_TownReinforceBool)}"/*%FSM</CONDITION""">*/;
-                                        action=/*%FSM<ACTION""">*/"				[" \n
-                                         "					[_Pole,_SSide,_StrongHoldBuildings,_grpGarrison,_infantrylist,_AirList,_AtkSide,_NameLocation]," \n
-                                         "					{" \n
-                                         "						params [""_Pole"",""_SSide"",""_StrongHoldBuildings"",""_grpGarrison"",""_infantrylist"",""_AirList"",""_AtkSide"",""_NameLocation""];" \n
-                                         "						[_Pole,_SSide,_StrongHoldBuildings,_grpGarrison,_infantrylist,_AirList,_AtkSide,_NameLocation] spawn DIS_fnc_HalfPointReinforce;" \n
-                                         "					}" \n
-                                         "				] remoteExec [""bis_fnc_Spawn"",2];" \n
-                                         "				_TownReinforceBool = true;"/*%FSM</ACTION""">*/;
+                                        action=/*%FSM<ACTION""">*/"[" \n
+                                         "	[_Pole,_SSide,_StrongHoldBuildings,_grpGarrison,_infantrylist,_AirList,_AtkSide,_NameLocation]," \n
+                                         "	{" \n
+                                         "		params [""_Pole"",""_SSide"",""_StrongHoldBuildings"",""_grpGarrison"",""_infantrylist"",""_AirList"",""_AtkSide"",""_NameLocation""];" \n
+                                         "		[_Pole,_SSide,_StrongHoldBuildings,_grpGarrison,_infantrylist,_AirList,_AtkSide,_NameLocation] spawn DIS_fnc_HalfPointReinforce;" \n
+                                         "	}" \n
+                                         "] remoteExec [""bis_fnc_Spawn"",2];" \n
+                                         "_TownReinforceBool = true;"/*%FSM</ACTION""">*/;
                                 };
                                 /*%FSM</LINK>*/
                                 /*%FSM<LINK "Spawn_Garrison">*/

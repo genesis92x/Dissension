@@ -1,6 +1,18 @@
 class VCOM
 {
 	tag = "VCM";
+	
+	class FSM
+	{
+		file = "Vcom\FSMS";
+		
+		// group spawn VCM_fnc_SQUADBEH
+		class SQUADBEH 
+		{
+			ext = ".fsm";
+		};
+	};
+	
 	class Functions 
 	{
 		file = "Vcom\Functions\VCM_Functions";
@@ -71,6 +83,9 @@ class VCOM
 		// unit call VCM_fnc_HasMine;
 		class HasMine {};
 		
+		// unit call VCM_fnc_HealSelf;
+		class HealSelf {};
+		
 		// [unit, weapon, muzzle, mode, ammo, magazine, bullet, gunner] call VCM_fnc_HearingAids;
 		class HearingAids {};
 		
@@ -85,6 +100,12 @@ class VCOM
 		
 		// [array, unitToReveal, revealAmount] call VCM_fnc_KnowAbout;
 		class KnowAbout {};
+		
+		// group call VCM_fnc_MedicalHandler
+		class MedicalHandler {};
+		
+		//[medic, injuredUnit] spawn VCM_fnc_MedicHeal;
+		class MedicHeal {};
 		
 		// [] spawn VCM_fnc_MineMonitor;
 		class MineMonitor {};
@@ -113,31 +134,23 @@ class VCOM
 		// group call VCM_fnc_WyptChk;
 		class WyptChk {};	
 		
+		//group call VCM_fnc_VehicleCommandeer;
+		class vehiclecommandeer {};
+		
+		//group call VCM_fnc_VehicleCheck;
+		class VehicleCheck {};
+
+		//group call VCM_fnc_VehicleMove;
+		class VehicleMove {};	
+
+		//group call VCM_fnc_IsTransport;
+		class IsTransport {};
+
+		//[_pos,_dist,_params] call VCM_fnc_isFlatEmpty;
+		class isFlatEmpty {};	
+
+		//[] call VCM_fnc_CBASettings;
+		class CBASettings {};
 	};		
 
-};
-
-
-class RYD
-{
-	// Fire For Effect: The God of War
-	class FFE_Functions
-	{
-		file = "Vcom\Functions\FFE_Functions";
-		class AngTowards {};
-		class ArtyMission {};
-		class ArtyPrep {};
-		class AutoConfig {};
-		class CFF {};
-		class CFF_FFE {};
-		class CFF_Fire {};
-		class CFF_TGT {};
-		class PosTowards2D {};
-		class ShellsInRadius {};
-	};
-	class FFE_Shellview
-	{
-		file = "Vcom\Functions\FFE_Shellview";
-		class Shellview {};
-	};
 };

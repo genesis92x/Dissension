@@ -1,17 +1,17 @@
 /*%FSM<COMPILE "C:\Program Files (x86)\Steam\steamapps\common\Arma 3 Tools\FSMEditor\scriptedFSM.cfg, TownEngagementSystem">*/
 /*%FSM<HEAD>*/
 /*
-item0[] = {"Begin_Attack",0,250,-1175.000000,-3075.000000,-1075.000000,-3025.000000,0.000000,"Begin Attack"};
-item1[] = {"True",8,218,-1165.319702,-3133.827881,-1092.200562,-3103.687744,0.000000,"True"};
-item2[] = {"Create_Battlefie",2,250,-1175.000000,-3200.000000,-1100.000000,-3175.000000,0.000000,"Create" \n "Battlefield"};
-item3[] = {"Exit",8,218,-1175.000000,-3275.000000,-1075.000000,-3225.000000,0.000000,"Exit"};
-item4[] = {"Exit",1,250,-1175.000000,-3400.000000,-1075.000000,-3350.000000,0.000000,"Exit"};
+item0[] = {"Begin_Attack",0,4346,-1175.000000,-3075.000000,-1075.000000,-3025.000000,0.000000,"Begin Attack"};
+item1[] = {"True",8,218,-1150.000000,-3125.000000,-1075.000000,-3100.000000,0.000000,"True"};
+item2[] = {"Create_Battlefie",2,250,-1150.000000,-3200.000000,-1075.000000,-3175.000000,0.000000,"Create" \n "Battlefield"};
+item3[] = {"Exit",8,218,-1150.000000,-3250.000000,-1075.000000,-3225.000000,0.000000,"Exit"};
+item4[] = {"Exit",1,250,-1150.000000,-3325.000000,-1075.000000,-3300.000000,0.000000,"Exit"};
 link0[] = {0,1};
 link1[] = {1,2};
 link2[] = {2,3};
 link3[] = {3,4};
-globals[] = {0.000000,0,0,0,0,640,480,2,953,6316128,1,-1352.470093,-655.380249,-2788.375732,-3423.660889,764,510,1};
-window[] = {0,-1,-1,-1,-1,916,234,1776,234,1,782};
+globals[] = {0.000000,0,0,0,0,640,480,2,953,6316128,1,-1352.470093,-655.380249,-2788.375732,-3423.660889,436,510,1};
+window[] = {0,-1,-1,-1,-1,818,285,1827,136,1,454};
 *//*%FSM</HEAD>*/
 class FSM
 {
@@ -33,13 +33,16 @@ class FSM
                          "private _IndexTT = TownArray findIf {(_x select 2) isEqualTo _TargetLand};" \n
                          "private _TownInfo = (TownArray select _IndexTT); //[_marker1Names,_locationName,_FlagPole,_marker1,0,0,0,false,20,_FinalStrongholds];" \n
                          "private _Engaged = _TownInfo select 7;" \n
+                         "private _TMark = _TownInfo select 3;" \n
+                         "private _TMarkR = (getMarkerSize _TMark) select 0;" \n
+                         "private _DefenderHalfWayPosition = _TargetLand getPos [_TMarkR,(_TargetLand getdir _ClosestDefenceTown)];" \n
+                         "" \n
                          "_TargetLand setVariable [""DIS_ENGAGED"",true,true];" \n
                          "" \n
                          "//Find FOB positions" \n
                          "private _AttackHalfWayPosition = (getpos _AssaultFrom);" \n
-                         "private _DefenderHalfWayPosition = (getpos _ClosestDefenceTown);" \n
                          "if (_AssaultFrom distance2D _AttackPos > 1000) then {_AttackHalfWayPosition = [(getpos _AssaultFrom),((_AssaultFrom distance2D _AttackPos)/2),(_AssaultFrom getDir _TargetLand)] call BIS_fnc_relPos};" \n
-                         "if (_ClosestDefenceTown distance2D _AttackPos > 1000) then {_DefenderHalfWayPosition = [(getpos _ClosestDefenceTown),((_ClosestDefenceTown distance2D _AttackPos)/1.5),(_ClosestDefenceTown getDir _TargetLand)] call BIS_fnc_relPos};" \n
+                         "//if (_ClosestDefenceTown distance2D _AttackPos > 1000) then {_DefenderHalfWayPosition = [(getpos _ClosestDefenceTown),((_ClosestDefenceTown distance2D _AttackPos)/1.5),(_ClosestDefenceTown getDir _TargetLand)] call BIS_fnc_relPos};" \n
                          "" \n
                          ""/*%FSM</STATEINIT""">*/;
                         precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;

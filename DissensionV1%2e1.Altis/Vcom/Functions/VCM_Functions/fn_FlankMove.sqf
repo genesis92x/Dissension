@@ -29,7 +29,6 @@ if (isNull _nearestEnemy) then
 if (isNil "_nearestEnemy" || _nearestEnemy isEqualTo [0,0,0]) exitWith {};
 if ((vehicle _nearestEnemy) isKindOf "Air") exitWith {};
 
-_grp setBehaviour "COMBAT";
 //If they don't know about the enemy position, then just exit the function
 private _knows = _grp knowsAbout _nearestEnemy;
 if (_knows < 2) exitwith 
@@ -57,10 +56,12 @@ switch (_wayPointType) do {
 			private _waypoint0 = _grp addwaypoint [(getpos _nearestEnemy),0];
 			_waypoint0 setwaypointtype "MOVE";
 			_waypoint0 setWaypointSpeed "FULL";
-			_grp setCurrentWaypoint [_grp,(_waypoint0 select 1)];			
+			_grp setCurrentWaypoint [_grp,(_waypoint0 select 1)];		
+			[_grp, (_waypoint0 select 1)] setWaypointCompletionRadius 25;	
 			private _waypoint0 = _grp addwaypoint [(getpos _nearestEnemy),0];
 			_waypoint0 setwaypointtype "MOVE";			
 			_waypoint0 setWaypointSpeed "FULL";
+			[_grp, (_waypoint0 select 1)] setWaypointCompletionRadius 25;	
 		};
     case "High": 
 		{
@@ -70,10 +71,12 @@ switch (_wayPointType) do {
 			private _waypoint0 = _grp addwaypoint [_finalP,0];
 			_waypoint0 setwaypointtype "MOVE";
 			_waypoint0 setWaypointSpeed "FULL";
-			_grp setCurrentWaypoint [_grp,(_waypoint0 select 1)];			
+			_grp setCurrentWaypoint [_grp,(_waypoint0 select 1)];		
+			[_grp, (_waypoint0 select 1)] setWaypointCompletionRadius 25;		
 			private _waypoint0 = _grp addwaypoint [_finalP,0];
 			_waypoint0 setwaypointtype "MOVE";	
 			_waypoint0 setWaypointSpeed "FULL";
+			[_grp, (_waypoint0 select 1)] setWaypointCompletionRadius 25;	
 		}; 
     case "Low": 
 		{
@@ -83,10 +86,12 @@ switch (_wayPointType) do {
 			private _waypoint0 = _grp addwaypoint [_finalP,0];
 			_waypoint0 setwaypointtype "MOVE";
 			_waypoint0 setWaypointSpeed "FULL";
+			[_grp, (_waypoint0 select 1)] setWaypointCompletionRadius 25;	
 			_grp setCurrentWaypoint [_grp,(_waypoint0 select 1)];			
 			private _waypoint0 = _grp addwaypoint [_finalP,0];
 			_waypoint0 setwaypointtype "MOVE";	
-_waypoint0 setWaypointSpeed "FULL";			
+_waypoint0 setWaypointSpeed "FULL";	
+[_grp, (_waypoint0 select 1)] setWaypointCompletionRadius 25;			
 		}; 
     case "Retreat": 
 		{
@@ -96,10 +101,12 @@ _waypoint0 setWaypointSpeed "FULL";
 			private _waypoint0 = _grp addwaypoint [_finalP,0];
 			_waypoint0 setwaypointtype "MOVE";
 			_waypoint0 setWaypointSpeed "FULL";
+			[_grp, (_waypoint0 select 1)] setWaypointCompletionRadius 25;	
 			_grp setCurrentWaypoint [_grp,(_waypoint0 select 1)];			
 			private _waypoint0 = _grp addwaypoint [_finalP,0];
 			_waypoint0 setwaypointtype "MOVE";	
 			_waypoint0 setWaypointSpeed "FULL";
+			[_grp, (_waypoint0 select 1)] setWaypointCompletionRadius 25;	
 		}; 
     case "Flank": 
 		{
@@ -117,9 +124,11 @@ _waypoint0 setWaypointSpeed "FULL";
 			_finalP set [2,0];
 			_waypoint0 = _grp addwaypoint [_finalP,0];	
 			_waypoint0 setWaypointSpeed "FULL";
+			[_grp, (_waypoint0 select 1)] setWaypointCompletionRadius 25;	
 			_grp setCurrentWaypoint [_grp,(_waypoint0 select 1)];
 			_waypoint0 = _grp addwaypoint [_myEnemyPos,0];	
-			_waypoint0 setWaypointSpeed "FULL";			
+			_waypoint0 setWaypointSpeed "FULL";	
+			[_grp, (_waypoint0 select 1)] setWaypointCompletionRadius 25;			
 		}; 
     case "FlankL": 
 		{
@@ -145,11 +154,14 @@ _waypoint0 setWaypointSpeed "FULL";
 			_finalP set [2,0];
 			_finalP2 set [2,0];
 			_waypoint0 = _grp addwaypoint [_finalP,0];	
-			_waypoint0 setWaypointSpeed "FULL";			
+			_waypoint0 setWaypointSpeed "FULL";		
+			[_grp, (_waypoint0 select 1)] setWaypointCompletionRadius 25;		
 			_waypoint0 = _grp addwaypoint [_finalP2,0];	
 			_waypoint0 setWaypointSpeed "FULL";
+			[_grp, (_waypoint0 select 1)] setWaypointCompletionRadius 25;	
 			_grp setCurrentWaypoint [_grp,(_waypoint0 select 1)];
 			_waypoint0 = _grp addwaypoint [_myEnemyPos,0];	
-			_waypoint0 setWaypointSpeed "FULL";			
+			_waypoint0 setWaypointSpeed "FULL";		
+			[_grp, (_waypoint0 select 1)] setWaypointCompletionRadius 25;		
 		}; 
 };

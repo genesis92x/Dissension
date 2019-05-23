@@ -8,15 +8,17 @@ item3[] = {"True",8,218,-1160.452026,-3276.174805,-1081.589233,-3238.324463,0.00
 item4[] = {"Main_Loop",2,250,-1166.578613,-3359.982422,-1070.659790,-3321.819824,0.000000,"Main Loop"};
 item5[] = {"Spawn_Units",4,218,-1150.000000,-3475.000000,-1050.000000,-3425.000000,100.000000,"Spawn Units"};
 item6[] = {"Defeat",4,218,-880.068909,-3488.126465,-811.943420,-3457.623291,200.000000,"Defeat"};
-item7[] = {"Victory",4,218,-940.445190,-3567.878906,-871.758240,-3532.739502,190.000000,"Victory"};
+item7[] = {"Victory",4,218,-950.000000,-3575.000000,-875.000000,-3550.000000,190.000000,"Victory"};
 item8[] = {"Wait_For_Units_C",2,250,-824.780884,-3605.766602,-734.780884,-3555.766602,0.000000,"Wait For Units" \n "Cleared"};
 item9[] = {"Wait",4,218,-818.676147,-3661.245850,-745.890686,-3629.608154,0.000000,"Wait"};
-item10[] = {"Wait",4,218,-1025.000000,-3350.000000,-950.000000,-3325.000000,0.000000,"Wait"};
-item11[] = {"Return_to_Server",1,4346,-450.000000,-3500.000000,-350.000000,-3450.000000,0.000000,"Return to Server"};
+item10[] = {"Wait",4,218,-1050.000000,-3325.000000,-975.000000,-3300.000000,0.000000,"Wait"};
+item11[] = {"Return_to_Server",1,250,-425.000000,-3500.000000,-325.000000,-3450.000000,0.000000,"Return to Server"};
 item12[] = {"Cleared",4,218,-675.000000,-3600.000000,-600.000000,-3575.000000,0.000000,"Cleared"};
 item13[] = {"Return_to_Server_1",1,250,-425.000000,-3600.000000,-325.000000,-3550.000000,0.000000,"Return to Server"};
 item14[] = {"Wait",2,250,-1275.000000,-3500.000000,-1200.000000,-3475.000000,0.000000,"Wait"};
 item15[] = {"Wait",4,218,-1325.000000,-3425.000000,-1250.000000,-3375.000000,0.000000,"Wait"};
+item16[] = {"Wait_For_Units_C_1",2,250,-725.000000,-3500.000000,-625.000000,-3450.000000,0.000000,"Wait For Units" \n "Cleared"};
+item17[] = {"Cleared",4,218,-575.000000,-3475.000000,-500.000000,-3450.000000,0.000000,"Cleared"};
 link0[] = {0,1};
 link1[] = {1,2};
 link2[] = {2,3};
@@ -26,7 +28,7 @@ link5[] = {4,6};
 link6[] = {4,7};
 link7[] = {4,10};
 link8[] = {5,14};
-link9[] = {6,11};
+link9[] = {6,16};
 link10[] = {7,8};
 link11[] = {8,9};
 link12[] = {8,12};
@@ -35,8 +37,10 @@ link14[] = {10,4};
 link15[] = {12,13};
 link16[] = {14,15};
 link17[] = {15,4};
-globals[] = {0.000000,0,0,0,0,640,480,2,977,6316128,1,-1095.056641,-331.352173,-3318.260742,-3797.336914,813,510,1};
-window[] = {0,-1,-1,-1,-1,734,52,1594,52,1,831};
+link18[] = {16,17};
+link19[] = {17,11};
+globals[] = {0.000000,0,0,0,0,640,480,2,979,6316128,1,-912.335022,11.437561,-3184.132324,-3976.962402,1030,884,1};
+window[] = {2,-1,-1,-1,-1,707,203,855,260,3,1048};
 *//*%FSM</HEAD>*/
 class FSM
 {
@@ -71,9 +75,15 @@ class FSM
                 {
                         name = "Setup_Initial_Sc";
                         itemno = 2;
-                        init = /*%FSM<STATEINIT""">*/"//Now we need to handle the loop for monitoring the waves of units." \n
+                        init = /*%FSM<STATEINIT""">*/"//Attack task!" \n
+                         "private _ObjN = format [""%1-%2"",_PolePos,_AtkSide];" \n
+                         "[_AtkSide,_ObjN, [format [""Assault %1! Destroy the radio tower and take the side objectives."",_NameLocation],format [""Assault %1"",_NameLocation]], _PolePos, ""AUTOASSIGNED"", 100, true, """", true] call BIS_fnc_taskCreate;" \n
+                         "_pole setVariable [""DIS_AttackTID"",_ObjN];" \n
+                         "" \n
+                         "" \n
+                         "//Now we need to handle the loop for monitoring the waves of units." \n
                          "//Waves of units should spawn every 10 seconds if there is room." \n
-                         "_pole setVariable [""DIS_ASSAULTSPAWNING"",true];" \n
+                         "_pole setVariable [""DIS_ASSAULTSPAWNING"",true,true];" \n
                          "" \n
                          "private _grp = createGroup _AtkSide;" \n
                          "_grp setVariable [""DIS_IMPORTANT"",true,true];" \n
@@ -82,7 +92,10 @@ class FSM
                          "_Pole setVariable [""DIS_Captureattacker"",[_OriginalAmount,_SpawnAmount,_AtkSide],true];" \n
                          "" \n
                          "private _SpwnArray = [];" \n
-                         "private _SpwnedUnits = [];"/*%FSM</STATEINIT""">*/;
+                         "private _SpwnedUnits = [];" \n
+                         "" \n
+                         "" \n
+                         ""/*%FSM</STATEINIT""">*/;
                         precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
                         class Links
                         {
@@ -147,7 +160,7 @@ class FSM
                                 {
                                         itemno = 6;
                                         priority = 200.000000;
-                                        to="Return_to_Server";
+                                        to="Wait_For_Units_C_1";
                                         precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
                                         condition=/*%FSM<CONDITION""">*/"_SpawnAmount < 1"/*%FSM</CONDITION""">*/;
                                         action=/*%FSM<ACTION""">*/"[" \n
@@ -189,7 +202,7 @@ class FSM
                                         priority = 100.000000;
                                         to="Wait";
                                         precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
-                                        condition=/*%FSM<CONDITION""">*/"(count _SpwnedUnits < 16)"/*%FSM</CONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(count _SpwnedUnits < 12)"/*%FSM</CONDITION""">*/;
                                         action=/*%FSM<ACTION""">*/"private _AmountToSpawn = (18 - (count _SpwnedUnits));" \n
                                          "_SpawnAmount = _SpawnAmount - _AmountToSpawn;" \n
                                          "private _Var1 = _Pole getVariable ""DIS_Captureattacker"";" \n
@@ -258,9 +271,37 @@ class FSM
                 {
                         name = "Return_to_Server";
                         itemno = 11;
-                        init = /*%FSM<STATEINIT""">*/"_pole setVariable [""DIS_ASSAULTENDED"",true,true];" \n
+                        init = /*%FSM<STATEINIT""">*/"_pole setVariable [""DIS_ASSAULTSPAWNING"",false,true];" \n
+                         "_pole setVariable [""DIS_ASSAULTENDED"",true,true];" \n
                          "_pole setVariable [""DIS_ENGAGED"",false,true];" \n
                          "_Pole setVariable [""DIS_Captureattacker"",[_OriginalAmount,-1000,_AtkSide],true];" \n
+                         "" \n
+                         "private _RemoveAtk = _pole getVariable ""DIS_AttackTID"";" \n
+                         "private _RemoveDfnd = _pole getVariable ""DIS_DefendTID"";" \n
+                         "" \n
+                         "" \n
+                         "[_RemoveAtk,""FAILED""] call BIS_fnc_taskSetState;" \n
+                         "[_RemoveDfnd,""SUCCEEDED""] call BIS_fnc_taskSetState;	" \n
+                         "" \n
+                         "" \n
+                         "[_RemoveAtk,_AtkSide,_RemoveDfnd,_SSide] spawn" \n
+                         "{" \n
+                         "	params [""_RemoveAtk"",""_AtkSide"",""_RemoveDfnd"",""_SSide""];" \n
+                         "	sleep 15;" \n
+                         "	[_RemoveAtk,_AtkSide] call BIS_fnc_deleteTask;" \n
+                         "	[_RemoveDfnd,_SSide] call BIS_fnc_deleteTask;" \n
+                         "};" \n
+                         "" \n
+                         "_pole setvariable [""DIS_DefendTISSO"",[]];" \n
+                         "_pole setvariable [""DIS_DefendTID"",[]];" \n
+                         "_pole setvariable [""DIS_AttackTID"",[]];" \n
+                         "_pole setvariable [""DIS_AttackTISSO"",[]];" \n
+                         "" \n
+                         "private _DeleteMrk = _pole getVariable [""DIS_TASKM"",""""];" \n
+                         "private _DeleteMrk2 = _pole getVariable [""DIS_TASKMM"",""""];" \n
+                         "deletemarker _DeleteMrk;" \n
+                         "deletemarker _DeleteMrk2;" \n
+                         "" \n
                          "[_Pole,_SSide,_OriginalAmount] spawn {sleep 10;params [""_Pole"",""_SSide"",""_OriginalAmount""];_Pole setVariable [""DIS_Capture"",[_OriginalAmount,-1000,_SSide],true];};" \n
                          "[_SpwnedUnits,_grp] spawn" \n
                          "{" \n
@@ -304,9 +345,35 @@ class FSM
                 {
                         name = "Return_to_Server_1";
                         itemno = 13;
-                        init = /*%FSM<STATEINIT""">*/"_pole setVariable [""DIS_ASSAULTENDED"",true,true];" \n
+                        init = /*%FSM<STATEINIT""">*/"_pole setVariable [""DIS_ASSAULTSPAWNING"",false,true];" \n
+                         "_pole setVariable [""DIS_ASSAULTENDED"",true,true];" \n
                          "_pole setVariable [""DIS_ENGAGED"",false,true];" \n
                          "_Pole setVariable [""DIS_Captureattacker"",[_OriginalAmount,-1000,_AtkSide],true];" \n
+                         "" \n
+                         "private _RemoveAtk = _pole getVariable ""DIS_AttackTID"";" \n
+                         "private _RemoveDfnd = _pole getVariable ""DIS_DefendTID"";" \n
+                         "" \n
+                         "[_RemoveAtk,""SUCCEEDED""] call BIS_fnc_taskSetState;" \n
+                         "[_RemoveDfnd,""FAILED""] call BIS_fnc_taskSetState;	" \n
+                         "" \n
+                         "[_RemoveAtk,_AtkSide,_RemoveDfnd,_SSide] spawn" \n
+                         "{" \n
+                         "	params [""_RemoveAtk"",""_AtkSide"",""_RemoveDfnd"",""_SSide""];" \n
+                         "	sleep 15;" \n
+                         "	[_RemoveAtk,_AtkSide] call BIS_fnc_deleteTask;" \n
+                         "	[_RemoveDfnd,_SSide] call BIS_fnc_deleteTask;" \n
+                         "};" \n
+                         "" \n
+                         "_pole setvariable [""DIS_DefendTISSO"",[]];" \n
+                         "_pole setvariable [""DIS_DefendTID"",[]];" \n
+                         "_pole setvariable [""DIS_AttackTID"",[]];" \n
+                         "_pole setvariable [""DIS_AttackTISSO"",[]];" \n
+                         "" \n
+                         "private _DeleteMrk = _pole getVariable [""DIS_TASKM"",""""];" \n
+                         "private _DeleteMrk2 = _pole getVariable [""DIS_TASKMM"",""""];" \n
+                         "deletemarker _DeleteMrk;" \n
+                         "deletemarker _DeleteMrk2;" \n
+                         "" \n
                          "[_Pole,_AtkSide,_OriginalAmount] spawn {sleep 10;params [""_Pole"",""_AtkSide"",""_OriginalAmount""];_Pole setVariable [""DIS_Capture"",[_OriginalAmount,-1000,_AtkSide],true];};" \n
                          "" \n
                          "" \n
@@ -364,6 +431,36 @@ class FSM
                                         to="Main_Loop";
                                         precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
                                         condition=/*%FSM<CONDITION""">*/"time > _t + 5"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Wait_For_Units_C_1">*/
+                class Wait_For_Units_C_1
+                {
+                        name = "Wait_For_Units_C_1";
+                        itemno = 16;
+                        init = /*%FSM<STATEINIT""">*/"_t = time;" \n
+                         "private _RemainingUnitList = [];" \n
+                         "{" \n
+                         "	if (!(isPlayer _x) && {_x distance2D _Pole < 501}) then" \n
+                         "	{" \n
+                         "		_RemainingUnitList pushback _x;" \n
+                         "	};" \n
+                         "} foreach (allunits select {(side _x) isEqualTo _AtkSide});	"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Cleared">*/
+                                class Cleared
+                                {
+                                        itemno = 17;
+                                        priority = 0.000000;
+                                        to="Return_to_Server";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"count _RemainingUnitList < 8"/*%FSM</CONDITION""">*/;
                                         action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
                                 };
                                 /*%FSM</LINK>*/

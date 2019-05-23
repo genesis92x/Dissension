@@ -273,6 +273,11 @@ if (isDedicated) exitWith
 	enableEnvironment [false, false];
 	[] execVM "Vcom\VcomInit.sqf";
 };
+//Headless clients launch Vcom!
+if !(hasInterface) then
+{
+	[] execVM "Vcom\VcomInit.sqf";
+};
 
 
 
@@ -379,7 +384,6 @@ if (hasInterface) then
 	] spawn BIS_fnc_typeText2;	
 	
 	startLoadingScreen ["Doing some heavy lifting"];
-	[] call dis_CreateTasks;
 	[] call DIS_fnc_RankInit;
 	[] call dis_LoadGearMenu;
 	endLoadingScreen;		
@@ -646,10 +650,8 @@ if (hasInterface) then
 	setTerrainGrid _GlobalTerrainGrid;
 	
 	_Null = [] execFSM "DVD.fsm";
-	
+	[] execVM "Vcom\VcomInit.sqf";
 };
-[] execVM "Vcom\VcomInit.sqf";
-
 
 //Function for sounds from units
 private _AIComms = "AIComms" call BIS_fnc_getParamValue;

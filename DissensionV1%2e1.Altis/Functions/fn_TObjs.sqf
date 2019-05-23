@@ -85,8 +85,8 @@ private _ClosestPlayer = [allplayers,_Pole,true,"TObj0"] call dis_closestobj;
 if (count (allplayers select {(side _x) isEqualTo _AtkSide}) < 1) exitWith {};
 
 //Lets define our list of side-objects that can be completed here.
-//private _SideObj = selectRandom ["HeavyBunker","AirTower","Assassinate","Artillery","DefendPointA","Shoothouse"];
-private _SideObj = selectRandom ["HeavyBunker","AirTower","DefendPointA","Shoothouse"];
+private _SideObj = selectRandom ["HeavyBunker","AirTower","Assassinate","Artillery","DefendPointA","Shoothouse"];
+//private _SideObj = "Shoothouse";
 //private _SideObj = "Shoothouse";
 private _PolePos = getposATL _Pole;
 private _RndPos = [_PolePos, 25, 100, 5, 0, 20, 0,[],[_PolePos,_PolePos]] call BIS_fnc_findSafePos;
@@ -129,10 +129,19 @@ switch (_SideObj) do
 		_Generator addEventHandler ["Killed", 
 		{
 			private _Pole = (_this select 0) getVariable "DIS_TowerPole";
+			private _Generator = (_this select 0);
+
+			private _DO = _Generator getVariable "DIS_DSOB";
+			private _AO = _Generator getVariable "DIS_ASOB";
+			[_DO,"FAILED"] call BIS_fnc_taskSetState;
+			[_AO,"SUCCEEDED"] call BIS_fnc_taskSetState;
+
 			[
-				[(_this select 0)],
+				[_Generator],
 				{
 					params ["_Generator"];
+
+
 					if (player distance2D _Generator < 6000) then
 					{
 						["DISTASK",["SIDE OBJECTIVE COMPLETED",(MISSION_ROOT + "Pictures\types\danger_ca.paa"),"BUNKER CLAIMED",""]] call BIS_fnc_showNotification;
@@ -148,7 +157,7 @@ switch (_SideObj) do
 			(_this select 0) spawn {sleep 30; deleteVehicle _this;};
 			}];
 					
-			
+
 		
 		//SPAWN PREFAB SERVER SIDE
 		[
@@ -205,6 +214,31 @@ switch (_SideObj) do
 		
 		_Generator setposATL _ObjSpwnPos;
 		
+		//Marker for tasks
+		private _ObjMM = createMarker [(format ["%1",(random 10000)]),(getpos _Generator)];
+		_ObjMM setmarkershape "ICON";
+		_ObjMM setMarkerType "Empty";
+		_pole setVariable ["DIS_TASKM",_ObjMM];
+
+		//Defend task!
+		private _ObjN = _pole getVariable "DIS_DefendTID";
+		private _ObjSN = _pole getVariable ["DIS_DefendTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"HeavyBunkerD"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_DefendTISSO",_ObjSN];
+		[_SSide,[_ObjNSN,_ObjN], ["Prevent the enemy forces from claiming this bunker! This bunker greatly increases our reinforcements over time.","Defend Bunker Area",_ObjMM], (getpos _Generator), "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;
+		_Generator setVariable ["DIS_DSOB",_ObjNSN];
+
+		//Attack task!
+		private _ObjN = _pole getVariable "DIS_AttackTID";
+		private _ObjSN = _pole getVariable ["DIS_AttackTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"HeavyBunkerA"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_AttackTISSO",_ObjSN];
+		[_AtkSide,[_ObjNSN,_ObjN], ["This bunker is constantly replenishing the enemies reinforcements! We must claim it to halt these reinforcements. Use the HOLD ACTION on the generator to claim this bunker!","Claim Bunker Area",_ObjMM], (getpos _Generator), "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;
+		_Generator setVariable ["DIS_ASOB",_ObjNSN];
+
+
 		[
 			[_Generator,_Pole,_SSide,_AtkSide],
 			{
@@ -295,7 +329,9 @@ switch (_SideObj) do
 					_Pole setVariable ["DIS_Capture",_Var1,true];				
 				};
 			};
-		};	
+		};
+
+
 	};
 	case "AirTower" : 
 	{
@@ -333,6 +369,13 @@ switch (_SideObj) do
 		_Generator addEventHandler ["Killed", 
 		{
 			private _AtkSide = (_this select 0) getVariable "DIS_AtkSide";
+			private _Generator = (_this select 0);
+
+			private _DO = _Generator getVariable "DIS_DSOB";
+			private _AO = _Generator getVariable "DIS_ASOB";
+			[_DO,"FAILED"] call BIS_fnc_taskSetState;
+			[_AO,"SUCCEEDED"] call BIS_fnc_taskSetState;
+
 			[
 				[(_this select 0),_AtkSide],
 				{
@@ -507,7 +550,30 @@ switch (_SideObj) do
 				
 			};
 		};	
-		
+
+		//Marker for tasks
+		private _ObjMM = createMarker [(format ["%1",(random 10000)]),(getpos _Generator)];
+		_ObjMM setmarkershape "ICON";
+		_ObjMM setMarkerType "Empty";
+		_pole setVariable ["DIS_TASKM",_ObjMM];
+
+		//Defend task!
+		private _ObjN = _pole getVariable "DIS_DefendTID";
+		private _ObjSN = _pole getVariable ["DIS_DefendTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"HeavyBunkerD"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_DefendTISSO",_ObjSN];
+		[_SSide,[_ObjNSN,_ObjN], ["Prevent the enemies claiming this air tower! This tower will call in air support periodically while it is in our control.","Defend Air Tower",_ObjMM], (getpos _Generator), "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;
+		_Generator setVariable ["DIS_DSOB",_ObjNSN];
+
+		//Attack task!
+		private _ObjN = _pole getVariable "DIS_AttackTID";
+		private _ObjSN = _pole getVariable ["DIS_AttackTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"HeavyBunkerA"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_AttackTISSO",_ObjSN];
+		[_AtkSide,[_ObjNSN,_ObjN], ["Capture this air tower! This air tower will call in air support periodically while is it is under enemy control. Use the HOLD ACTION on the generator to claim this bunker!","Claim Air Tower",_ObjMM], (getpos _Generator), "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;
+		_Generator setVariable ["DIS_ASOB",_ObjNSN];		
 	};
 	case "Assassinate" : 
 	{
@@ -637,6 +703,14 @@ switch (_SideObj) do
 					if ((leader _x) distance2D _Unit < 300 && {((behaviour (leader _x)) isEqualTo "COMBAT")}) exitWith 
 					{
 						_Aware = true;
+
+						private _Unit = (_this select 0);
+
+						private _DO = _Unit getVariable "DIS_DSOB";
+						private _AO = _Unit getVariable "DIS_ASOB";
+						[_DO,"SUCCEEDED"] call BIS_fnc_taskSetState;
+						[_AO,"FAILED"] call BIS_fnc_taskSetState;
+
 						[
 							[_unit,_AtkSide,_NameLocation],
 							{
@@ -671,6 +745,12 @@ switch (_SideObj) do
 					private _SpawnAmount = _Var1 select 1;
 					_Var1 set [1,(_SpawnAmount/2)];
 					_Pole setVariable ["DIS_Capture",_Var1,true];
+
+					private _DO = _Unit getVariable "DIS_DSOB";
+					private _AO = _Unit getVariable "DIS_ASOB";
+					[_DO,"FAILED"] call BIS_fnc_taskSetState;
+					[_AO,"SUCCEEDED"] call BIS_fnc_taskSetState;
+
 					[
 						[_unit,_AtkSide,_NameLocation],
 						{
@@ -691,8 +771,30 @@ switch (_SideObj) do
 			};
 			deleteVehicle _unit;
 		};	
-	
-	
+
+		//Marker for tasks
+		private _ObjMM = createMarker [(format ["%1",(random 10000)]),(getpos _unit)];
+		_ObjMM setmarkershape "ICON";
+		_ObjMM setMarkerType "Empty";
+		_pole setVariable ["DIS_TASKM",_ObjMM];
+
+		//Defend task!
+		private _ObjN = _pole getVariable "DIS_DefendTID";
+		private _ObjSN = _pole getVariable ["DIS_DefendTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"HeavyBunkerA"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_DefendTISSO",_ObjSN];
+		[_SSide,[_ObjNSN,_ObjN], ["Protect this VIP! If the enemy is detected before the VIP is killed, the VIP will double the amount of reinforcements in the zone. If he is killed before enemies are detected, our reinforcements will be cut in half.","Protect the VIP",_ObjMM], (getpos _unit), "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;
+		_unit setVariable ["DIS_DSOB",_ObjNSN];
+
+		//Attack task!
+		private _ObjN = _pole getVariable "DIS_AttackTID";
+		private _ObjSN = _pole getVariable ["DIS_AttackTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"HeavyBunkerD"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_AttackTISSO",_ObjSN];
+		[_AtkSide,[_ObjNSN,_ObjN], ["Assassinate the VIP before becoming detected! If the enemy detects us before the VIP is killed, the VIP will double the amount of reinforcements in the zone. If he is killed before we are are detected, their reinforcements will be cut in half.","Assassinate the VIP",_ObjMM], (getpos _unit), "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;	
+		_unit setVariable ["DIS_ASOB",_ObjNSN];
 	};
 	case "Artillery" : 
 	{
@@ -759,6 +861,30 @@ switch (_SideObj) do
 			[_unit] joinSilent _grpGarrison;
 		};
 		
+		//Marker for tasks
+		private _ObjMM = createMarker [(format ["%1",(random 10000)]),(getpos _unit)];
+		_ObjMM setmarkershape "ICON";
+		_ObjMM setMarkerType "Empty";
+		_pole setVariable ["DIS_TASKM",_ObjMM];
+
+		//Defend task!
+		private _ObjN = _pole getVariable "DIS_DefendTID";
+		private _ObjSN = _pole getVariable ["DIS_DefendTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"HeavyBunkerA"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_DefendTISSO",_ObjSN];
+		[_SSide,[_ObjNSN,_ObjN], ["The artillery spotter will periodically call in artillery on enemy locations. Once he dies, he will no longer be able to call in artillery support.","Protect Artillery Spotter",_ObjMM], (getpos _unit), "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;
+		_unit setVariable ["DIS_DSOB",_ObjNSN];
+
+		//Attack task!
+		private _ObjN = _pole getVariable "DIS_AttackTID";
+		private _ObjSN = _pole getVariable ["DIS_AttackTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"HeavyBunkerD"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_AttackTISSO",_ObjSN];
+		[_AtkSide,[_ObjNSN,_ObjN], ["The artillery spotter will periodically call in artillery on enemy locations. Once he dies, he will no longer be able to call in artillery support.","Assassinate Artillery Spotter",_ObjMM], (getpos _unit), "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;		
+		_unit setVariable ["DIS_ASOB",_ObjNSN];	
+
 		
 		[
 			[_unit,_Pole,_SSide,_AtkSide],
@@ -855,7 +981,15 @@ switch (_SideObj) do
 					};
 				};
 			};
-		};		
+
+			private _DO = _unit getVariable "DIS_DSOB";
+			private _AO = _unit getVariable "DIS_ASOB";
+			[_DO,"FAILED"] call BIS_fnc_taskSetState;
+			[_AO,"SUCCEEDED"] call BIS_fnc_taskSetState;
+
+		};	
+
+
 	};
 	case "DefendPointA" : 
 	{
@@ -1112,7 +1246,13 @@ switch (_SideObj) do
 							_SpwnT = _SpwnT + 1;
 							sleep 0.01;
 							waitUntil {({alive _x} count (units _NGroup)) < 12};
-						};								
+						};		
+
+							private _DO = _Generator getVariable "DIS_DSOB";
+							private _AO = _Generator getVariable "DIS_ASOB";
+							[_DO,"FAILED"] call BIS_fnc_taskSetState;
+							[_AO,"SUCCEEDED"] call BIS_fnc_taskSetState;						
+
 						[
 							[_Pole,_AtkSide,_NameLocation],
 							{
@@ -1132,6 +1272,29 @@ switch (_SideObj) do
 		
 		};
 	
+		//Marker for tasks
+		private _ObjMM = createMarker [(format ["%1",(random 10000)]),(getpos _Generator)];
+		_ObjMM setmarkershape "ICON";
+		_ObjMM setMarkerType "Empty";
+		_pole setVariable ["DIS_TASKM",_ObjMM];
+
+		//Defend task!
+		private _ObjN = _pole getVariable "DIS_DefendTID";
+		private _ObjSN = _pole getVariable ["DIS_DefendTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"HeavyBunkerA"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_DefendTISSO",_ObjSN];
+		[_SSide,[_ObjNSN,_ObjN], ["Prevent the enemies from capturing the compound! This compound will constantly reinforce the town. If the enemy claims this compound we will launch a counter attack to retake it.","Defend Compound",_ObjMM], (getpos _Generator), "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;
+		_Generator setVariable ["DIS_dSOB",_ObjNSN];	
+
+		//Attack task!
+		private _ObjN = _pole getVariable "DIS_AttackTID";
+		private _ObjSN = _pole getVariable ["DIS_AttackTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"HeavyBunkerD"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_AttackTISSO",_ObjSN];
+		[_AtkSide,[_ObjNSN,_ObjN], ["This compound will constantly reinforce the town. If we claim this compound the enemy will launch a counter attack to retake it.","Claim Compound",_ObjMM], (getpos _Generator), "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;
+		_Generator setVariable ["DIS_ASOB",_ObjNSN];	
 	};	
 	case "Shoothouse" :
 	{
@@ -1217,6 +1380,30 @@ switch (_SideObj) do
 				_x setpos [(_Pos select 0),(_Pos select 1),((_Pos select 2) + 2)];
 			};
 		} foreach _Objs;
+		
+		//Marker for tasks
+		private _ObjMM = createMarker [(format ["%1",(random 10000)]),_FinalPos];
+		_ObjMM setmarkershape "ICON";
+		_ObjMM setMarkerType "Empty";
+		_pole setVariable ["DIS_TASKM",_ObjMM];
+
+		//Defend task!
+		private _ObjN = _pole getVariable "DIS_DefendTID";
+		private _ObjSN = _pole getVariable ["DIS_DefendTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"HeavyBunkerA"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_DefendTISSO",_ObjSN];
+		[_SSide,[_ObjNSN,_ObjN], ["Prevent enemy forces from capturing this intel! The intel gives them XP and money! Objective will only be removed once main objective is completed.","Protect Intel",_ObjMM], _FinalPos, "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;
+
+
+		//Attack task!
+		private _ObjN = _pole getVariable "DIS_AttackTID";
+		private _ObjSN = _pole getVariable ["DIS_AttackTISSO",[]];
+		private _ObjNSN = (format ["%1-%2",_Pole,"HeavyBunkerD"]); 
+		_ObjSN pushBack _ObjNSN;
+		_pole setVariable ["DIS_AttackTISSO",_ObjSN];
+		[_AtkSide,[_ObjNSN,_ObjN], ["Capture this intel! Each captured intel will provide XP and money! Objective will only be removed once main objective is completed.","Capture Intel",_ObjMM], _FinalPos, "CREATED", 90, true, "", true] call BIS_fnc_taskCreate;
+
 		[
 			[_FinalPos,_Pole,_SSide,_AtkSide,_DocumentA],
 			{

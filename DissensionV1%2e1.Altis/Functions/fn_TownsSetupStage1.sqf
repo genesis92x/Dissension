@@ -345,27 +345,27 @@ switch (true) do
 {
     	case (_SSide isEqualTo West && _AtkSide isEqualTo East): 
 		{
-			[] spawn {sleep 300;DIS_OpForVsBluFor = false;DIS_OpforWantsToFight = false;sleep 30;DIS_BluforWantsToFight = false;};			
+			[] spawn {sleep 90;DIS_OpForVsBluFor = false;DIS_OpforWantsToFight = false;sleep 30;DIS_BluforWantsToFight = false;};			
 		};
     	case (_SSide isEqualTo East && _AtkSide isEqualTo West): 
 		{
-			[] spawn {sleep 300;DIS_OpForVsBluFor = false;DIS_BluforWantsToFight = false;sleep 30;DIS_OpforWantsToFight = false;};
+			[] spawn {sleep 90;DIS_OpForVsBluFor = false;DIS_BluforWantsToFight = false;sleep 30;DIS_OpforWantsToFight = false;};
 		};
     	case (_SSide isEqualTo West && _AtkSide isEqualTo resistance): 
 		{
-			[] spawn {sleep 300;DIS_WestVsResistance = false;};
+			[] spawn {sleep 90;DIS_WestVsResistance = false;};
 		};
     	case (_SSide isEqualTo resistance && _AtkSide isEqualTo West): 
 		{
-			[] spawn {sleep 300;DIS_WestVsResistance = false;};
+			[] spawn {sleep 90;DIS_WestVsResistance = false;};
 		};
     	case (_SSide isEqualTo East && _AtkSide isEqualTo resistance): 
 		{
-			[] spawn {sleep 300;DIS_EastVsResistance = false;};
+			[] spawn {sleep 90;DIS_EastVsResistance = false;};
 		};
     	case (_SSide isEqualTo resistance && _AtkSide isEqualTo east): 
 		{
-			[] spawn {sleep 300;DIS_EastVsResistance = false;};
+			[] spawn {sleep 90;DIS_EastVsResistance = false;};
 		};
 };
 
